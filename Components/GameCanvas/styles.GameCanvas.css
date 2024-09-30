@@ -1,0 +1,5 @@
+.GameCanvas-wrapper {
+    height: calc(100% - 4rem);
+    margin: 0.5rem;
+    border: green solid thin;
+}

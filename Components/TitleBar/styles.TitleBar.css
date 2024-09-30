@@ -1,0 +1,4 @@
+.TitleBar-wrapper {
+    display: flex;
+    border-bottom: solid thin green;
+}
