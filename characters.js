@@ -19,12 +19,19 @@ const getAllCharactersFromRange = (charRange) => {
     const allCharacters = charactersOneByOne.pipe(rxjs.buffer(count));
     return allCharacters
 }
-
-const getUpperLetters = () => getCharactersFromRange(['A','Z']);
-const getLowerCases = () => getCharactersFromRange(['a', 'z']);
-const getDigits = () => getCharactersFromRange(['0','9'])
+const getUpperLetters = () => getAllCharactersFromRange(['A','Z']);
+const getLowerCases = () => getAllCharactersFromRange(['a', 'z']);
+const getDigits = () => getAllCharactersFromRange(['0','9'])
 const getLowerPolishCharacters = () => (['ą', 'ć', 'ó', 'ź', 'ż']);
 const getUpperPolishCharacters = () => (['Ą', 'Ć', 'Ó', 'ź'.toUpperCase(), 'Ż']);
+
+const optionToCharacterGeneratorMap = [
+    { option: UPPER, handler: getUpperLetters, },
+    { option: LOWER, handler: getLowerCases, },
+    { option: DIGITS, handler: getDigits, },
+    { option: LOWER_POLISH, handler: getLowerPolishCharacters, },
+    { option: UPPER_POLISH, handler: getUpperPolishCharacters, },
+]
 
 const getCharacterSymbols = () => {
     const RANGE_1 = ['!', '/']
@@ -52,20 +59,56 @@ getCharacterSymbols()
 
 const random = (nr) => Math.floor(Math.random() * nr);
 
-// const getArrayStreamInRandomOrder = (arr) => {
-//     if (!arr.length) { throw new Error('Array has to have items')}
-//     const currentArray$ = new rxjs.BehaviorSubject(arr);
-//     const emitter = new rxjs.Subject();
-//     currentArray$.subscribe((currArr) => {
-//         const definedArray = currArr.length? currArr: arr;
-//         const maxValue = definedArray.length;
-//         const nextIndex = random(maxValue);
-//         emitter.next(definedArray[nextIndex]);
-//         const arrWithRemovedItem = [...definedArray];
-//         arrWithRemovedItem.splice(nextIndex, 1);
-//         currentArray$.next(arrWithRemovedItem);
-//     })
-//     const emitNextRandomValue = () => {
-        
-//     }
-// }
+const shuffleArray = (arr) => {
+    const shuffled = arr.reduce((acc, item) => {
+        const indexInShuffledArray = random(acc);
+        acc[indexInShuffledArray] = item;
+        return acc
+    }, [])
+    return shuffled
+}
+
+const observableToArray = (arrObservable) => {
+    let arr = [];
+    const subscribtion = arrObservable.subscribe((a) => { arr = a })
+    subscribtion.unsubscribe()
+    return arr;
+}
+
+const observablesToArray = (arrObservables) => {
+    let arr = [];
+    const subscribtion = rxjs.concat(...arrObservables)
+        .pipe(rxjs.flatMap(x=>x), rxjs.buffer())
+        .subscribe((a) => {arr = a})
+    subscribtion.unsubscribe()
+    return arr;    
+}
+
+const getRandomArrayElementFromObservableEmitter  = (arrayObservable) => {
+    const array = observableToArray(arrayObservable);
+    const toolkit = getRandomArrayElementEmitter(array);
+    return toolkit;
+}
+
+const getRandomArrayElementFromObservableEmitters  = (arrayObservables) => {
+    const array = observablesToArray(arrayObservables);
+    const toolkit = getRandomArrayElementEmitter(array);
+    return toolkit;
+}
+
+
+const getRandomArrayElementEmitter = (array) => {
+    const randomEmitter = new rxjs.Subject();
+    const next = () => {
+        const randomIndex = random(array.length)
+        const item = array[randomIndex]
+        randomEmitter.next(item)
+    }
+    return {randomEmitter, next}
+}
+
+// const lowerLettersEmitter = getRandomArrayElementFromObservableEmitter(getLowerCases());
+const lowerLettersEmitter = getRandomArrayElementFromObservableEmitters([getLowerCases(), getUpperLetters()]);
+
+lowerLettersEmitter.randomEmitter.subscribe(x => console.log(x))
+rxjs.generate(1, x => x < 50, x => x + 1).subscribe(() => lowerLettersEmitter.next())
