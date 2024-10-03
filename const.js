@@ -1,5 +1,8 @@
 const INC = 'increase';
 const DEC = 'decrease';
+const OPEN_MODAL = 'open-modal';
+const CLOSE_MODAL = 'close-modal';
+const TOGGLE_MODAL = 'toggle-modal';
 
 const GameVersions = {
     Letters: 'Letters only',
@@ -12,4 +15,10 @@ const GameVersions = {
 const ROOT_ID = 'root-id';
 const TITLE_ID = 'title-id';
 const GAME_CANVAS_ID = 'game-canvas-id';
+
+const UPPER = 'Upper case letters';
+const LOWER = 'Lower case letters';
+const DIGITS = 'Digits';
+const LOWER_POLISH = 'Polish lower characters';
+const UPPER_POLISH = 'Polish upper characters';
 

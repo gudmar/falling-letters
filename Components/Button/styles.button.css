@@ -1,0 +1,25 @@
+.button-wrapper {
+    border: solid thin green;
+    border-radius: 0.5rem;
+    display: inline-flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+    color: green;
+    cursor: pointer;
+    margin: 0.25rem;
+    padding: 0.25rem;
+    /* transition-delay: 0.25s; */
+}
+
+.button-wrapper:hover{
+    background-color: #005500;
+    /* transition-delay: 0.25s; */
+}
+
+.button-wrapper:active {
+    /* transition-delay: 0.25s; */
+    background-color: #00aa00;
+    color: #003300;
+}
