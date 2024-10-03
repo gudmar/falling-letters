@@ -1,5 +1,8 @@
 const INC = 'increase';
 const DEC = 'decrease';
+const OPEN_MODAL = 'open-modal';
+const CLOSE_MODAL = 'close-modal';
+const TOGGLE_MODAL = 'toggle-modal';
 
 const GameVersions = {
     Letters: 'Letters only',

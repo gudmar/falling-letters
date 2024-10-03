@@ -31,6 +31,9 @@ class ContextProvider {
     pausedNewLetter = new PausedSubject(this.newLetterTicks$);
 
     pausedMoveTicks = new PausedSubject(this.moveTicks$);
+
+    modalComponent$ = new rxjs.BehaviorSubject({element: document.createElement('div')})
+    modalOpenClose$ = new rxjs.BehaviorSubject(CLOSE_MODAL);
     
     // moveTick$ = this.moveRateSubject$.pipe(rxjs.switchMap((rate) => rxjs.interval(rate)));
     // newLetterTick$ = this.newLetterRateSubject$.pipe(rxjs.switchMap((rate) => rxjs.interval(rate)));

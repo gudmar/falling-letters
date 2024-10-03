@@ -111,4 +111,4 @@ const getRandomArrayElementEmitter = (array) => {
 const lowerLettersEmitter = getRandomArrayElementFromObservableEmitters([getLowerCases(), getUpperLetters()]);
 
 lowerLettersEmitter.randomEmitter.subscribe(x => console.log(x))
-rxjs.generate(1, x => x < 50, x => x + 1).subscribe(() => lowerLettersEmitter.next())
+rxjs.generate(1, x => x < 5, x => x + 1).subscribe(() => lowerLettersEmitter.next())

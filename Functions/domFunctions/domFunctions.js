@@ -1,5 +1,4 @@
 const addClassesToElement = (htmlElement, classNames) => {
-    console.log('Class names', classNames)
     if (Array.isArray(classNames)) {
         classNames.forEach((className) => {
             if (typeof className !== 'string') throw new Error ('Class name should be a string')

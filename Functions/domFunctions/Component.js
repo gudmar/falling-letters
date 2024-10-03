@@ -91,12 +91,36 @@ class Component {
             htmlTemplate,
             placeChildren,
             elementTag,
+            elementId,
             context
         } = args;
         const element = getComponentElementFromArgs(args);
         this._id = componentId;
         this._element = element;
         this._context = context;
+        this._elementId = elementId;
+        this._parentId = parentId;
+        this._parent = parent
+        try {
+            if (parentId) {
+                const tempParent = document.getElementById(parentId);
+                if (tempParent) this._parent = tempParent;
+            }
+        } catch(e) {}
     }
     get element() { return this._element }
+    get elementId() { return this._elementId }
+    get context() { return this._context }
+    get parent() {
+        if (!this._parentId) throw new Error(`Component: no parent found`)
+        return this._parent
+    }
+    set toContext({key, value}) {
+        // if (!this._id) throw new Error('Component has to have a unique id to set something to context')
+        this._context[key] = value
+    }
+
+    set fromContext(key) {
+        delete this._context[key]
+    }
 }
