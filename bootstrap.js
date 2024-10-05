@@ -13,6 +13,9 @@ const gameTitle = elementFromHtml('<div>MASTER KEYBOARD</div>')
 const openModalWithGameOptionsButton = new Button({
     label: 'Game options',
     action: () => {
+        const gameOptions = new GameOptions({context})
+        console.log('go', gameOptions)
+        context.modalComponent$.next(gameOptions.element)
         context.modalOpenClose$.next(OPEN_MODAL)
         console.log('Button click')
     },
