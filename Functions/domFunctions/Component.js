@@ -79,6 +79,11 @@ const getComponentElementFromArgs = (args) => {
 }
 
 class Component {
+    static throwIfNotMandatoryFields(mandatoryKeysList, args, errorMesage) {
+        const result = mandatoryKeysList.every((key) => args[key] !== undefined)
+        if (!result) throw new Error(errorMesage)
+    }
+
     constructor(args){
         throwIfTooManyArgs(args);
         const {
@@ -94,6 +99,7 @@ class Component {
             elementId,
             context
         } = args;
+        console.log('ARG', args)
         const element = getComponentElementFromArgs(args);
         this._id = componentId;
         this._element = element;

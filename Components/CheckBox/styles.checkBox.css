@@ -1,0 +1,21 @@
+.check-box-wrapper {
+    display: flex;
+    flex-direction: column;
+    color: green;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.check-box {
+    margin: 0.25rem;
+    border: solid thin green;
+    border-radius: 0.25rem;
+    width: 1rem;
+    height: 1rem;
+    position: relative;
+    display: inline;
+    background-color: transparent;
+}
+
+.check-box-checked {
+    background-color: green;
+}

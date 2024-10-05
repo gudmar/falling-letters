@@ -14,6 +14,7 @@ class Modal extends Component {
             throw new Error('Error in Modal: there should be only one modal per whole application')
         }
         super({...args, ...Modal.defaultArgs})
+        this.child = null;
         Modal.instance = this;
         this.addListeners()
         this.reloadChild();
@@ -26,16 +27,19 @@ class Modal extends Component {
     }
 
     reloadChild() {
+        this.removeAllChildren();
         const newChildContainer = addElementWithClasses({
             parent: this.element,
             cssClassNames: 'modal-container',
             elementTag: 'div',
             elementId: MODAL_CONTAINER_ID,
         })
-        this.removeAllChildren();
-        const childComponent = this.contentElement;
-        const childElement = childComponent.element;
-        newChildContainer.append(childElement);
+        
+        // const childComponent = this.contentElement;
+        // const childElement = childComponent.element;
+        // newChildContainer.append(childElement);
+        newChildContainer.append(this.child);
+        this.element.append(newChildContainer)
     }
 
     get contentElement() {
@@ -54,9 +58,11 @@ class Modal extends Component {
     addListeners() {
         this._context
         rxjs.fromEvent(this.element, 'click').subscribe(this.close.bind(this))
-        this.context.modalComponent$.subscribe((child) => {
+        this.context.modalComponent$.subscribe(((child) => {
             this.child = child
-        })
+            // console.log('Setting child', this.child)
+            this.reloadChild()
+        }).bind(this))
         this.context.modalOpenClose$.subscribe((command) => {
             if (command === OPEN_MODAL) this.open.bind(this)();
             if (command === CLOSE_MODAL) this.close.bind(this)();
