@@ -34,10 +34,7 @@ class Modal extends Component {
             elementTag: 'div',
             elementId: MODAL_CONTAINER_ID,
         })
-        
-        // const childComponent = this.contentElement;
-        // const childElement = childComponent.element;
-        // newChildContainer.append(childElement);
+        this.container = newChildContainer;
         newChildContainer.append(this.child);
         this.element.append(newChildContainer)
     }
@@ -58,9 +55,9 @@ class Modal extends Component {
     addListeners() {
         this._context
         rxjs.fromEvent(this.element, 'click').subscribe(this.close.bind(this))
+        console.log('This element ', this.element)
         this.context.modalComponent$.subscribe(((child) => {
             this.child = child
-            // console.log('Setting child', this.child)
             this.reloadChild()
         }).bind(this))
         this.context.modalOpenClose$.subscribe((command) => {
@@ -78,9 +75,10 @@ class Modal extends Component {
         const elementInDom = document.getElementById(this.elementId);
         if (!elementInDom) { this.parent.append(this.element)}
     }
-    close() {
+    close(event) {
+        console.dir(event)
+        if (event && event.target !== this.element) return;
         const elementInDom = document.getElementById(this.elementId);
-        console.log('Element', elementInDom, this.elementId)
         if (elementInDom) { elementInDom.remove();}        
     }
 }

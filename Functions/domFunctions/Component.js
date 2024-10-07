@@ -99,7 +99,6 @@ class Component {
             elementId,
             context
         } = args;
-        console.log('ARG', args)
         const element = getComponentElementFromArgs(args);
         this._id = componentId;
         this._element = element;

@@ -1,19 +1,24 @@
 .check-box-wrapper {
     display: flex;
-    flex-direction: column;
     color: green;
+    align-items: center;
     font-family: Arial, Helvetica, sans-serif;
+    margin: 0.5rem;
+    cursor: default;
 }
 
 .check-box {
-    margin: 0.25rem;
+    margin: 0.5rem;
     border: solid thin green;
     border-radius: 0.25rem;
     width: 1rem;
     height: 1rem;
-    position: relative;
-    display: inline;
     background-color: transparent;
+    cursor: pointer;
+}
+
+.check-box:hover {
+    background-color: #004400;
 }
 
 .check-box-checked {
