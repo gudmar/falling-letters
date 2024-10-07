@@ -1,7 +1,7 @@
 class GameOptions extends Component {
     static defaultArgs = {
         elementTag: 'div',
-        elementClass: 'game-options-wrapper',
+        elementClasses: 'game-options-wrapper',
         componentId: getUuid(),
     }
     constructor(args) {
@@ -9,22 +9,22 @@ class GameOptions extends Component {
         this.setInterior();
     }
     getInterior () {
-        const data = optionToCharacterGeneratorMap;
-        const options = data.map((({option, arrayGetter}) => {
+        const data = rxjs.from(optionToCharacterGeneratorMap);
+        const options = data.pipe(rxjs.map((({option, arrayGetter}) => {
             const component = new CheckBox({
                 label: option,
                 context: this._context,
                 action: () => {},
             })
             return component.element
-        }).bind(this))
+        }).bind(this)))
         return options
     }
     setInterior() {
-        const interior = this.getInterior();
-        interior.forEach(((element) => {
-            this.element.append(element);
-        }).bind(this))
+        const interior$ = this.getInterior();
+        interior$.subscribe((element) => {
+                this.element.append(element);
+            })
     }
 
 }

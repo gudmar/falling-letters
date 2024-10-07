@@ -1,16 +1,19 @@
 
 class CheckBox extends Component{
     static labelBase = `check-box`
+    static checkedClassName = 'check-box-checked'
     static getHtmlTemplate(args) {
         return `
-            <div class="check-box" id="${args.id}"></div>
-            <span class="check-box-label">${args.label}</span>
+            <div class="check-box-wrapper">
+                <span class="check-box" id="${args.id}"></span>
+                <span class="check-box-label">${args.label}</span>
+            </div>
         `
     }
     static getDefaultArgs(args) {
         const id = `CheckBox.labelBase-${args.uuid}`
         const boost = {
-            wrapperTag: 'div',
+            // wrappingTag: 'div',
             wrapperClass: 'check-box-wrapper',
             htmlTemplate: CheckBox.getHtmlTemplate({...args, id}),
             id
@@ -21,17 +24,41 @@ class CheckBox extends Component{
     constructor(args) {
         const uuid = getUuid();
         const upgradedArgs = CheckBox.getDefaultArgs({...args, uuid});
-        console.log('UPG', upgradedArgs)
         super(upgradedArgs);
         Component.throwIfNotMandatoryFields(
             CheckBox.mandatoryKeys, upgradedArgs, `CheckBox: some of mandatory keys: ${CheckBox.mandatoryKeys.join(', ')} are missing`
         )
         this.box = this.element.getElementById(upgradedArgs.id);
+        this.check$ = new rxjs.BehaviorSubject(this.check)
+        this.isChecked = args.checked;
         this.addListeners(upgradedArgs)
+        this.check$.next(args.checked)
     }
 
     addListeners(args) {
-        rxjs.fromEvent(this.box, 'click').subscribe(args.action);
+        this.check$.subscribe((value) => {
+            if (value) { this.box.classList.add(CheckBox.checkedClassName)}
+            else (this.box.classList.remove(CheckBox.checkedClassName))
+        })
+        rxjs.fromEvent(this.box, 'click').subscribe(((newValue) => {
+            this.toggle()
+            args.action(newValue)
+        }).bind(this));
+    }
+    toggle() {
+        console.log('Toggle')
+        if (this.isChecked) {this.uncheck()}
+        else { this.check()}
+    }
+    check() {
+        console.log('Check')
+        this.isChecked = true
+        this.check$.next(true)
+    }
+    uncheck() { 
+        console.log('Uncheck')
+        this.isChecked = false
+        this.check$.next(false)
     }
 }
 
