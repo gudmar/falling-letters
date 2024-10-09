@@ -29,6 +29,7 @@ class CheckBox extends Component{
             CheckBox.mandatoryKeys, upgradedArgs, `CheckBox: some of mandatory keys: ${CheckBox.mandatoryKeys.join(', ')} are missing`
         )
         this.box = this.element.getElementById(upgradedArgs.id);
+        this.label = upgradedArgs.label;
         this.check$ = new rxjs.BehaviorSubject(this.check)
         this.isChecked = args.checked;
         this.addListeners(upgradedArgs)
@@ -42,7 +43,7 @@ class CheckBox extends Component{
         })
         rxjs.fromEvent(this.box, 'click').subscribe(((newValue) => {
             this.toggle()
-            args.action(newValue)
+            args.action(this.label)
         }).bind(this));
     }
     toggle() {
