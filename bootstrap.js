@@ -1,5 +1,5 @@
 const context = new ContextProvider();
-
+context.setInitialCharacterGenerator();
 new Modal({
     parentId: ROOT_ID,
     context
