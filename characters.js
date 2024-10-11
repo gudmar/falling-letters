@@ -22,8 +22,8 @@ const getAllCharactersFromRange = (charRange) => {
 const getUpperLetters = () => getAllCharactersFromRange(['A','Z']);
 const getLowerCases = () => getAllCharactersFromRange(['a', 'z']);
 const getDigits = () => getAllCharactersFromRange(['0','9'])
-const getLowerPolishCharacters = () => (['ą', 'ć', 'ó', 'ź', 'ż']);
-const getUpperPolishCharacters = () => (['Ą', 'Ć', 'Ó', 'ź'.toUpperCase(), 'Ż']);
+const getLowerPolishCharacters = () => rxjs.from(['ą', 'ć', 'ó', 'ź', 'ż']);
+const getUpperPolishCharacters = () => rxjs.from(['Ą', 'Ć', 'Ó', 'ź'.toUpperCase(), 'Ż']);
 
 const optionToCharacterGeneratorMap = [
     { option: UPPER, handler: getUpperLetters, },
@@ -105,6 +105,20 @@ const getRandomArrayElementEmitter = (array) => {
         randomEmitter.next(item)
     }
     return {randomEmitter, next}
+}
+
+const nullElementEmitter = () => getRandomArrayElementEmitter([null]);
+// const nullElementEmitter = () => getRandomArrayElementFromObservableEmitters([null]);
+console.log(nullElementEmitter())
+
+const getCharacterGenerator = () => {
+    const emitterFunctions = getArrayGeneratorFunctions();
+    // if (!emitterFunctions.length) return rxjs.from([nullElementEmitter()])
+    if (!emitterFunctions.length) return nullElementEmitter()
+    const emiters = emitterFunctions.map((emiter) => emiter());
+    const generator = getRandomArrayElementFromObservableEmitters(emiters)
+    console.log(emiters, generator)
+    return generator
 }
 
 // const lowerLettersEmitter = getRandomArrayElementFromObservableEmitter(getLowerCases());

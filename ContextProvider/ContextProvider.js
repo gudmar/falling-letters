@@ -1,5 +1,5 @@
-const initialMoveRate = 0;
-const initialNewLetterRate = 4;
+const initialMoveRate = 2000 //0;
+const initialNewLetterRate = 1000//4;
 const maxMoveRate = 9;
 const minMoveRate = 0;
 const maxNewLetter = 9;
@@ -27,16 +27,16 @@ class ContextProvider {
         maxValue: maxNewLetter,
     })
 
-    pausedNewLetter = new PausedSubject(this.newLetterTicks$);
+    pausedNewLetter = new PausedSubject(this.newLetterTicks$.tick$);
 
-    pausedMoveTicks = new PausedSubject(this.moveTicks$);
+    // pausedMoveTicks = new PausedSubject(this.moveTicks$.tick$);
 
     modalComponent$ = new rxjs.BehaviorSubject({element: document.createElement('div')})
-    modalOpenClose$ = new rxjs.BehaviorSubject(CLOSE_MODAL);
+    modalOpenClose$ = new rxjs.BehaviorSubject(CLOSE_MODAL_BY_AGENT);
 
-    defaultCharacterGenerator$ = getRandomArrayElementEmitter(['?'])
 
-    _charactersGenerator$ = new rxjs.BehaviorSubject(null)
+    // _charactersGenerator$ = new rxjs.BehaviorSubject(nullElementEmitter)
+    _charactersGenerator$ = new rxjs.BehaviorSubject(getCharacterGenerator)
 
     characterEmitter$ = new rxjs.BehaviorSubject();
 
@@ -45,6 +45,7 @@ class ContextProvider {
         const generator = getRandomArrayElementEmitter(arrays);
         this._charactersGenerator$.next(generator);
     }
+    get charactersGenerator$() { return this._charactersGenerator$ }
 
     setInitialCharacterGenerator() {
         if (!checkIfGameOptionSelected()) return;
@@ -52,10 +53,10 @@ class ContextProvider {
         this.charactersGenerator$ = characterArrayGeneratorFunctions;
     }
 
-    emitNextGameCharacter() {
-        const character = this._charactersGenerator$.randomEmitter.next();
-        this.characterEmitter$.next(character);
-    }
+    // emitNextGameCharacter() {
+    //     const character = this.charactersGenerator$.randomEmitter.next();
+    //     this.characterEmitter$.next(character);
+    // }
     
     // moveTick$ = this.moveRateSubject$.pipe(rxjs.switchMap((rate) => rxjs.interval(rate)));
     // newLetterTick$ = this.newLetterRateSubject$.pipe(rxjs.switchMap((rate) => rxjs.interval(rate)));

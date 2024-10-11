@@ -18,6 +18,7 @@ class Modal extends Component {
         Modal.instance = this;
         this.addListeners()
         this.reloadChild();
+        this.closeByAgent();
     }
 
     removeAllChildren() {
@@ -55,7 +56,6 @@ class Modal extends Component {
     addListeners() {
         this._context
         rxjs.fromEvent(this.element, 'click').subscribe(this.close.bind(this))
-        console.log('This element ', this.element)
         this.context.modalComponent$.subscribe(((child) => {
             this.child = child
             this.reloadChild()
@@ -63,6 +63,7 @@ class Modal extends Component {
         this.context.modalOpenClose$.subscribe((command) => {
             if (command === OPEN_MODAL) this.open.bind(this)();
             if (command === CLOSE_MODAL) this.close.bind(this)();
+            if (command === CLOSE_MODAL_BY_AGENT) this.closeByAgent.bind(this)();
             if (command === TOGGLE_MODAL) this.toggleVisibility.bind(this)();
         })
     }
@@ -75,10 +76,12 @@ class Modal extends Component {
         const elementInDom = document.getElementById(this.elementId);
         if (!elementInDom) { this.parent.append(this.element)}
     }
-    close(event) {
-        console.dir(event)
-        if (event && event.target !== this.element) return;
+    closeByAgent() {
         const elementInDom = document.getElementById(this.elementId);
-        if (elementInDom) { elementInDom.remove();}        
+        if (elementInDom) { elementInDom.remove();}
+    }
+    close(event) {
+        if (event && event.target !== this.element) return;
+        this.closeByAgent();
     }
 }
