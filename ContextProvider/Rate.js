@@ -28,7 +28,8 @@ class Rate {
         this.rateSubject$ = new rxjs.BehaviorSubject(initialValue);
         this.actionOnRate$ = new rxjs.BehaviorSubject(0);
         this.tick$ = this.rateSubject$.pipe(
-            rxjs.switchMap((rate) => rxjs.interval(rate))
+            rxjs.switchMap((rate) => rxjs.interval(rate)),
+            rxjs.tap(v => console.log(v))
         )
         const updateRateSubject = ((newValue) => this.rateSubject$.next(newValue)).bind(this)
         this.actionOnRate$.pipe(

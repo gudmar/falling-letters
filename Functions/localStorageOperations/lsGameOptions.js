@@ -17,10 +17,12 @@ const formNewCharacterGenerator = (context, characterGetterFunctions) => {
 }
 
 const getArrayGeneratorFunctions = () => {
-    const selectedCharacterGetters = Object.entries(getGameOptionsFromLS()).filter(([key, value]) => {
+    const selectedOptions = Object.entries(getGameOptionsFromLS()).filter(([key, value]) => {
         return value
-    }).map(([key]) => optionToCharacterGeneratorMap[key]);
-    return selectedCharacterGetters;
+    }).map(([key]) => key);
+    const handlers = optionToCharacterGeneratorMap.filter(({option}) => selectedOptions.includes(option))
+        .map(({handler}) => handler)
+    return handlers;
 }
 
 const handleGameOptionChange = (gameOption) => {

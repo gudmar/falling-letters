@@ -5,7 +5,6 @@ const addIdIfDefined = (element, id) => {
 }
 
 const addToParentIfDefined = (parent, element) => {
-    console.log(parent)
     if (parent) parent.append(element)
 }
 

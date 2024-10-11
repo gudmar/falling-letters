@@ -2,7 +2,9 @@ const INC = 'increase';
 const DEC = 'decrease';
 const OPEN_MODAL = 'open-modal';
 const CLOSE_MODAL = 'close-modal';
+const CLOSE_MODAL_BY_AGENT = 'close-modal-by-agent';
 const TOGGLE_MODAL = 'toggle-modal';
+const GAME_CONTAINER = 'game-container-id'
 
 const GameVersions = {
     Letters: 'Letters only',

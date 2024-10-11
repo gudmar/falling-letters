@@ -21,18 +21,25 @@ const openModalWithGameOptionsButton = new Button({
     elementClasses: 'button-wrapper'
 })
 
+const pauseButton = new Button({
+    label: 'Pause',
+    context,
+    elementClasses: 'button-wrapper',
+    action: () => {
+        PausedSubject.togglePause();
+    }
+})
+
 const titleBar = new TitleBar({
     componentId: TITLE_ID,
     context,
     wrappingTag: 'div',
-    children: [score, gameTitle, openModalWithGameOptionsButton.element],
+    children: [score, gameTitle, pauseButton.element, openModalWithGameOptionsButton.element],
     wrapperClasses: 'TitleBar-wrapper'
 })
 const gameCanvas = new GameCanvas({
     componentId: GAME_CANVAS_ID,
     context,
-    elementTag: 'div',
-    elementClasses: 'GameCanvas-wrapper',
 })
 
 new Wrapper({
