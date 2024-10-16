@@ -1,4 +1,4 @@
-const getGameOptionsFromLS = () => JSON.parse(localStorage.getItem('gameOptions'));
+const getGameOptionsFromLS = () => JSON.parse(localStorage.getItem('gameOptions')) ?? {};
 const setGameOptionsToLS = (optionsToSave) => localStorage.setItem('gameOptions', JSON.stringify(optionsToSave))
 
 const toggleGameOptionToLocalStorage = (optionToSave) => {
