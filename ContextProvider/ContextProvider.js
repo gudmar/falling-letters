@@ -7,6 +7,7 @@ const minNewLetter = 0;
 const someEvenNumber = 0;
 const someOddNumber = 1;
 
+
 class ContextProvider {
     // Here create all subjects
     
@@ -36,21 +37,24 @@ class ContextProvider {
 
 
     // _charactersGenerator$ = new rxjs.BehaviorSubject(nullElementEmitter)
-    _charactersGenerator$ = new rxjs.BehaviorSubject(getCharacterGenerator)
+    // _charactersGenerator$ = new rxjs.BehaviorSubject(getCharacterGenerator())
+    _charactersGenerator$ = new rxjs.BehaviorSubject(getCharacterGenerator())
+
 
     characterEmitter$ = new rxjs.BehaviorSubject();
 
-    set charactersGenerator$(characterArrayGeneratorFunctions) {
-        const arrays = characterArrayGeneratorFunctions.map((f) => f());
-        const generator = getRandomArrayElementEmitter(arrays);
-        this._charactersGenerator$.next(generator);
-    }
+    // set charactersGenerator$(characterArrayGeneratorFunctions) {
+        // const arrays = characterArrayGeneratorFunctions.map((f) => f());
+        // const generator = getRandomArrayElementEmitter(arrays);
+        // this._charactersGenerator$.next(generator);
+    // }
     get charactersGenerator$() { return this._charactersGenerator$ }
 
     setInitialCharacterGenerator() {
         if (!checkIfGameOptionSelected()) return;
         const characterArrayGeneratorFunctions = getArrayGeneratorFunctions();
-        this.charactersGenerator$ = characterArrayGeneratorFunctions;
+        // this.charactersGenerator$ = characterArrayGeneratorFunctions;
+        this._charactersGenerator$.next(getCharacterGenerator())
     }
 
     // emitNextGameCharacter() {

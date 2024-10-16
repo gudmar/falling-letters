@@ -13,17 +13,24 @@ class GameCanvas extends Component {
     }
 
     addListeners() {
+        const that = this;
         this.context._charactersGenerator$.subscribe((args) => {
-            const {next, randomEmitter} = args();
-            this.nextCharacter = next;
-            this.characterEmitter = randomEmitter;
-            console.log(args(), next, randomEmitter)
+            const {nextElement, randomEmitter, elements} = args;
+            that.nextCharacter = nextElement;
+            that.characterEmitter = randomEmitter;
+            console.log(args, nextElement, randomEmitter, elements)
+            subscribeToCharacterGenerator({nextElement, randomEmitter}, 'GameCanvas:  ')
+            nextElement();
         })
         // console.log('COntext', this.context, this.context.pausedNewLetter.pausedSubject)
         // const generator = this.characterEmitter
         this.characterEmitter.subscribe(char => console.log(char))
+
+        const nextCharacter = this.nextCharacter;
         this.context.pausedNewLetter.pausedSubject.subscribe(
-            (() => this.nextCharacter()).bind(this)
+            (() => {
+                nextCharacter()
+            })
         )
         this.nextCharacter
         // this.context._charactersGenerator$.subscribe(

@@ -27,11 +27,13 @@ class Rate {
     }) {
         this.rateSubject$ = new rxjs.BehaviorSubject(initialValue);
         this.actionOnRate$ = new rxjs.BehaviorSubject(0);
+        const that = this;
         this.tick$ = this.rateSubject$.pipe(
             rxjs.switchMap((rate) => rxjs.interval(rate)),
             rxjs.tap(v => console.log(v))
         )
-        const updateRateSubject = ((newValue) => this.rateSubject$.next(newValue)).bind(this)
+        // const updateRateSubject = ((newValue) => this.rateSubject$.next(newValue)).bind(this)
+        const updateRateSubject = ((newValue) => that.rateSubject$.next(newValue))
         this.actionOnRate$.pipe(
             rxjs.scan((rate, action) => getNextRateValue({rate, action, minValue, maxValue}), initialValue)
         ).subscribe(updateRateSubject);

@@ -99,30 +99,33 @@ const getRandomArrayElementFromObservableEmitters  = (arrayObservables) => {
 
 const getRandomArrayElementEmitter = (array) => {
     const randomEmitter = new rxjs.Subject();
-    const next = () => {
+    const nextElement = (() => {
         const randomIndex = random(array.length)
         const item = array[randomIndex]
         randomEmitter.next(item)
-    }
-    return {randomEmitter, next}
+    }).bind(array)
+    return {randomEmitter, nextElement, elements:array}
 }
 
 const nullElementEmitter = () => getRandomArrayElementEmitter([null]);
 // const nullElementEmitter = () => getRandomArrayElementFromObservableEmitters([null]);
-console.log(nullElementEmitter())
 
 const getCharacterGenerator = () => {
     const emitterFunctions = getArrayGeneratorFunctions();
-    // if (!emitterFunctions.length) return rxjs.from([nullElementEmitter()])
     if (!emitterFunctions.length) return nullElementEmitter()
-    const emiters = emitterFunctions.map((emiter) => emiter());
+    const emiters = emitterFunctions.map((emiter) => {
+        return emiter()
+    });
     const generator = getRandomArrayElementFromObservableEmitters(emiters)
-    console.log(emiters, generator)
+    generator.nextElement()
     return generator
 }
 
-// const lowerLettersEmitter = getRandomArrayElementFromObservableEmitter(getLowerCases());
-const lowerLettersEmitter = getRandomArrayElementFromObservableEmitters([getLowerCases(), getUpperLetters()]);
 
+// const lowerLettersEmitter = getRandomArrayElementFromObservableEmitt(getLowerCases());
+const charGenerators = [getLowerCases(), getUpperLetters()]
+const lowerLettersEmitter = getRandomArrayElementFromObservableEmitters(charGenerators);
+console.log(charGenerators)
 lowerLettersEmitter.randomEmitter.subscribe(x => console.log(x))
-rxjs.generate(1, x => x < 5, x => x + 1).subscribe(() => lowerLettersEmitter.next())
+console.log(lowerLettersEmitter)
+rxjs.generate(1, x => x < 5, x => x + 1).subscribe(() => lowerLettersEmitter.nextElement())
