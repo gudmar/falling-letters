@@ -2,7 +2,7 @@
 const nrOfPauseTogglesToIsPaused = (nrOfPauseToggles) => nrOfPauseToggles % 2 === 1
 
 const getPauseHandler = (notPausedObservable) => (isPaused) => {
-    console.log('Is paused', isPaused, notPausedObservable)
+    // console.log('Is paused', isPaused, notPausedObservable)
     if (isPaused) return rxjs.empty();
     return notPausedObservable
 }

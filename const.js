@@ -24,3 +24,7 @@ const DIGITS = 'Digits';
 const LOWER_POLISH = 'Polish lower characters';
 const UPPER_POLISH = 'Polish upper characters';
 
+const DOWN_MOVE_DELTA = 2
+
+const CHARACTER_SIZE = 1.5
+

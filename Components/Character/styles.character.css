@@ -1,0 +1,8 @@
+.character-wrapper {
+    color: green;
+    font-family: Arial, Helvetica, sans-serif;
+    display: inline-block;
+    position: relative;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
