@@ -1,5 +1,5 @@
-const initialMoveRate = 2000 //0;
-const initialNewLetterRate = 1000//4;
+const initialMoveRate = 50 //0;
+const initialNewLetterRate = 3000//4;
 const maxMoveRate = 9;
 const minMoveRate = 0;
 const maxNewLetter = 9;
@@ -30,7 +30,7 @@ class ContextProvider {
 
     pausedNewLetter = new PausedSubject(this.newLetterTicks$.tick$);
 
-    // pausedMoveTicks = new PausedSubject(this.moveTicks$.tick$);
+    pausedMoveTicks = new PausedSubject(this.moveTicks$.tick$);
 
     modalComponent$ = new rxjs.BehaviorSubject({element: document.createElement('div')})
     modalOpenClose$ = new rxjs.BehaviorSubject(CLOSE_MODAL_BY_AGENT);
