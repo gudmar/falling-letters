@@ -2,14 +2,15 @@ class Character extends Component {
     static getCharacterShadow(character) {
         const nrOfRepetes = 7;
         const shadow = Array(7).fill('').map((_, index) => {
+            // style="bottom: ${index * CHARACTER_SIZE}rem; color: rgb(0, ${255 - index * (255 / nrOfRepetes)}, 0); opacity: ${index * 1/7}"
             return `<div 
-                class="character-shadow-${index}
-                style="bottom: ${index * CHARACTER_SIZE}rem; color: rgb(255, ${255 - index * (255 / nrOfRepetes)}, 0); opacity: ${index * 1/7}"
+                class="character-shadow-${index}"
+                style="bottom: ${index * CHARACTER_SIZE}rem; color: rgb(0, 255, 0); opacity: ${(index + 1) * 1/9}"
+                
             >
                 ${character}
             </div>`
         }).join('');
-        console.log(shadow)
         return shadow
     }
     static getHtmlTemplate(character, id) {
