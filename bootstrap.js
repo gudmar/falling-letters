@@ -27,6 +27,7 @@ const pauseButton = new Button({
     elementClasses: 'button-wrapper',
     action: () => {
         PausedSubject.togglePause();
+        console.log('Pause clicked')
     }
 })
 
