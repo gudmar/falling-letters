@@ -13,8 +13,13 @@ class ContextProvider {
     
     static _context = {}
     static get context () { return ContextProvider._context }
+    
     moveRateSubject$ = new rxjs.BehaviorSubject(initialMoveRate);
     newLetterRateSubject$ = new rxjs.BehaviorSubject(initialNewLetterRate);
+    keypressSubject$ = new rxjs.BehaviorSubject();
+    removeCharacterWithIdSubject$ = new rxjs.Subject();
+
+    keypressInformator$ = new PausedSubject(this.keypressSubject$);
 
     moveTicks$ = new Rate({
         initialValue: initialMoveRate,
