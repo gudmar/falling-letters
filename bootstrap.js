@@ -10,6 +10,8 @@ score.innerHTML = 'Score'
 
 const gameTitle = elementFromHtml('<div>MASTER KEYBOARD</div>')
 
+new CharacterMonitorHook(context)
+
 const openModalWithGameOptionsButton = new Button({
     label: 'Game options',
     action: () => {
@@ -27,7 +29,19 @@ const pauseButton = new Button({
     elementClasses: 'button-wrapper',
     action: () => {
         PausedSubject.togglePause();
-        console.log('Pause clicked')
+    }
+})
+
+const logCurrentCharactersButton = new Button({
+    label: 'log characters',
+    context,
+    elementClasses: 'button-wrapper',
+    action: () => {
+        const characters = context.currentCharacters$.value;
+        const nrOfCharacters = Object.values(characters).reduce((acc, arr) => {
+            const newAcc = acc + arr.length
+            return newAcc;
+        }, 0)
     }
 })
 
@@ -35,7 +49,13 @@ const titleBar = new TitleBar({
     componentId: TITLE_ID,
     context,
     wrappingTag: 'div',
-    children: [score, gameTitle, pauseButton.element, openModalWithGameOptionsButton.element],
+    children: [
+        score,
+        gameTitle,
+        pauseButton.element,
+        openModalWithGameOptionsButton.element,
+        logCurrentCharactersButton.element
+    ],
     wrapperClasses: 'TitleBar-wrapper'
 })
 const gameCanvas = new GameCanvas({
@@ -55,3 +75,4 @@ new Wrapper({
     context,
 })
 
+new KeyboardHook(context)

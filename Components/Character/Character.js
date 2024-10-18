@@ -37,9 +37,12 @@ class Character extends Component {
         const boostedArgs = Character.getBoostedArgs({...args, id})
         super(boostedArgs);
         this.id = id;
+        this.character = args.character;
         this.addListeners();
         this.elementWrapper = this.element.getElementById(this.id);
         this.randomlyPlace();
+        if (!this.context.registerBirth$) throw new Error('Missing register birth in context')
+        this.context.registerBirth$.next({character: this.character, id: this.id})
     }
 
     randomlyPlace() {
@@ -53,10 +56,14 @@ class Character extends Component {
         this.moveSubscribtion = this.context.pausedMoveTicks.pausedSubject.subscribe(() => {
             const shouldBeRemoved = this.checkIfOutsideScreen();
             if (shouldBeRemoved) {
+                this.context.characterRemoveCause$.next({cause: MISS, id: this.id, character: this.character})
                 this.deleteThisElement();
                 return
             }
             this.moveDown();
+        })
+        this.deleteSubscribtion = this.context.removeCharacterWithIdSubject$.subscribe((id) => {
+            if (id === this.id) { this.deleteThisElement(); }
         })
     }
 
@@ -68,6 +75,7 @@ class Character extends Component {
     deleteThisElement(){
         this.moveSubscribtion.unsubscribe();
         this.elementWrapper.remove();
+        this.deleteSubscribtion.unsubscribe();
     }
 
     checkIfOutsideScreen() {
