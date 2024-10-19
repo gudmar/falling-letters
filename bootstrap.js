@@ -5,9 +5,6 @@ new Modal({
     context
 })
 
-const score = document.createElement('div');
-score.innerHTML = 'Score'
-
 const gameTitle = elementFromHtml('<div>MASTER KEYBOARD</div>')
 
 new CharacterMonitorHook(context)
@@ -43,6 +40,23 @@ const logCurrentCharactersButton = new Button({
             return newAcc;
         }, 0)
     }
+})
+
+const score = new Counter({
+    label: 'score',
+    lowerThreshold: 0,
+    subject: context.scoreSubject$,
+    startValue: 0,
+    context,
+})
+
+const nrErrors = new Counter({
+    label: 'Nr of errors',
+    lowerThreshold: 0,
+    upperThreshold: NR_ERRORS_THRESHOLD,
+    subject: context.nrErrorsSubject$,
+    startValue: 0,
+    context,
 })
 
 const titleBar = new TitleBar({
