@@ -1,0 +1,8 @@
+.counter-wrapper {
+    font-family: Arial, Helvetica, sans-serif;
+    color: green;
+}
+
+.counter-not-valid {
+    color: red;
+}

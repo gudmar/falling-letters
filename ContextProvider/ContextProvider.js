@@ -8,6 +8,24 @@ const someEvenNumber = 0;
 const someOddNumber = 1;
 
 
+class ExtendedSubject {
+    constructor(init) {
+        this.subject = new rxjs.BehaviorSubject(init)
+    }
+    get value () {
+        return this.subject.value;
+    }
+
+    increment(value) {
+        const nextValue = this.value + value;
+        this.subject.next(nextValue);
+    }
+    decrement(value) {
+        const nextValue = this.value - value;
+        this.subject.next(nextValue);
+    }
+}
+
 class ContextProvider {
     // Here create all subjects
     
@@ -18,6 +36,10 @@ class ContextProvider {
     newLetterRateSubject$ = new rxjs.BehaviorSubject(initialNewLetterRate);
     keypressSubject$ = new rxjs.BehaviorSubject();
     removeCharacterWithIdSubject$ = new rxjs.Subject();
+    scoreSubject$ = new ExtendedSubject(INIT_SCORE);
+    nrErrorsSubject$ = new ExtendedSubject(0);
+
+    thresholdReachedSubject$ = new rxjs.Subject()
 
     keypressInformator$ = new PausedSubject(this.keypressSubject$);
 

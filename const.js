@@ -7,7 +7,9 @@ const OPEN_MODAL = 'open-modal';
 const CLOSE_MODAL = 'close-modal';
 const CLOSE_MODAL_BY_AGENT = 'close-modal-by-agent';
 const TOGGLE_MODAL = 'toggle-modal';
-const GAME_CONTAINER = 'game-container-id'
+const GAME_CONTAINER = 'game-container-id';
+const LOWER_TH = 'lower';
+const UPPER_TH = 'upper';
 
 const GameVersions = {
     Letters: 'Letters only',
@@ -30,4 +32,8 @@ const UPPER_POLISH = 'Polish upper characters';
 const DOWN_MOVE_DELTA = 2
 
 const CHARACTER_SIZE = 1.5
+
+const INIT_SCORE = 0;
+
+const NR_ERRORS_THRESHOLD = 5;
 
