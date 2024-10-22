@@ -26,29 +26,30 @@ class Counter extends Component {
         Counter.throwIfParamsMissing(args);
         const boostedArgs = Counter.getBoostedArgs(args)
         super(boostedArgs)
-        console.log(this.element)
         this.valueContainer = this.element.querySelector('.counter-value');
         this.subject = args.subject;
         this.label = args.label;
-        console.log(this.label, args.startValue)
-        if (boostedArgs.upperThreshold) {
+        this.value = boostedArgs.startValue;
+        if (isDefined(boostedArgs.upperThreshold)) {
             this.upperThreshold = boostedArgs.upperThreshold
         }
-        if (boostedArgs.lowerThreshold) {
+        if (isDefined(boostedArgs.lowerThreshold)) {
             this.lowerThreshold = boostedArgs.lowerThreshold
         }
+        this.addListeners()
     }
 
     checkIfValueValid() {
         if (!isDefined(this.lowerThreshold) && !isDefined(this.upperThreshold)) return true;
-        if (this.lowerThreshold && this.value < this.lowerThreshold) return false;
-        if (this.upperThreshold && this.value > this.upperThreshold) return false;
+        if (this.value < this.lowerThreshold) return false;
+        if (this.value > this.upperThreshold) return false;
         return true;
     }
     addListeners() {
         this.subject.subscribe(((newValue) => {
             this.valueContainer.innerText = newValue;
-            if (this.lowerThreshold && newValue < this.lowerThreshold) {
+            this.value = newValue;
+            if (isDefined(this.lowerThreshold) && newValue < this.lowerThreshold) {
                 this.context.thresholdReachedSubject$.next(
                     {
                         source: this.label,
@@ -58,7 +59,7 @@ class Counter extends Component {
                 )
                 this.valueContainer.classList.add('counter-not-valid')
             };
-            if (this.upperThreshold && newValue > this.upperThreshold) {
+            if (isDefined(this.upperThreshold) && newValue > this.upperThreshold) {
                 this.context.thresholdReachedSubject$.next(
                     {
                         source: this.label,
@@ -68,10 +69,9 @@ class Counter extends Component {
                 )
                 this.valueContainer.classList.add('counter-not-valid')
             }
-            if (Counter.checkIfValueValid()) {
+            if (this.checkIfValueValid()) {
                 this.valueContainer.classList.remove('counter-not-valid')
             }
-    
         }).bind(this));
     }
 }

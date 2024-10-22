@@ -65,7 +65,7 @@ const titleBar = new TitleBar({
     wrappingTag: 'div',
     children: [
         score.element,
-        nrErrors.element,
+        // nrErrors.element,
         gameTitle,
         pauseButton.element,
         openModalWithGameOptionsButton.element,
