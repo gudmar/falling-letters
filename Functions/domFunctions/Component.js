@@ -54,6 +54,7 @@ const getElementFromChildren = ({
     const wrapper = wrap({wrapperId, parentId, parent, children, wrappingTag, wrapperClasses});
     if (!placeChildren) { 
         children.forEach((child) => {
+            console.log(child)
             if (typeof child === 'function') {
                 const element = new child;
                 wrapper.append(child)

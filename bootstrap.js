@@ -43,7 +43,7 @@ const logCurrentCharactersButton = new Button({
 })
 
 const score = new Counter({
-    label: 'score',
+    label: 'Score',
     lowerThreshold: 0,
     subject: context.scoreSubject$,
     startValue: 0,
@@ -64,7 +64,8 @@ const titleBar = new TitleBar({
     context,
     wrappingTag: 'div',
     children: [
-        score,
+        score.element,
+        nrErrors.element,
         gameTitle,
         pauseButton.element,
         openModalWithGameOptionsButton.element,
