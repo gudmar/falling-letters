@@ -39,7 +39,6 @@ class Character extends Component {
         this.id = id;
         this.character = args.character;
         this.addListeners();
-        this.elementWrapper = this.element.getElementById(this.id);
         this.randomlyPlace();
         if (!this.context.registerBirth$) throw new Error('Missing register birth in context')
         this.context.registerBirth$.next({character: this.character, id: this.id})
@@ -49,7 +48,7 @@ class Character extends Component {
         const maxWidth = this.parentWidth - 10;
         const place = random(maxWidth);
         this.parent.append(this.element);
-        this.elementWrapper.style.left = place + 'px';
+        this.element.style.left = place + 'px';
     }
 
     addListeners() {
@@ -68,13 +67,13 @@ class Character extends Component {
     }
 
     get top() {
-        const {top} = this.elementWrapper.getBoundingClientRect();
+        const {top} = this.element.getBoundingClientRect();
         return top
     }
 
     deleteThisElement(){
         this.moveSubscribtion.unsubscribe();
-        this.elementWrapper.remove();
+        this.element.remove();
         this.deleteSubscribtion.unsubscribe();
     }
 
@@ -85,7 +84,7 @@ class Character extends Component {
     }
 
     moveDown() {
-        this.elementWrapper.style.top = (parseInt(this.elementWrapper.style.top) || 0) + DOWN_MOVE_DELTA + 'px'
+        this.element.style.top = (parseInt(this.element.style.top) || 0) + DOWN_MOVE_DELTA + 'px'
     }
 
     get parentWidth() {

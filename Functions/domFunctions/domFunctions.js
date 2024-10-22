@@ -69,7 +69,8 @@ const elementFromHtml = (htmlAsString) => {
     const template = document.createElement('template');
     template.innerHTML = htmlAsString;
     const element = template.content.cloneNode(true);
-    return element;
+    const firstChild = element.firstElementChild;
+    return firstChild;
 }
 
 const addElementWithClasses = ({

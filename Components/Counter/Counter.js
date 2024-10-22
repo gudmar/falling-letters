@@ -8,10 +8,11 @@ class Counter extends Component {
         }
     }
     static getHtmlTemplate(counterValue, counterLabel) {
+        console.log(counterLabel, counterValue)
         return `
             <div class="counter-wrapper">
-                <span>${counterLabel}</span>
-                <span class="counter-value">${counterValue}></span>}
+                <span class="counter-label">${counterLabel}</span>
+                <span class="counter-value">${counterValue}</span>
             </div>
         `
     }
@@ -29,6 +30,7 @@ class Counter extends Component {
         this.valueContainer = this.element.querySelector('.counter-value');
         this.subject = args.subject;
         this.label = args.label;
+        console.log(this.label, args.startValue)
         if (boostedArgs.upperThreshold) {
             this.upperThreshold = boostedArgs.upperThreshold
         }
