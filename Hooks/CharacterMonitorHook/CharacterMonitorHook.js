@@ -61,7 +61,8 @@ class CharacterMonitorHook {
                     currentRejester,
                 } = removeOldestCharacter(this.context.currentCharacters$.value, character)
                 this.context.removeCharacterWithIdSubject$.next(removedItemId); // remove component
-                this.context.currentCharacters$.next(currentRejester)
+                this.context.currentCharacters$.next(currentRejester);
+                this.context.scoreSubject$.decrement(10)
                 return;
             }
             if (cause === MISS) {

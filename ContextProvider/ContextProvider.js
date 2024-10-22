@@ -8,21 +8,22 @@ const someEvenNumber = 0;
 const someOddNumber = 1;
 
 
-class ExtendedSubject {
+class ExtendedSubject extends rxjs.BehaviorSubject {
     constructor(init) {
-        this.subject = new rxjs.BehaviorSubject(init)
+        super(init)
+        // this.subject = new rxjs.BehaviorSubject(init)
     }
-    get value () {
-        return this.subject.value;
-    }
+    // get value () {
+    //     return this.subject.value;
+    // }
 
     increment(value) {
         const nextValue = this.value + value;
-        this.subject.next(nextValue);
+        this.next(nextValue);
     }
     decrement(value) {
         const nextValue = this.value - value;
-        this.subject.next(nextValue);
+        this.next(nextValue);
     }
 }
 
