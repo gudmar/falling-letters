@@ -28,7 +28,7 @@ class PausedSubject {
     static togglePause() {
         const prevValue = PausedSubject.nrOfPauseToggles$.value
         PausedSubject.nrOfPauseToggles$.next(prevValue + 1)
-        if (PausedSubject.isPaused) onPouse$.next();
+        if (PausedSubject.isPaused) PausedSubject.onPouse$.next();
         else (PausedSubject.onResume$.next())
     }
     static setPause() {

@@ -26,3 +26,11 @@ const addToParentOrToId = ({parentId, parent, element}) => {
     if (!parentFromId) throw new Error(`Element ${parentFromId} cannot be found`)
     addToParentIfDefined(parentFromId, element);
 }
+
+const findChildWithId = (element, id) => {
+    const wanted = Array.from(element.children).find((child) => {
+        const childId = child.getAttribute('id');
+        return childId === id
+    })
+    return wanted || null;
+}

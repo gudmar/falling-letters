@@ -13,7 +13,6 @@ class CheckBox extends Component{
     static getDefaultArgs(args) {
         const id = `CheckBox.labelBase-${args.uuid}`
         const boost = {
-            // wrappingTag: 'div',
             wrapperClass: 'check-box-wrapper',
             htmlTemplate: CheckBox.getHtmlTemplate({...args, id}),
             id
@@ -28,7 +27,7 @@ class CheckBox extends Component{
         Component.throwIfNotMandatoryFields(
             CheckBox.mandatoryKeys, upgradedArgs, `CheckBox: some of mandatory keys: ${CheckBox.mandatoryKeys.join(', ')} are missing`
         )
-        this.box = this.element.getElementById(upgradedArgs.id);
+        this.box = findChildWithId(this.element, upgradedArgs.id)        
         this.label = upgradedArgs.label;
         this.check$ = new rxjs.BehaviorSubject(this.check)
         this.isChecked = args.checked;

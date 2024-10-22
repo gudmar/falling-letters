@@ -69,19 +69,32 @@ class Modal extends Component {
     }
     toggleVisibility() {
         const elementInDom = document.getElementById(this.elementId);
-        if (elementInDom) { elementInDom.remove();}
-        else { this.parent.append(this.element)}
+        if (elementInDom) {
+            elementInDom.remove();
+            PausedSubject.setPause();
+        }
+        else {
+            this.parent.append(this.element);
+            PausedSubject.resetPause();
+        }
     }
     open() {
         const elementInDom = document.getElementById(this.elementId);
-        if (!elementInDom) { this.parent.append(this.element)}
+        if (!elementInDom) {
+            this.parent.append(this.element);
+            PausedSubject.setPause();
+        }
     }
     closeByAgent() {
         const elementInDom = document.getElementById(this.elementId);
-        if (elementInDom) { elementInDom.remove();}
+        if (elementInDom) {
+            elementInDom.remove();
+            PausedSubject.resetPause();
+        }
     }
     close(event) {
         if (event && event.target !== this.element) return;
         this.closeByAgent();
+        PausedSubject.resetPause();
     }
 }
