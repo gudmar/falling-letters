@@ -51,10 +51,19 @@ const score = new Counter({
 })
 
 const nrErrors = new Counter({
-    label: 'Nr of errors',
+    label: 'Errors',
     lowerThreshold: 0,
     upperThreshold: NR_ERRORS_THRESHOLD,
     subject: context.nrErrorsSubject$,
+    startValue: 0,
+    context,
+})
+
+const nrMisses = new Counter({
+    label: 'Missed',
+    lowerThreshold: 0,
+    upperThreshold: NR_MISSES_THRESHOLD,
+    subject: context.nrMissesSubject$,
     startValue: 0,
     context,
 })
@@ -65,7 +74,8 @@ const titleBar = new TitleBar({
     wrappingTag: 'div',
     children: [
         score.element,
-        // nrErrors.element,
+        nrMisses.element,
+        nrErrors.element,
         gameTitle,
         pauseButton.element,
         openModalWithGameOptionsButton.element,

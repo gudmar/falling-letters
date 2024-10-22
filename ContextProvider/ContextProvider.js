@@ -39,6 +39,7 @@ class ContextProvider {
     removeCharacterWithIdSubject$ = new rxjs.Subject();
     scoreSubject$ = new ExtendedSubject(INIT_SCORE);
     nrErrorsSubject$ = new ExtendedSubject(0);
+    nrMissesSubject$ = new ExtendedSubject(0);
 
     thresholdReachedSubject$ = new rxjs.Subject()
 

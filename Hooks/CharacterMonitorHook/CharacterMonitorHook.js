@@ -60,9 +60,14 @@ class CharacterMonitorHook {
                     removedItemId,
                     currentRejester,
                 } = removeOldestCharacter(this.context.currentCharacters$.value, character)
+                const isError = removedItemId === null;
+                if (isError) {
+                    this.context.nrErrorsSubject$.increment(1);
+                    return;
+                }
                 this.context.removeCharacterWithIdSubject$.next(removedItemId); // remove component
                 this.context.currentCharacters$.next(currentRejester);
-                this.context.scoreSubject$.decrement(10)
+                this.context.scoreSubject$.increment(10)
                 return;
             }
             if (cause === MISS) {
@@ -70,6 +75,7 @@ class CharacterMonitorHook {
                     this.context.currentCharacters$.value, character, id
                 ); // remove from rejester, component already gone
                 this.context.currentCharacters$.next(characters)
+                this.context.nrMissesSubject$.increment(1)
             }
             // if (cause === EMPTY) { console.log('characterRemoveCauseInitialized')}
         }).bind(this))

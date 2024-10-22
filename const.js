@@ -36,4 +36,5 @@ const CHARACTER_SIZE = 1.5
 const INIT_SCORE = 0;
 
 const NR_ERRORS_THRESHOLD = 5;
+const NR_MISSES_THRESHOLD = 5;
 
