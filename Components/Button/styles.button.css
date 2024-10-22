@@ -10,7 +10,7 @@
     cursor: pointer;
     margin: 0.25rem;
     padding: 0.25rem;
-    max-height: 2rem;
+    height: 2rem;
     box-shadow: inset 0px 0px 16px 0px rgb(100 120 100);
     /* transition-delay: 0.25s; */
 }

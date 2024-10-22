@@ -11,3 +11,16 @@ body {
 html {
     overflow: hidden;
 }
+
+.title {
+    line-height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: lighter;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+}
