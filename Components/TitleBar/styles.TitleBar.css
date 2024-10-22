@@ -1,4 +1,7 @@
 .TitleBar-wrapper {
     display: flex;
+    align-items: center;
     border-bottom: solid thin green;
+    background-color: black;
+    z-index: 2;
 }

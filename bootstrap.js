@@ -5,7 +5,7 @@ new Modal({
     context
 })
 
-const gameTitle = elementFromHtml('<div>MASTER KEYBOARD</div>')
+const gameTitle = elementFromHtml('<div class="title">MASTER KEYBOARD</div>')
 
 new CharacterMonitorHook(context)
 
