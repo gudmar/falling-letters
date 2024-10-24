@@ -94,3 +94,24 @@ const subtitle = (args) => addElementWithClasses({...args, elementTag: 'header',
 const div = (args) => addElementWithClasses({...args, elementTag: 'header', cssClassNames: args.cssClassNames ? [...[args.cssClassNames].flat(), 'div'] : ['section']})
 const label = (args) => addElementWithClasses({...args, elementTag: 'header', cssClassNames: args.cssClassNames ? [...[args.cssClassNames].flat(), 'span'] : ['label']}) 
 
+const elementToDocumentFragment = (element) => {
+    // if (element.querySelector) {
+    //     console.log('Element is a fragment', element.querySelector)
+    //     return element
+    // }
+    const fragment = document.createDocumentFragment();
+    fragment.append(element);
+    return fragment
+}
+
+const getPlaceChildren = () => (element, children) => {
+    const fragment = elementToDocumentFragment(element);
+    const entries = Object.entries(children);
+    console.log(entries)
+    entries.forEach(([className, child]) => {
+        console.log(fragment)
+        const container = fragment.querySelector(`.${className}`);
+        container.append(child);
+    });
+    return fragment.firstElementChild;
+}

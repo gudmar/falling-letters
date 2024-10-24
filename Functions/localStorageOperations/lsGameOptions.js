@@ -1,5 +1,20 @@
-const getGameOptionsFromLS = () => JSON.parse(localStorage.getItem('gameOptions')) ?? {};
-const setGameOptionsToLS = (optionsToSave) => localStorage.setItem('gameOptions', JSON.stringify(optionsToSave))
+const getKeyFromLocalStorage = (key) => JSON.parse(localStorage.getItem(key)) ?? {};
+const setKeyToLocalStorage = (key, options) => localStorage.setItem(key, JSON.stringify(options))
+
+const getGameOptionsFromLS = () => getKeyFromLocalStorage('gameOptions');
+const getGameParamsFromLS = () =>  getKeyFromLocalStorage('gameOptions');
+
+const setGameOptionsToLS = (options) => setKeyToLocalStorage('gameOptions', options)
+const setGameParamsToLS = (params) => setKeyToLocalStorage('gameParams', params)
+
+const updateGameParamInLs = (key, value) => {
+    const oldParams = getGameParamsFromLS();
+    const newParams = {
+        ...oldParams,
+        [key]: value
+    };
+    setGameOptionsToLS(newParams);
+}
 
 const toggleGameOptionToLocalStorage = (optionToSave) => {
     const currentOptions = getGameOptionsFromLS() || {};
@@ -32,3 +47,5 @@ const handleGameOptionChange = (gameOption) => {
 }
 
 const checkIfGameOptionSelected = () => Object.entries(getGameOptionsFromLS()).some(([_, value]) => value);
+const getGameParamValue = (paramName) => getGameParamsFromLS()[paramName];
+const getGameParamOrDefault = (paramName, defaultValue) => getGameParamValue(paramName) ?? defaultValue;

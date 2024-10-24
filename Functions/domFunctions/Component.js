@@ -3,6 +3,7 @@ const throwIfTooManyArgs = ({
     parentId,
     parent,
     children,
+    slotChildren,
     elementTag,
     elementClasses,
     elementId,
@@ -22,13 +23,13 @@ const throwIfTooManyArgs = ({
 }
 
 const getElementFromTemplate = ({
-    children,
+    slotChildren,
     htmlTemplate,
     placeChildren,
 }) => {
     const element = elementFromHtml(htmlTemplate);
-    if (children) {
-        placeChildren(element, children)
+    if (slotChildren) {
+        return placeChildren(element, slotChildren)
     }
     return element;
 }
@@ -50,9 +51,11 @@ const getElementFromElementTag = ({
 
 const getElementFromChildren = ({
     wrappingTag, wrapperClasses, children, parentId, parent, placeChildren, wrapperId,
+    htmlTemplate,
 }) => {
-    const wrapper = wrap({wrapperId, parentId, parent, children, wrappingTag, wrapperClasses});
+    
     if (!placeChildren) { 
+        const wrapper = wrap({wrapperId, parentId, parent, children, wrappingTag, wrapperClasses});
         children.forEach((child) => {
             console.log(child)
             if (typeof child === 'function') {
@@ -61,11 +64,20 @@ const getElementFromChildren = ({
             } else {
                 wrapper.append(child)
             }
-    })} else {
-        placeChildren({ wrapper, children, context });
+        
+        })
+        return wrapper;
+    } else {
+        if (!htmlTemplate) {
+            throw new Error('Cannot slot children without a template')
+        }
+        // placeChildren({ wrapper, children, context });
+        const element = elementFromHtml(htmlTemplate)
+        const elementWithPlacedChildren = placeChildren(element, children);
+        return elementWithPlacedChildren
     }
     
-    return wrapper;
+    throw new Error('getElementFromTemplate: some case not implemented')
 }
 
 const getComponentElementFromArgs = (args) => {
