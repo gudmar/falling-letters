@@ -1,62 +1,47 @@
-// const getGameOptionsFromLS = () => JSON.parse(localStorage.getItem('gameOptions'));
-// const setGameOptionsToLS = (optionsToSave) => localStorage.setItem('gameOptions', JSON.stringify(optionsToSave))
-
-// const toggleGameOptionToLocalStorage = (optionToSave) => {
-//     const currentOptions = getGameOptionsFromLS() || {};
-//     const newOptions = {...currentOptions, [optionToSave]: !currentOptions[optionToSave]}
-//     setGameOptionsToLS(newOptions);
-// }
-
-// const checkGameOptionInLS = (gameOption) => {
-//     const gameOptions = getGameOptionsFromLS();
-//     return gameOptions[gameOption]
-// }
-
-// const formNewCharacterGenerator = (context, characterGetterFunctions) => {
-//     context.characterGenerator$ = characterGetterFunctions;
-// }
-
-// const handleGameOptionChange = (gameOption) => {
-//     toggleGameOptionToLocalStorage(gameOption);
-//     const selectedCharacterGetters = Object.entries(getGameOptionsFromLS()).filter(([key, value]) => {
-//         return value
-//     }).map(([key]) => optionToCharacterGeneratorMap[key]);
-//     formNewCharacterGenerator(selectedCharacterGetters);
-// }
-
 class GameOptions extends Component {
-    static defaultArgs = {
-        elementTag: 'div',
-        elementClasses: 'game-options-wrapper',
-        componentId: getUuid(),
+    static getBoostedArgs(args) {
+        const result = {
+            ...args,
+            htmlTemplate: GameOptions.getHtmlTemplate(args),
+            placeChildren: GameOptions.placeChildren,
+            slotChildren: {
+                'game-options-characters': args.gameCharacterOptionsInterior.element,
+            }            
+        }
+        return result
+    }
+    static placeChildren(element, children) {
+        const placeChildrenFunction = getPlaceChildren();
+        const elementWithChildren = placeChildrenFunction(element, children);
+        return elementWithChildren;
+    }
+    static getHtmlTemplate(args) {
+        return `
+        <div class = "game-options-wrapper">
+            <div class="game-options-container">
+                <div class="game-options-title">
+                    Select characters
+                </div>
+                <div class="game-options-form game-options-characters">
+            
+                </div>
+            </div>
+            <div class="game-options-container">
+                <div class="game-options-title">
+                    Select parameters
+                </div>
+                <div class="game-options-form game-options-parameters">
+            
+                </div>
+            </div>
+        </div>
+        `
     }
     constructor(args) {
-        super({...args, ...GameOptions.defaultArgs});
-        this.setInterior();
+        const {context} = args;
+        const gameCharacterOptionsInterior = new GameCharacterOptions({context}); 
+        const boostedArgs = GameOptions.getBoostedArgs({...args, gameCharacterOptionsInterior: gameCharacterOptionsInterior});
+        super(boostedArgs);
+        this.gameCharacterOptionsInterior = gameCharacterOptionsInterior;
     }
-    getInterior () {
-        const data = rxjs.from(optionToCharacterGeneratorMap);
-        const options = data.pipe(
-            rxjs.map((dataBit) => {
-                const isSetInLS = checkGameOptionInLS(dataBit.option);
-                return {...dataBit, checked: isSetInLS}
-            }),
-            rxjs.map((({option, arrayGetter, checked}) => {
-                const component = new CheckBox({
-                    label: option,
-                    context: this._context,
-                    action: toggleGameOptionToLocalStorage,
-                    checked
-            })
-            return component.element
-        }).bind(this)))
-        return options
-    }
-    setInterior() {
-        const interior$ = this.getInterior();
-        interior$.subscribe((element) => {
-                this.element.append(element);
-            })
-    }
-
 }

@@ -12,6 +12,7 @@
     align-content: center;
     top: 0;
     right: 0;
+    z-index: 5;
 }
 
 .modal-container {

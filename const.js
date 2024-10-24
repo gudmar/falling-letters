@@ -11,6 +11,10 @@ const GAME_CONTAINER = 'game-container-id';
 const LOWER_TH = 'lower';
 const UPPER_TH = 'upper';
 
+const RESET_ON_MISS = 'resetOnMiss';
+const MOVE_SPEED = 'moveSpeed';
+const APPEAR_SPEED = 'appearSpeed';
+
 const GameVersions = {
     Letters: 'Letters only',
     LettersAndNumbers: 'Letters and numbers',
