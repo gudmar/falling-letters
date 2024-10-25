@@ -18,6 +18,7 @@ class Counter extends Component {
     }
     static throwIfParamsMissing(args) {
         const keys = Object.keys(args);
+        console.log(keys)
         const mandatoryKeys = ['label', 'startValue', 'subject'];
         const isEveryKeyPresent = mandatoryKeys.every((key) => keys.includes(key));
         if (!isEveryKeyPresent) throw new Error('Mandatory key missing from Counter component');

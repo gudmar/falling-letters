@@ -46,17 +46,14 @@ class CheckBox extends Component{
         }).bind(this));
     }
     toggle() {
-        console.log('Toggle')
         if (this.isChecked) {this.uncheck()}
         else { this.check()}
     }
     check() {
-        console.log('Check')
         this.isChecked = true
         this.check$.next(true)
     }
     uncheck() { 
-        console.log('Uncheck')
         this.isChecked = false
         this.check$.next(false)
     }
