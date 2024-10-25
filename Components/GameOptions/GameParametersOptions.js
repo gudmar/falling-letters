@@ -1,9 +1,14 @@
 const getParametersOptionsSturcture = (context) => ([
     {
-        component: AdjustableCounter,
+        component: Title,
+        args: { label: 'Speed' }
+    },
+    {
+        component: WithLabel,
         args: {
+            component: AdjustableCounter,
             context,
-            label: 'Move speed',
+            label: 'Move',
             lowerThreshold: 1,
             upperThreshold: 5,
             startValue: 1,
@@ -11,15 +16,20 @@ const getParametersOptionsSturcture = (context) => ([
         }
     },
     {
-        component: AdjustableCounter,
+        component: WithLabel,
         args: {
+            component: AdjustableCounter,
             context,
-            label: 'Appear speed',
+            label: 'Appear',
             lowerThreshold: 1,
             upperThreshold: 5,
             startValue: 1,
             subject: context.appearSpeed$, // subject will be set initially from localStorage
         }
+    },
+    {
+        component: Title,
+        args: { label: 'Other' }
     },
     {
         component: CheckBox,

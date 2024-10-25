@@ -7,6 +7,42 @@ class AdjustableCounter extends Component {
         </div>
         `
     }
+    static getHtmlControlTemplate = () => {
+        return `
+            <div>&uarr;</div>
+            <div>&darr;</div>
+        `
+    }
+    getControls$() {
+        const controls = [
+            {
+                label: '&uarr;',
+                action: () => {
+                    if (this.subject.value + 1 > this.upperThreshold) return;
+                    this.subject.increment(1);
+                }
+            },
+            {
+                label: '&darr;',
+                action: () => {
+                    if (this.subject.value - 1 < this.lowerThreshold) return;
+                    this.subject.decrement(1);
+                }
+            }
+        ];
+        return controls;
+    }
+
+    setControls() {
+        rxjs.from(this.getControls$()).subscribe(({label, action}) => {
+            const control = elementFromHtml(
+                `<div class="adjustable-counter-button">${label}</div>`
+            )
+            rxjs.fromEvent(control, 'click').pipe(() => action)
+            this.controlsContainer.append(control)            
+        })
+    }
+
     static getDefaultArgs = (id) => ({
         htmlTemplate: this.getHtmlTemplate(id),
         componentId: id,
@@ -32,7 +68,10 @@ class AdjustableCounter extends Component {
     setInterior() {
         console.log(this)
         const counter = new Counter({...this, context: this.context});
-        this.counterContainer.append(counter);
+        this.counterContainer.append(counter.element);
+        this.setControls();
+        // const controlls = elementFromHtml(AdjustableCounter.getHtmlControlTemplate())
+        // this.controlsContainer.append(controlls);
     }
 
 }

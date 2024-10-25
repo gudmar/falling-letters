@@ -11,15 +11,13 @@ class Counter extends Component {
         console.log(counterLabel, counterValue)
         return `
             <div class="counter-wrapper">
-                <span class="counter-label">${counterLabel}</span>
                 <span class="counter-value">${counterValue}</span>
             </div>
         `
     }
     static throwIfParamsMissing(args) {
         const keys = Object.keys(args);
-        console.log(keys)
-        const mandatoryKeys = ['label', 'startValue', 'subject'];
+        const mandatoryKeys = ['startValue', 'subject'];
         const isEveryKeyPresent = mandatoryKeys.every((key) => keys.includes(key));
         if (!isEveryKeyPresent) throw new Error('Mandatory key missing from Counter component');
     }

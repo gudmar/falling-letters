@@ -42,7 +42,8 @@ const logCurrentCharactersButton = new Button({
     }
 })
 
-const score = new Counter({
+const score = new WithLabel({
+    component: Counter,
     label: 'Score',
     lowerThreshold: 0,
     subject: context.scoreSubject$,
@@ -50,7 +51,8 @@ const score = new Counter({
     context,
 })
 
-const nrErrors = new Counter({
+const nrErrors = new WithLabel({
+    component: Counter,
     label: 'Errors',
     lowerThreshold: 0,
     upperThreshold: NR_ERRORS_THRESHOLD,
@@ -59,7 +61,8 @@ const nrErrors = new Counter({
     context,
 })
 
-const nrMisses = new Counter({
+const nrMisses = new WithLabel({
+    component: Counter,
     label: 'Missed',
     lowerThreshold: 0,
     upperThreshold: NR_MISSES_THRESHOLD,
