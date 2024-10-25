@@ -6,6 +6,7 @@ class GameOptions extends Component {
             placeChildren: GameOptions.placeChildren,
             slotChildren: {
                 'game-options-characters': args.gameCharacterOptionsInterior.element,
+                'game-options-parameters': args.gameParametersOptionsInterior.element,
             }            
         }
         return result
@@ -39,9 +40,17 @@ class GameOptions extends Component {
     }
     constructor(args) {
         const {context} = args;
-        const gameCharacterOptionsInterior = new GameCharacterOptions({context}); 
-        const boostedArgs = GameOptions.getBoostedArgs({...args, gameCharacterOptionsInterior: gameCharacterOptionsInterior});
+        const gameCharacterOptionsInterior = new GameCharacterOptions({context});
+        const gameParametersOptionsInterior = new GameParametersOptions({context});
+        const boostedArgs = GameOptions.getBoostedArgs(
+            {
+                ...args,
+                gameCharacterOptionsInterior: gameCharacterOptionsInterior,
+                gameParametersOptionsInterior: gameParametersOptionsInterior,
+            }
+        );
         super(boostedArgs);
         this.gameCharacterOptionsInterior = gameCharacterOptionsInterior;
+        this.gameParametersOptionsInterior = gameParametersOptionsInterior;
     }
 }

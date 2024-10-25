@@ -1,7 +1,8 @@
-const getParametersOptionsSturcture = (context) => {[
+const getParametersOptionsSturcture = (context) => ([
     {
         component: AdjustableCounter,
         args: {
+            context,
             label: 'Move speed',
             lowerThreshold: 1,
             upperThreshold: 5,
@@ -12,16 +13,18 @@ const getParametersOptionsSturcture = (context) => {[
     {
         component: AdjustableCounter,
         args: {
+            context,
             label: 'Appear speed',
             lowerThreshold: 1,
             upperThreshold: 5,
             startValue: 1,
-            subject: context.moveSpeed$, // subject will be set initially from localStorage
+            subject: context.appearSpeed$, // subject will be set initially from localStorage
         }
     },
     {
         component: CheckBox,
         args: {
+            context,
             label: 'Reset on miss',
             action: () => {
                 const currentValue = context.resetOnMiss$.value;
@@ -32,17 +35,15 @@ const getParametersOptionsSturcture = (context) => {[
             checked: context.resetOnMiss$.value//getGameParamOrDefault(RESET_ON_MISS),
         }
     }
-]}
+])
 
-const structureToDocumentFragment = (structure) => {
-    const fragment = document.createDocumentFragment();
+const structureToDocumentContainer = (structure, container) => {
     rxjs.from(structure).subscribe(
         ({component, args}) => {
             const componentInstance = new component(args);
-            fragment.append(componentInstance.element);    
+            container.append(componentInstance.element); 
         }
     )
-    return fragment;
 }
 
 class GameParametersOptions extends Component {
@@ -54,12 +55,12 @@ class GameParametersOptions extends Component {
 
     constructor(args) {
         super({...args, ...GameParametersOptions.defaultArgs});
-        // this.setInterior();
+        this.setInterior();
     }
 
     setInterior() {
         const structure = getParametersOptionsSturcture(this.context);
-        const fragment = structureToDocumentFragment(structure);
+        structureToDocumentContainer(structure, this.element);
                 
     }
 }

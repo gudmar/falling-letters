@@ -57,7 +57,6 @@ const getElementFromChildren = ({
     if (!placeChildren) { 
         const wrapper = wrap({wrapperId, parentId, parent, children, wrappingTag, wrapperClasses});
         children.forEach((child) => {
-            console.log(child)
             if (typeof child === 'function') {
                 const element = new child;
                 wrapper.append(child)
@@ -129,6 +128,7 @@ class Component {
     get element() { return this._element }
     get elementId() { return this._elementId }
     get context() { return this._context }
+    set context(v) {this._context = v}
     get parent() {
         if (!this._parentId) throw new Error(`Component: no parent found`)
         return this._parent
