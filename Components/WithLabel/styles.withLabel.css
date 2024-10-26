@@ -1,0 +1,7 @@
+.with-label-wrapper {
+    margin: 1rem;
+    display: flex;
+    color: green;
+    font-family: 'Courier New', Courier, monospace;
+    flex-direction: column;
+}
