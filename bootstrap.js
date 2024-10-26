@@ -104,3 +104,8 @@ new Wrapper({
 })
 
 new KeyboardHook(context)
+
+new LocalStorageUpdaterHook([
+    {key: MOVE_SPEED, subject: context.moveSpeed$},
+    {key: APPEAR_SPEED, subject: context.appearSpeed$}
+])
