@@ -37,7 +37,6 @@ class AdjustableCounter extends Component {
 
     setControls() {
         rxjs.from(this.getControls$()).subscribe(({label, action, classes}) => {
-            console.log('classes', classes)
             const control = elementFromHtml(
                 `<div class="adjustable-counter-button ${classes}">${label}</div>`
             )
@@ -53,7 +52,6 @@ class AdjustableCounter extends Component {
 
     constructor(args) {
         const id = getUuid();
-        console.log(args)
         super({ ...args, ...AdjustableCounter.getDefaultArgs(id) });
         
         this.label = args.label;
@@ -62,7 +60,6 @@ class AdjustableCounter extends Component {
         this.startValue = args.startValue;
         this.counterContainer = this.element.querySelector(".adjustable-counter-container");
         this.controlsContainer = this.element.querySelector(".adjustable-counter-controls-container");
-        console.log(this.increaseButton, this.decreaseButton)
         this.subject = args.subject;
         
         this.context = args.context;
@@ -85,7 +82,6 @@ class AdjustableCounter extends Component {
     }
 
     setInterior() {
-        console.log(this)
         const counter = new Counter({...this, context: this.context});
         this.counterContainer.append(counter.element);
         this.setControls();

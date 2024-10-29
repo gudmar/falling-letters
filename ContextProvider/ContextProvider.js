@@ -11,11 +11,7 @@ const someOddNumber = 1;
 class ExtendedSubject extends rxjs.BehaviorSubject {
     constructor(init) {
         super(init)
-        // this.subject = new rxjs.BehaviorSubject(init)
     }
-    // get value () {
-    //     return this.subject.value;
-    // }
 
     increment(value) {
         const nextValue = this.value + value;
@@ -40,6 +36,8 @@ class ContextProvider {
     scoreSubject$ = new ExtendedSubject(INIT_SCORE);
     moveSpeed$ = new ExtendedSubject(getFromLocalStorageOrDefault('moveSpeed', INIT_MOVE_SPEED));
     appearSpeed$ = new ExtendedSubject(getFromLocalStorageOrDefault('appearSpeed', INIT_APPEAR_SPEED));
+    maxMissed$ = new ExtendedSubject(getFromLocalStorageOrDefault('maxMissed', MAX_MISSED_DEFAULT));
+    maxMistaken$ = new ExtendedSubject(getFromLocalStorageOrDefault('maxMistaken', MAX_MISTAKEN_DEFAULT));
     resetOnMiss$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault('resetOnMiss', false));
     nrErrorsSubject$ = new ExtendedSubject(0);
     nrMissesSubject$ = new ExtendedSubject(0);

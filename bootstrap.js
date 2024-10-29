@@ -26,6 +26,10 @@ const pauseButton = new Button({
     elementClasses: 'button-wrapper',
     action: () => {
         PausedSubject.togglePause();
+        new Information({
+            context,
+            message: 'Paused',
+        })
     }
 })
 
