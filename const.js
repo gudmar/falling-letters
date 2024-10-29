@@ -11,6 +11,8 @@ const TOGGLE_MODAL = 'toggle-modal';
 const GAME_CONTAINER = 'game-container-id';
 const LOWER_TH = 'lower';
 const UPPER_TH = 'upper';
+const MAX_MISSED_DEFAULT = 3;
+const MAX_MISTAKEN_DEFAULT = 5;
 
 const RESET_ON_MISS = 'resetOnMiss';
 const MOVE_SPEED = 'moveSpeed';
