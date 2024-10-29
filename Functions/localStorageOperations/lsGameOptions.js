@@ -27,6 +27,12 @@ const checkGameOptionInLS = (gameOption) => {
     return gameOptions[gameOption]
 }
 
+const getFromLocalStorageOrDefault = (key, defaultValue) => {
+    const fromLs = checkGameOptionInLS(key);
+    if (!fromLs) return defaultValue;
+    return fromLs;
+}
+
 const formNewCharacterGenerator = (context, characterGetterFunctions) => {
     context.characterGenerator$ = characterGetterFunctions;
 }

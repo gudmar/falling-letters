@@ -7,8 +7,6 @@ class GameCanvas extends Component {
 
     constructor(args){
         super({...args, ...GameCanvas.defaultArgs});
-        // this.characterEmitter = nullElementEmitter();
-        console.log(this.context)
         this.addListeners();
     }
 
@@ -20,8 +18,6 @@ class GameCanvas extends Component {
             that.characterEmitter = randomEmitter;
             nextElement();
         })
-        // console.log('COntext', this.context, this.context.pausedNewLetter.pausedSubject)
-        // const generator = this.characterEmitter
         this.characterEmitter.subscribe((char) => {
             new Character({character: char, context})
         })
@@ -33,13 +29,5 @@ class GameCanvas extends Component {
             })
         )
         this.nextCharacter
-        // this.context._charactersGenerator$.subscribe(
-        //     (emitter) => { this.characterEmitter = emitter }
-        // )
-        // this.context.pausedNewLetter.pausedSubject.subscribe(
-        //     () => {
-        //         generator.next();
-        //     }
-        // )
     }
 }

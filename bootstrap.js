@@ -42,6 +42,15 @@ const logCurrentCharactersButton = new Button({
     }
 })
 
+const reset = new Button({
+    label: 'Reset',
+    context,
+    elementClasses: 'button-wrapper',
+    action: () => {
+        context.characterRemoveCause$.next({cause: RESET})
+    }
+})
+
 const score = new WithLabel({
     component: Counter,
     label: 'Score',
@@ -82,6 +91,7 @@ const titleBar = new TitleBar({
         gameTitle,
         pauseButton.element,
         openModalWithGameOptionsButton.element,
+        reset.element,
         logCurrentCharactersButton.element
     ],
     wrapperClasses: 'TitleBar-wrapper'

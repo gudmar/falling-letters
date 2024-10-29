@@ -38,9 +38,9 @@ class ContextProvider {
     keypressSubject$ = new rxjs.BehaviorSubject();
     removeCharacterWithIdSubject$ = new rxjs.Subject();
     scoreSubject$ = new ExtendedSubject(INIT_SCORE);
-    moveSpeed$ = new ExtendedSubject(INIT_MOVE_SPEED);
-    appearSpeed$ = new ExtendedSubject(INIT_APPEAR_SPEED);
-    resetOnMiss$ = new rxjs.BehaviorSubject(false);
+    moveSpeed$ = new ExtendedSubject(getFromLocalStorageOrDefault('moveSpeed', INIT_MOVE_SPEED));
+    appearSpeed$ = new ExtendedSubject(getFromLocalStorageOrDefault('appearSpeed', INIT_APPEAR_SPEED));
+    resetOnMiss$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault('resetOnMiss', false));
     nrErrorsSubject$ = new ExtendedSubject(0);
     nrMissesSubject$ = new ExtendedSubject(0);
 

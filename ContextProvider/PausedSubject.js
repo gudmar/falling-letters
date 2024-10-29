@@ -23,7 +23,6 @@ class PausedSubject {
             rxjs.tap((isPaused) => PausedSubject.isPaused = isPaused),
             rxjs.switchMap(getPauseHandler(decoratedSubject))
         )
-        // this.pausedSubject.subscribe((v) => {console.log(v)})
     }
     static togglePause() {
         const prevValue = PausedSubject.nrOfPauseToggles$.value
@@ -39,6 +38,4 @@ class PausedSubject {
         PausedSubject.nrOfPauseToggles$.next(someEvenNumber)
         PausedSubject.onResume$.next();
     }
-
-    // pausedSubject$
 }

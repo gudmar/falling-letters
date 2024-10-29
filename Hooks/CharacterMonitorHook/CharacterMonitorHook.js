@@ -48,6 +48,10 @@ class CharacterMonitorHook {
         this.addListeners();
     }
 
+    reset() {
+        this.context.currentCharacters$.next({});
+    }
+
     addListeners() {
         this.context.registerBirth$.subscribe((entry) => {
             if (!entry?.id) return;
@@ -76,8 +80,20 @@ class CharacterMonitorHook {
                 ); // remove from rejester, component already gone
                 this.context.currentCharacters$.next(characters)
                 this.context.nrMissesSubject$.increment(1)
+                if (this.context.resetOnMiss$.value === true) {
+                    this.context.removeCharacterWithIdSubject$.next(RESET);
+                    this.reset();
+                    new Information({
+                        context: this.context,
+                        message: 'You missed a character',
+                        timeout: 1000,
+                    })
+                }
             }
-            // if (cause === EMPTY) { console.log('characterRemoveCauseInitialized')}
+            if (cause === RESET) {
+                this.context.removeCharacterWithIdSubject$.next(RESET);
+                this.reset();
+            }
         }).bind(this))
     }
 }
