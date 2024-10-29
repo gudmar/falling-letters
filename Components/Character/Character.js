@@ -63,6 +63,7 @@ class Character extends Component {
         })
         this.deleteSubscribtion = this.context.removeCharacterWithIdSubject$.subscribe((id) => {
             if (id === this.id) { this.deleteThisElement(); }
+            if (id === RESET ) { this.deleteThisElement(); }
         })
     }
 

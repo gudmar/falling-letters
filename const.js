@@ -3,6 +3,7 @@ const DEC = 'decrease';
 const EMPTY = 'empty';
 const HIT = 'hit';
 const MISS = 'miss';
+const RESET = 'reset';
 const OPEN_MODAL = 'open-modal';
 const CLOSE_MODAL = 'close-modal';
 const CLOSE_MODAL_BY_AGENT = 'close-modal-by-agent';
@@ -43,4 +44,6 @@ const INIT_APPEAR_SPEED = 1;
 
 const NR_ERRORS_THRESHOLD = 5;
 const NR_MISSES_THRESHOLD = 5;
+
+
 

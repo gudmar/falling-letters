@@ -8,7 +8,6 @@ class Counter extends Component {
         }
     }
     static getHtmlTemplate(counterValue, counterLabel) {
-        console.log(counterLabel, counterValue)
         return `
             <div class="counter-wrapper">
                 <span class="counter-value">${counterValue}</span>

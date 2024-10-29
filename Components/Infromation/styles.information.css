@@ -1,0 +1,11 @@
+.information-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    color: green;
+    font-family: 'Courier New', Courier, monospace;
+    border: solid thin green;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}

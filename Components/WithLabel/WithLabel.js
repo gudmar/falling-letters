@@ -23,8 +23,6 @@ class WithLabel extends Component {
         super(boostedArgs);
         this.component = new args.component(args);
         this.label = args.label;
-        console.log(this.element)
-        // this.wrapper = this.element.querySelector('.with-label-wrapper');
         this.element.append(this.component.element)
     }
 }
