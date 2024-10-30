@@ -72,11 +72,15 @@ class AdjustableCounter extends Component {
 
     addListeners() {
         rxjs.fromEvent(this.increaseButton, 'click').subscribe(() => {
-            if (this.subject.value >= this.upperThreshold) return;
+            const currentUpperThreshold = this.upperThreshold?.value || this.upperThreshold
+            console.log(currentUpperThreshold)
+            if (this.subject.value >= currentUpperThreshold) return;
             this.subject.increment(1);
         })
         rxjs.fromEvent(this.decreaseButton, 'click').subscribe(() => {
-            if (this.subject.value <= this.lowerThreshold) return;
+            const currentLowerThreshold = this.lowerThreshold?.value || this.lowerThreshold
+            console.log(currentLowerThreshold)
+            if (this.subject.value <= currentLowerThreshold) return;
             this.subject.decrement(1);
         })
     }
@@ -88,5 +92,4 @@ class AdjustableCounter extends Component {
         // const controlls = elementFromHtml(AdjustableCounter.getHtmlControlTemplate())
         // this.controlsContainer.append(controlls);
     }
-
 }

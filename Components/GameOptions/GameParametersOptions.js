@@ -70,7 +70,21 @@ const getParametersOptionsSturcture = (context) => ([
                 context.resetOnMiss$.next(newValue);
                 updateGameParamInLs(RESET_ON_MISS, newValue);
             },
-            checked: context.resetOnMiss$.value//getGameParamOrDefault(RESET_ON_MISS),
+            checked: context.resetOnMiss$.value,
+        }
+    },
+    {
+        component: CheckBox,
+        args: {
+            context,
+            label: 'End game on threshold broken',
+            action: () => {
+                const currentValue = context.resetOnMiss$.value;
+                const newValue = !currentValue;
+                context.resetOnMiss$.next(newValue);
+                updateGameParamInLs(END_GAME_ON_THRESHOLD_BROKEN, newValue);
+            },
+            checked: context.endGameOnThresholdsBroken$.value,
         }
     }
 ])

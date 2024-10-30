@@ -17,6 +17,9 @@ const MAX_MISTAKEN_DEFAULT = 5;
 const RESET_ON_MISS = 'resetOnMiss';
 const MOVE_SPEED = 'moveSpeed';
 const APPEAR_SPEED = 'appearSpeed';
+const NR_MISSES_THRESHOLD = 'nrMissesThreshold';
+const NR_ERRORS_THRESHOLD = 'nrErrorsThreshold';
+const END_GAME_ON_THRESHOLD_BROKEN = 'endGameOnThresholdBroken';
 
 const GameVersions = {
     Letters: 'Letters only',
@@ -44,8 +47,8 @@ const INIT_SCORE = 0;
 const INIT_MOVE_SPEED = 1;
 const INIT_APPEAR_SPEED = 1;
 
-const NR_ERRORS_THRESHOLD = 5;
-const NR_MISSES_THRESHOLD = 5;
+const INIT_NR_ERRORS_THRESHOLD = 5;
+const INIT_NR_MISSES_THRESHOLD = 5;
 
 
 

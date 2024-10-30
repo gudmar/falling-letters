@@ -31,16 +31,18 @@ class ContextProvider {
     
     moveRateSubject$ = new rxjs.BehaviorSubject(initialMoveRate);
     newLetterRateSubject$ = new rxjs.BehaviorSubject(initialNewLetterRate);
-    keypressSubject$ = new rxjs.BehaviorSubject();
+    keypressSubject$ = new rxjs.Subject();
     removeCharacterWithIdSubject$ = new rxjs.Subject();
     scoreSubject$ = new ExtendedSubject(INIT_SCORE);
     moveSpeed$ = new ExtendedSubject(getFromLocalStorageOrDefault('moveSpeed', INIT_MOVE_SPEED));
     appearSpeed$ = new ExtendedSubject(getFromLocalStorageOrDefault('appearSpeed', INIT_APPEAR_SPEED));
-    maxMissed$ = new ExtendedSubject(getFromLocalStorageOrDefault('maxMissed', MAX_MISSED_DEFAULT));
-    maxMistaken$ = new ExtendedSubject(getFromLocalStorageOrDefault('maxMistaken', MAX_MISTAKEN_DEFAULT));
+    maxMissed$ = new ExtendedSubject(getFromLocalStorageOrDefault(NR_MISSES_THRESHOLD, MAX_MISSED_DEFAULT));
+    maxMistaken$ = new ExtendedSubject(getFromLocalStorageOrDefault(NR_ERRORS_THRESHOLD, MAX_MISTAKEN_DEFAULT));
     resetOnMiss$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault('resetOnMiss', false));
+    endGameOnThresholdsBroken = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault(END_GAME_ON_THRESHOLD_BROKEN, true));
     nrErrorsSubject$ = new ExtendedSubject(0);
     nrMissesSubject$ = new ExtendedSubject(0);
+    startNewGame$ = new ExtendedSubject(0);
 
     thresholdReachedSubject$ = new rxjs.Subject()
 
