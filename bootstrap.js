@@ -68,7 +68,8 @@ const nrErrors = new WithLabel({
     component: Counter,
     label: 'Errors',
     lowerThreshold: 0,
-    upperThreshold: NR_ERRORS_THRESHOLD,
+    // upperThreshold: NR_ERRORS_THRESHOLD,
+    upperThreshold: context.maxMistaken$,
     subject: context.nrErrorsSubject$,
     startValue: 0,
     context,
@@ -78,7 +79,8 @@ const nrMisses = new WithLabel({
     component: Counter,
     label: 'Missed',
     lowerThreshold: 0,
-    upperThreshold: NR_MISSES_THRESHOLD,
+    // upperThreshold: INIT_NR_MISSES_THRESHOLD,
+    upperThreshold: context.maxMissed$,
     subject: context.nrMissesSubject$,
     startValue: 0,
     context,
@@ -121,5 +123,7 @@ new KeyboardHook(context)
 
 new LocalStorageUpdaterHook([
     {key: MOVE_SPEED, subject: context.moveSpeed$},
-    {key: APPEAR_SPEED, subject: context.appearSpeed$}
+    {key: APPEAR_SPEED, subject: context.appearSpeed$},
+    {key: NR_MISSES_THRESHOLD, subject: context.maxMissed$},
+    {key: NR_ERRORS_THRESHOLD, subject: context.maxMistaken$},
 ])

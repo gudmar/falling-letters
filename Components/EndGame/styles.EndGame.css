@@ -1,0 +1,9 @@
+.EndGame-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.ENdGame-label {
+    font-family: 'Courier New', Courier, monospace;
+    color: green;
+}
