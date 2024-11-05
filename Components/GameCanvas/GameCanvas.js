@@ -23,7 +23,8 @@ class GameCanvas extends Component {
         })
 
         const nextCharacter = this.nextCharacter;
-        this.context.pausedNewLetter.pausedSubject.subscribe(
+        console.log(this.context.pausedNewLetterWithGameEnd)
+        this.context.pausedNewLetterWithGameEnd.pausedSubject.subscribe(
             (() => {
                 nextCharacter()
             })

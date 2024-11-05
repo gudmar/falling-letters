@@ -5,6 +5,13 @@ new Modal({
     context
 })
 
+const test = context.nrErrorsSubject$.pipe(
+    rxjs.filter((v) => v  % 2)
+)
+
+test.subscribe((v) => console.log(test.value))
+
+
 const gameTitle = elementFromHtml('<div class="title">MASTER KEYBOARD</div>')
 
 new CharacterMonitorHook(context)
@@ -33,25 +40,21 @@ const pauseButton = new Button({
     }
 })
 
-const logCurrentCharactersButton = new Button({
-    label: 'log characters',
-    context,
-    elementClasses: 'button-wrapper',
-    action: () => {
-        const characters = context.currentCharacters$.value;
-        const nrOfCharacters = Object.values(characters).reduce((acc, arr) => {
-            const newAcc = acc + arr.length
-            return newAcc;
-        }, 0)
-    }
-})
-
 const reset = new Button({
     label: 'Reset',
     context,
     elementClasses: 'button-wrapper',
     action: () => {
         context.characterRemoveCause$.next({cause: RESET})
+    }
+})
+
+const endGame = new  Button ({
+    label: 'End game',
+    context,
+    elementClasses: 'button-wrapper',
+    action: () => {
+        ContextProvider.gameState$.next(GAME_ENDED)
     }
 })
 
@@ -98,7 +101,7 @@ const titleBar = new TitleBar({
         pauseButton.element,
         openModalWithGameOptionsButton.element,
         reset.element,
-        logCurrentCharactersButton.element
+        endGame.element,
     ],
     wrapperClasses: 'TitleBar-wrapper'
 })

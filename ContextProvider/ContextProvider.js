@@ -10,7 +10,7 @@ const someOddNumber = 1;
 
 class ExtendedSubject extends rxjs.BehaviorSubject {
     constructor(init) {
-        super(init)
+        super(init);
     }
 
     increment(value) {
@@ -23,89 +23,91 @@ class ExtendedSubject extends rxjs.BehaviorSubject {
     }
 }
 
+
+const getRateWithGameEndAndPause = ({
+    initialRateValue,
+    minRateValue,
+    maxRateValue,
+    gameStateSubject
+}) => {
+    const ticks = new Rate({
+        initialValue: initialRateValue,
+        minValue: minRateValue,
+        maxValue: maxRateValue,
+    });
+    const ticksWithGameEnd = new SubjectWithGameEndedDecorator({
+        gameStateSubject,
+        originalSubject: ticks.tick$,
+    })
+    const pausedSubjectWithGameEnd = new PausedSubject(ticksWithGameEnd.decorated)
+    return pausedSubjectWithGameEnd;
+}
+
 class ContextProvider {
     // Here create all subjects
     
     static _context = {}
     static get context () { return ContextProvider._context }
-    
+    static gameState$ = new rxjs.BehaviorSubject(START_NEW_GAME); // START_NEW_GAME | GAME_ENDED
+
     moveRateSubject$ = new rxjs.BehaviorSubject(initialMoveRate);
     newLetterRateSubject$ = new rxjs.BehaviorSubject(initialNewLetterRate);
-    keypressSubject$ = new rxjs.Subject();
+    keypressSubject$ = new SubjectWithGameEndedDecorator({
+        gameStateSubject: ContextProvider.gameState$,
+        originalSubject: new rxjs.Subject(),
+    })
     removeCharacterWithIdSubject$ = new rxjs.Subject();
-    scoreSubject$ = new ExtendedSubject(INIT_SCORE);
+    scoreSubject$ = new SubjectWithGameEndedDecorator({
+        initialValue: INIT_SCORE,
+        gameStateSubject: ContextProvider.gameState$,
+        originalSubject: new rxjs.BehaviorSubject(INIT_SCORE),
+    })
     moveSpeed$ = new ExtendedSubject(getFromLocalStorageOrDefault('moveSpeed', INIT_MOVE_SPEED));
     appearSpeed$ = new ExtendedSubject(getFromLocalStorageOrDefault('appearSpeed', INIT_APPEAR_SPEED));
     maxMissed$ = new ExtendedSubject(getFromLocalStorageOrDefault(NR_MISSES_THRESHOLD, MAX_MISSED_DEFAULT));
     maxMistaken$ = new ExtendedSubject(getFromLocalStorageOrDefault(NR_ERRORS_THRESHOLD, MAX_MISTAKEN_DEFAULT));
     resetOnMiss$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault('resetOnMiss', false));
-    endGameOnThresholdsBroken = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault(END_GAME_ON_THRESHOLD_BROKEN, true));
+    endGameOnThresholdsBroken$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault(END_GAME_ON_THRESHOLD_BROKEN, true));
     nrErrorsSubject$ = new ExtendedSubject(0);
     nrMissesSubject$ = new ExtendedSubject(0);
-    startNewGame$ = new ExtendedSubject(0);
+    
 
     thresholdReachedSubject$ = new rxjs.Subject()
 
-    keypressInformator$ = new PausedSubject(this.keypressSubject$);
+    keypressInformator$ = new PausedSubject(this.keypressSubject$.decorated);
 
-    moveTicks$ = new Rate({
-        initialValue: initialMoveRate,
-        minValue: minMoveRate,
-        maxValue: maxMoveRate,
+    pausedNewLetterWithGameEnd = getRateWithGameEndAndPause({
+        initialRateValue: initialNewLetterRate,
+        minRateValue: minNewLetter,
+        maxRateValue: maxNewLetter,
+        gameStateSubject: ContextProvider.gameState$
     })
 
-    newLetterTicks$ = new Rate({
-        initialValue: initialNewLetterRate,
-        minValue: minNewLetter,
-        maxValue: maxNewLetter,
+    pausedMoveTicks = getRateWithGameEndAndPause({
+        initialRateValue: initialMoveRate,
+        minRateValue: minMoveRate,
+        maxRateValue: maxMoveRate,
+        gameStateSubject: ContextProvider.gameState$
     })
-
-    pausedNewLetter = new PausedSubject(this.newLetterTicks$.tick$);
-
-    pausedMoveTicks = new PausedSubject(this.moveTicks$.tick$);
 
     modalComponent$ = new rxjs.BehaviorSubject({element: document.createElement('div')})
     modalOpenClose$ = new rxjs.BehaviorSubject(CLOSE_MODAL_BY_AGENT);
 
-
-    // _charactersGenerator$ = new rxjs.BehaviorSubject(nullElementEmitter)
-    // _charactersGenerator$ = new rxjs.BehaviorSubject(getCharacterGenerator())
-    _charactersGenerator$ = new rxjs.BehaviorSubject(getCharacterGenerator())
+    _charactersGenerator$ = new SubjectWithGameEndedDecorator({
+        initialValue: getCharacterGenerator(),
+        gameStateSubject: ContextProvider.gameState$,
+        originalSubject: new rxjs.BehaviorSubject(getCharacterGenerator())
+    })
 
 
     characterEmitter$ = new rxjs.BehaviorSubject();
 
-    // set charactersGenerator$(characterArrayGeneratorFunctions) {
-        // const arrays = characterArrayGeneratorFunctions.map((f) => f());
-        // const generator = getRandomArrayElementEmitter(arrays);
-        // this._charactersGenerator$.next(generator);
-    // }
     get charactersGenerator$() { return this._charactersGenerator$ }
 
     setInitialCharacterGenerator() {
         if (!checkIfGameOptionSelected()) return;
         const characterArrayGeneratorFunctions = getArrayGeneratorFunctions();
-        // this.charactersGenerator$ = characterArrayGeneratorFunctions;
         this._charactersGenerator$.next(getCharacterGenerator())
     }
 
-    // emitNextGameCharacter() {
-    //     const character = this.charactersGenerator$.randomEmitter.next();
-    //     this.characterEmitter$.next(character);
-    // }
-    
-    // moveTick$ = this.moveRateSubject$.pipe(rxjs.switchMap((rate) => rxjs.interval(rate)));
-    // newLetterTick$ = this.newLetterRateSubject$.pipe(rxjs.switchMap((rate) => rxjs.interval(rate)));
-
-    // nrOfPauseToggles$ = new rxjs.BehaviorSubject(false);
-
-    // pousedMoveTick$ = this.pouse$.pipe(
-    //     rxjs.map(nrOfPauseTogglesToIsPaused),
-    //     rxjs.switchMap(getPauseHandler(this.moveTick$))
-    // )
-
-    // pousedNewLetterTick = this.pouse$.pipe(
-    //     rxjs.map(nrOfPauseTogglesToIsPaused),
-    //     rxjs.switchMap(getPauseHandler(this.newLetterTick$))
-    // )
 }

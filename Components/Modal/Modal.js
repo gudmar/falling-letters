@@ -90,6 +90,7 @@ class Modal extends Component {
         if (elementInDom) {
             elementInDom.remove();
             PausedSubject.resetPause();
+            
         }
     }
     close(event) {

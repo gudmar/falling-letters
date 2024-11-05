@@ -59,6 +59,7 @@ class CharacterMonitorHook {
             this.context.currentCharacters$.next(newCharacterRegister);
         })
         this.context.characterRemoveCause$.subscribe((({cause, id, character}) => {
+            console.log(cause, character)
             if (cause === HIT) {
                 const {
                     removedItemId,
@@ -71,6 +72,7 @@ class CharacterMonitorHook {
                 }
                 this.context.removeCharacterWithIdSubject$.next(removedItemId); // remove component
                 this.context.currentCharacters$.next(currentRejester);
+                console.log(this.context.scoreSubject$)
                 this.context.scoreSubject$.increment(10)
                 return;
             }
