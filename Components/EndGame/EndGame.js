@@ -28,7 +28,7 @@ class EndGame extends Component {
             context: this.context,
             label: 'New game',
             elementClasses: 'button-wrapper',
-            action: (() => this.context.startNewGame.increment(1)).bind(this),
+            action: (() => this.context.gameState$.next(START_NEW_GAME)).bind(this),
         });
         this.element.append(newGameButton.element);
     }

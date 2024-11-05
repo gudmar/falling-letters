@@ -1,3 +1,6 @@
+START_NEW_GAME = 'start-new-game';
+GAME_ENDED = 'game-ended';
+
 const INC = 'increase';
 const DEC = 'decrease';
 const EMPTY = 'empty';
