@@ -1,8 +1,7 @@
 class Character extends Component {
     static getCharacterShadow(character) {
         const nrOfRepetes = 7;
-        const shadow = Array(7).fill('').map((_, index) => {
-            // style="bottom: ${index * CHARACTER_SIZE}rem; color: rgb(0, ${255 - index * (255 / nrOfRepetes)}, 0); opacity: ${index * 1/7}"
+        const shadow = Array(nrOfRepetes).fill('').map((_, index) => {
             return `<div 
                 class="character-shadow-${index}"
                 style="bottom: ${index * CHARACTER_SIZE}rem; color: rgb(0, 255, 0); opacity: ${(index + 1) * 1/9}"
@@ -42,6 +41,7 @@ class Character extends Component {
         this.randomlyPlace();
         if (!this.context.registerBirth$) throw new Error('Missing register birth in context')
         this.context.registerBirth$.next({character: this.character, id: this.id})
+        this.oldGameState = ContextProvider.gameState$.value;
     }
 
     randomlyPlace() {
@@ -55,6 +55,7 @@ class Character extends Component {
         this.moveSubscribtion = this.context.pausedMoveTicks.pausedSubject.subscribe(() => {
             const shouldBeRemoved = this.checkIfOutsideScreen();
             if (shouldBeRemoved) {
+                console.log('STILL IN SHOULD CHARACTER', this.character)
                 this.context.characterRemoveCause$.next({cause: MISS, id: this.id, character: this.character})
                 this.deleteThisElement();
                 return
@@ -64,6 +65,10 @@ class Character extends Component {
         this.deleteSubscribtion = this.context.removeCharacterWithIdSubject$.subscribe((id) => {
             if (id === this.id) { this.deleteThisElement(); }
             if (id === RESET ) { this.deleteThisElement(); }
+        })
+        ContextProvider.gameState$.subscribe((newValue) => {
+            if (this.oldGameState === GAME_ENDED && newValue === START_NEW_GAME) this.deleteThisElement();
+            this.oldGameState = newValue;
         })
     }
 

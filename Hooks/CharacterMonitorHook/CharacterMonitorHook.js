@@ -46,6 +46,7 @@ class CharacterMonitorHook {
         context.characterRemoveCause$ = new rxjs.BehaviorSubject({ cause: EMPTY, id: null });
         context.registerBirth$ = new rxjs.Subject({id: null, character:''});
         this.addListeners();
+        this.oldGameState = ContextProvider.gameState$.value;
     }
 
     reset() {
@@ -53,6 +54,13 @@ class CharacterMonitorHook {
     }
 
     addListeners() {
+        ContextProvider.gameState$.subscribe((newValue) => {
+            if (this.oldGameState === GAME_ENDED && newValue === START_NEW_GAME) {
+                this.context.currentCharacters$.next({});
+                this.context.registerBirth$.next({id: null, character:''})
+            }
+            this.oldGameState = newValue;
+        })
         this.context.registerBirth$.subscribe((entry) => {
             if (!entry?.id) return;
             const newCharacterRegister = registerEntry(this.context.currentCharacters$.value, entry);
@@ -72,7 +80,6 @@ class CharacterMonitorHook {
                 }
                 this.context.removeCharacterWithIdSubject$.next(removedItemId); // remove component
                 this.context.currentCharacters$.next(currentRejester);
-                console.log(this.context.scoreSubject$)
                 this.context.scoreSubject$.increment(10)
                 return;
             }
