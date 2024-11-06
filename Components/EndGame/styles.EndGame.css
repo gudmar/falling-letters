@@ -1,9 +1,24 @@
 .EndGame-wrapper {
     display: flex;
     flex-direction: column;
+    padding-left: 5rem;
+    padding-right: 5rem;
 }
 
-.ENdGame-label {
+.EndGame-label {
     font-family: 'Courier New', Courier, monospace;
     color: green;
+}
+.EndGame-button-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+}
+.EndGame-right {
+    position: relative;
+    right: -5rem;
+}
+.EndGame-mark {
+    color: #00ff00;
+    font-weight: bold;
 }

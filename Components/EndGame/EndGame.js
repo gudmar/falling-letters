@@ -3,10 +3,12 @@ class EndGame extends Component {
         return `
         <div class="EndGame-wrapper">
             <div class="EndGame-label">
-                Game ended with score: ${args.context.scoreSubject$.value}.
-                You missed: ${args.context.nrMissesSubject$.value},
-                You made ${args.context.nrErrorsSubject$.value} errors.
+                <h2 class="EndGame-mark">Game Over</h2>
+                <p>Your score: <span class="EndGame-mark">${args.context.scoreSubject$.value}</span>.</p>
+                <p>You missed: <span class="EndGame-mark">${args.context.nrMissesSubject$.value}</span></p>
+                <p>You made <span class="EndGame-mark">${args.context.nrErrorsSubject$.value}</span> errors</p>
             </div>
+            <div class="EndGame-button-container"></div>
         </div>
         `
     }
@@ -21,15 +23,21 @@ class EndGame extends Component {
     constructor(args) {
         const boostedArgs = EndGame.boostArgs(args);
         super(boostedArgs);
+        this.context = boostedArgs.context;
+        this.buttonContainer = this.element.querySelector('.EndGame-button-container')
+        this.addNewGameButton();
     }
 
     addNewGameButton() {
         const newGameButton = new Button({
             context: this.context,
             label: 'New game',
-            elementClasses: 'button-wrapper',
-            action: (() => this.context.gameState$.next(START_NEW_GAME)).bind(this),
+            elementClasses: ['button-wrapper', 'EndGame-right'],
+            action: (() => {
+                ContextProvider.gameState$.next(START_NEW_GAME);
+            }).bind(this)
         });
-        this.element.append(newGameButton.element);
+        // this.element.append(newGameButton.element);
+        this.buttonContainer.append(newGameButton.element);
     }
 }

@@ -130,3 +130,5 @@ new LocalStorageUpdaterHook([
     {key: NR_MISSES_THRESHOLD, subject: context.maxMissed$},
     {key: NR_ERRORS_THRESHOLD, subject: context.maxMistaken$},
 ])
+
+new WhenGameEndsDialog({context, gameState: ContextProvider.gameState$})
