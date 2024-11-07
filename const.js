@@ -8,6 +8,7 @@ const HIT = 'hit';
 const MISS = 'miss';
 const RESET = 'reset';
 const OPEN_MODAL = 'open-modal';
+const OPEN_MODAL_DONT_CLOSE_ON_CLICK = 'open-modal-dont-close-on-click';
 const CLOSE_MODAL = 'close-modal';
 const CLOSE_MODAL_BY_AGENT = 'close-modal-by-agent';
 const TOGGLE_MODAL = 'toggle-modal';
@@ -16,6 +17,7 @@ const LOWER_TH = 'lower';
 const UPPER_TH = 'upper';
 const MAX_MISSED_DEFAULT = 3;
 const MAX_MISTAKEN_DEFAULT = 5;
+const DEFAULT_PLAYER_NAME = 'unknown'
 
 const RESET_ON_MISS = 'resetOnMiss';
 const MOVE_SPEED = 'moveSpeed';
@@ -23,6 +25,7 @@ const APPEAR_SPEED = 'appearSpeed';
 const NR_MISSES_THRESHOLD = 'nrMissesThreshold';
 const NR_ERRORS_THRESHOLD = 'nrErrorsThreshold';
 const END_GAME_ON_THRESHOLD_BROKEN = 'endGameOnThresholdBroken';
+const PLAYER_NAME = 'playerName';
 
 const GameVersions = {
     Letters: 'Letters only',

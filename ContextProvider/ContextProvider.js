@@ -62,6 +62,7 @@ class ContextProvider {
         gameStateSubject: ContextProvider.gameState$,
         originalSubject: new rxjs.BehaviorSubject(INIT_SCORE),
     })
+    playerName$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault(PLAYER_NAME, DEFAULT_PLAYER_NAME));
     moveSpeed$ = new ExtendedSubject(getFromLocalStorageOrDefault('moveSpeed', INIT_MOVE_SPEED));
     appearSpeed$ = new ExtendedSubject(getFromLocalStorageOrDefault('appearSpeed', INIT_APPEAR_SPEED));
     maxMissed$ = new ExtendedSubject(getFromLocalStorageOrDefault(NR_MISSES_THRESHOLD, MAX_MISSED_DEFAULT));

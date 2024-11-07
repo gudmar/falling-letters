@@ -16,6 +16,8 @@ class Modal extends Component {
         super({...args, ...Modal.defaultArgs})
         this.child = null;
         Modal.instance = this;
+        console.log(this.element)
+        this.backdrop = document.getElementById(MODAL_ID)
         this.addListeners()
         this.reloadChild();
         this.closeByAgent();
@@ -55,12 +57,21 @@ class Modal extends Component {
 
     addListeners() {
         this._context
-        rxjs.fromEvent(this.element, 'click').subscribe(this.close.bind(this))
+        rxjs.fromEvent(this.backdrop, 'click').subscribe((e) => {
+            if (this.dontCloseOnClick) return;
+            if (e.target !== this.backdrop) return;
+            console.log(e, e.target)
+            this.close.bind(this)();
+        })
         this.context.modalComponent$.subscribe(((child) => {
             this.child = child
             this.reloadChild()
         }).bind(this))
         this.context.modalOpenClose$.subscribe((command) => {
+            if (command === OPEN_MODAL_DONT_CLOSE_ON_CLICK) {
+                this.open.bind(this)();
+                this.dontCloseOnClick = true;
+            }
             if (command === OPEN_MODAL) this.open.bind(this)();
             if (command === CLOSE_MODAL) this.close.bind(this)();
             if (command === CLOSE_MODAL_BY_AGENT) this.closeByAgent.bind(this)();
@@ -72,6 +83,7 @@ class Modal extends Component {
         if (elementInDom) {
             elementInDom.remove();
             PausedSubject.setPause();
+            this.dontCloseOnClick = false;
         }
         else {
             this.parent.append(this.element);
@@ -90,7 +102,7 @@ class Modal extends Component {
         if (elementInDom) {
             elementInDom.remove();
             PausedSubject.resetPause();
-            
+            this.dontCloseOnClick = false;
         }
     }
     close(event) {
