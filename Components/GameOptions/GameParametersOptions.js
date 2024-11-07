@@ -60,6 +60,17 @@ const getParametersOptionsSturcture = (context) => ([
         args: { label: 'Other' }
     },
     {
+        component: TextBox,
+        args: {
+            context,
+            label: 'Player name',
+            value: context.playerName$.value,
+            callback: (newName) => {
+                context.playerName$.next(newName);
+            }    
+        },
+    },
+    {
         component: CheckBox,
         args: {
             context,

@@ -7,6 +7,10 @@
     cursor: default;
 }
 
+.check-box-label {
+    font-family: 'Courier New', Courier, monospace;
+}
+
 .check-box {
     margin: 0.5rem;
     border: solid thin green;

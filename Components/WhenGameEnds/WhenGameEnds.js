@@ -16,7 +16,7 @@ class WhenGameEndsDialog {
             if (state === GAME_ENDED) {
                 if (!this.isGameEndDisplayed) {
                     this.isGameEndDisplayed = true;
-                    context.modalOpenClose$.next(OPEN_MODAL);
+                    context.modalOpenClose$.next(OPEN_MODAL_DONT_CLOSE_ON_CLICK);
                     context.modalComponent$.next(new EndGame(
                         {
                             context

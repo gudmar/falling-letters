@@ -12,6 +12,7 @@
     /* font-weight: bolder; */
     font-size: 1.3rem;
     margin-left: 0.5rem;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .counter-value {
@@ -26,6 +27,7 @@
     box-shadow: inset 0px 0px 14px 0px rgb(10 160 20);
     text-align: right;
     cursor: default;
+    font-family: 'Courier New', Courier, monospace;
 }
 .adjustable-counter-wrapper{
     display: flex;

@@ -1,0 +1,23 @@
+.TextBox-input {
+    cursor: pointer;
+    background-color: black;
+    border: solid green thin;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    text-decoration: none!important;
+    outline: none!important;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem;
+    margin-left: 1rem;
+    text-align: right;
+    box-shadow: inset 0px 0px 25px 0px rgb(10 160 20);
+}
+.TextBox-input:focus {
+    border: solid green thin;
+    border-color: #00dd00;
+    outline: none!important;
+    text-decoration: none!important;
+}
+.TextBox-label {
+    font-family: 'Courier New', Courier, monospace;
+}

@@ -129,6 +129,9 @@ new LocalStorageUpdaterHook([
     {key: APPEAR_SPEED, subject: context.appearSpeed$},
     {key: NR_MISSES_THRESHOLD, subject: context.maxMissed$},
     {key: NR_ERRORS_THRESHOLD, subject: context.maxMistaken$},
+    {key: PLAYER_NAME, subject: context.playerName$}
 ])
 
 new WhenGameEndsDialog({context, gameState: ContextProvider.gameState$})
+
+disableHighlight();
