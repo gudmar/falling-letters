@@ -1,10 +1,15 @@
-class WhenGameEndsDialog {
-    constructor({
-        context,
-        gameState,
-    }) {
+class OnGameEndedHook {
+    constructor(context) {
+        this.context = context;
         this.isGameEndDisplayed = false;
-        gameState.subscribe((state) => {
+    }
+
+    addListeners() {
+        this.saveBestScoreSubscribtion = this.context.gameState$.pipe(
+            // rxjs.filter((newGameState) => newGameState === GAME_ENDED),
+            // rxjs.tap(() => { updateBestScoreList(this.context)})
+        )
+        .subscribe((state) => {
             if (state !== GAME_ENDED) {
                 if (this.isGameEndDisplayed) {
                     this.isGameEndDisplayed = false;
@@ -14,7 +19,6 @@ class WhenGameEndsDialog {
             };
             if (state === GAME_ENDED) {
                 if (!this.isGameEndDisplayed) {
-                    updateBestScoreList(context);
                     this.isGameEndDisplayed = true;
                     context.modalOpenClose$.next(OPEN_MODAL_DONT_CLOSE_ON_CLICK);
                     context.modalComponent$.next(new EndGame(
@@ -27,3 +31,4 @@ class WhenGameEndsDialog {
         })
     }
 }
+

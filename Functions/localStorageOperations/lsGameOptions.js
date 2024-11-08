@@ -13,6 +13,7 @@ const updateGameParamInLs = (key, value) => {
         ...oldParams,
         [key]: value
     };
+    console.log(newParams)
     setGameOptionsToLS(newParams);
 }
 
@@ -58,14 +59,23 @@ const getGameParamOrDefault = (paramName, defaultValue) => getGameParamValue(par
 
 const updateBestScoreList = (context) => {
     const currentList = getGameParamOrDefault(BEST_SCORE_LIST, []);
-    const currentScore = context.scoreSubject.value;
-    const currentPlayerName = content.playerName$.value;
-    const currentScoreInBestScoreIndex = currentList.findIndex((({score}) => {
+    const currentScore = context.scoreSubject$.value;
+    const currentPlayerName = context.playerName$.value;
+    const mistakes = context.nrErrorsSubject$.value;
+    const misses = context.nrMissesSubject$.value;
+    const currentScoreInBestScoreIndex = currentList.length === 0 ? 0 : currentList.findIndex((({score}, index) => {
         return currentScore > score;
     }));
-    if (currentScoreInBestScoreIndex === -1) return;
-    const bestScoreWithNewResult = currentList.splice(currentScoreInBestScoreIndex, 0, {playerName: currentPlayerName, score: currentScore});
-    const limitedScoreWithNewResult = bestScoreWithNewResult.slice(BEST_PLAYERS_LIST_LENGTH_LIMIT);
-    console.log(limitedScoreWithNewResult);
+    if (currentScoreInBestScoreIndex === -1) {
+        console.log('current score not found in best score')
+        return;
+    }
+    currentList.splice(
+        currentScoreInBestScoreIndex,
+        0,
+        {playerName: currentPlayerName, score: currentScore, mistakes, misses}
+    );
+    const limitedScoreWithNewResult = currentList.slice(0, BEST_PLAYERS_LIST_LENGTH_LIMIT);
+    console.log(currentList, limitedScoreWithNewResult);
     updateGameParamInLs(BEST_SCORE_LIST, limitedScoreWithNewResult);
 }
