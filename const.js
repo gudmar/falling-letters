@@ -1,6 +1,12 @@
 START_NEW_GAME = 'start-new-game';
 GAME_ENDED = 'game-ended';
 
+const MANDATORY = 'mandatory';
+const OPTIONAL = 'optional';
+const OBJECT = 'object';
+const ARRAY = 'array';
+const NUMBER = 'number';
+const STRING = 'string';
 const INC = 'increase';
 const DEC = 'decrease';
 const EMPTY = 'empty';
@@ -17,7 +23,8 @@ const LOWER_TH = 'lower';
 const UPPER_TH = 'upper';
 const MAX_MISSED_DEFAULT = 3;
 const MAX_MISTAKEN_DEFAULT = 5;
-const DEFAULT_PLAYER_NAME = 'unknown'
+const DEFAULT_PLAYER_NAME = 'unknown';
+const BEST_PLAYERS_LIST_LENGTH_LIMIT = 10;
 
 const RESET_ON_MISS = 'resetOnMiss';
 const MOVE_SPEED = 'moveSpeed';
@@ -26,6 +33,7 @@ const NR_MISSES_THRESHOLD = 'nrMissesThreshold';
 const NR_ERRORS_THRESHOLD = 'nrErrorsThreshold';
 const END_GAME_ON_THRESHOLD_BROKEN = 'endGameOnThresholdBroken';
 const PLAYER_NAME = 'playerName';
+const BEST_SCORE_LIST = 'bestScoreList';
 
 const GameVersions = {
     Letters: 'Letters only',

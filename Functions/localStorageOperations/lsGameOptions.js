@@ -55,3 +55,17 @@ const handleGameOptionChange = (gameOption) => {
 const checkIfGameOptionSelected = () => Object.entries(getGameOptionsFromLS()).some(([_, value]) => value);
 const getGameParamValue = (paramName) => getGameParamsFromLS()[paramName];
 const getGameParamOrDefault = (paramName, defaultValue) => getGameParamValue(paramName) ?? defaultValue;
+
+const updateBestScoreList = (context) => {
+    const currentList = getGameParamOrDefault(BEST_SCORE_LIST, []);
+    const currentScore = context.scoreSubject.value;
+    const currentPlayerName = content.playerName$.value;
+    const currentScoreInBestScoreIndex = currentList.findIndex((({score}) => {
+        return currentScore > score;
+    }));
+    if (currentScoreInBestScoreIndex === -1) return;
+    const bestScoreWithNewResult = currentList.splice(currentScoreInBestScoreIndex, 0, {playerName: currentPlayerName, score: currentScore});
+    const limitedScoreWithNewResult = bestScoreWithNewResult.slice(BEST_PLAYERS_LIST_LENGTH_LIMIT);
+    console.log(limitedScoreWithNewResult);
+    updateGameParamInLs(BEST_SCORE_LIST, limitedScoreWithNewResult);
+}

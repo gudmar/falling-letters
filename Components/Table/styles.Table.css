@@ -1,0 +1,14 @@
+
+
+.Table-tr {
+    min-height: 1rem;
+}
+
+.Table-td {
+    min-height: 1rem;
+    padding: 0.5rem 2rem 0.5rem 2rem;
+}
+
+.Table-title {
+    text-align: center;
+}
