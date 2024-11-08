@@ -8,6 +8,7 @@ class EndGame extends Component {
                 <p>You missed: <span class="EndGame-mark">${args.context.nrMissesSubject$.value}</span></p>
                 <p>You made <span class="EndGame-mark">${args.context.nrErrorsSubject$.value}</span> errors</p>
             </div>
+            <div class="EndGame-best-score-container"></div>
             <div class="EndGame-button-container"></div>
         </div>
         `
@@ -25,7 +26,14 @@ class EndGame extends Component {
         super(boostedArgs);
         this.context = boostedArgs.context;
         this.buttonContainer = this.element.querySelector('.EndGame-button-container')
+        this.bestScoreContainer = this.element.querySelector('.EndGame-best-score-container')
+        this.addBestSocre();
         this.addNewGameButton();
+    }
+
+    addBestSocre() {
+        const bestScore = getBestScoreTableComponent(this.context);
+        this.bestScoreContainer.append(bestScore.element)
     }
 
     addNewGameButton() {
@@ -40,5 +48,6 @@ class EndGame extends Component {
         });
         // this.element.append(newGameButton.element);
         this.buttonContainer.append(newGameButton.element);
+        
     }
 }

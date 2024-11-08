@@ -90,6 +90,47 @@ const getComponentElementFromArgs = (args) => {
     if (children) return getElementFromChildren(args);
 }
 
+const getValidateType = (args) => (key, type) => {
+    const value = args[key];
+    const typeToValidationFunctionMap = {
+        [ARRAY]: (value) => Array.isArray(value),
+        [OBJECT]: (value) => {
+            if (Array.isArray(value)) return false;
+            const valueType = typeof value;
+            if (['number', 'string', 'bigInt', 'symbol', 'undefined', 'null'].includes(valueType)) return false;
+            return true;                
+        },
+        [NUMBER]: (value) => typeof value === 'number',
+        [STRING]: (value) => typeof value === 'string',
+    }
+    const validator = typeToValidationFunctionMap[type];
+    if (!isDefined(validator)) throw new Error(`${type} is not supported in validateScheme`)
+    return validator(value);
+}
+
+const getValidateParam = (args) => (key, {type, requirement}) => {
+    const validateType = getValidateType(args);
+    if (requirement === MANDATORY) {
+        const value = args[key];
+        if (!isDefined(value)) throw new Error(`Mandatory property ${key} is not defined`);
+    } else if (requirement === OPTIONAL) {
+        const value = args[key];
+        if (!isDefined(value)) return;
+    } else {
+        throw new Error(`Requirement ${requirement} is not supported in scheme validator`)
+    }
+    const isTypeValid = validateType(key, type);
+    if (!isTypeValid) throw new Error(`${key} should be of the type ${type}`)            
+}
+
+const throwIfNotFollowingScheme = (args) => {
+    const { scheme } = args;
+    if ( !isDefined(scheme) ) return;
+    const entries = Object.entries(scheme);
+    const validateParam = getValidateParam(args);
+    entries.forEach(([key, descriptor]) => validateParam(key, descriptor));
+}
+
 class Component {
     static throwIfNotMandatoryFields(mandatoryKeysList, args, errorMesage) {
         const result = mandatoryKeysList.every((key) => args[key] !== undefined)
@@ -98,6 +139,7 @@ class Component {
 
     constructor(args){
         throwIfTooManyArgs(args);
+        throwIfNotFollowingScheme(args);
         const {
             componentId, // tell apart component, subscribe, NOT a html id
             parentId,

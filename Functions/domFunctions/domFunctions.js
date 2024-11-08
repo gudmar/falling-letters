@@ -101,11 +101,33 @@ const elementToDocumentFragment = (element) => {
 }
 
 const getPlaceChildren = () => (element, children) => {
-    const fragment = elementToDocumentFragment(element);
+    const fragment = ele8mentToDocumentFragment(element);
     const entries = Object.entries(children);
     entries.forEach(([className, child]) => {
         const container = fragment.querySelector(`.${className}`);
         container.append(child);
     });
     return fragment.firstElementChild;
+}
+
+const getBestScoreTableComponent = (context) => {
+    
+    const fillRowsWithEmpty = (rows) => {
+        var filledRows = [];
+        for(let rowIndex = 0; rowIndex < BEST_PLAYERS_LIST_LENGTH_LIMIT; rowIndex++) {
+            if (rows[rowIndex]) filledRows.push(rows[rowIndex]);
+            else filledRows.push([rowIndex + 1, '     _     ','  _   '])
+        }
+        return filledRows;
+    }
+    const bestScore = getFromLocalStorageOrDefault(BEST_SCORE_LIST, []);
+    const rows = bestScore.map(({playerName, score}) => ([playerName, score]));
+    const headings = ['Nr', 'Player', 'Score'];
+    const table = new Table({
+        context,
+        rows: fillRowsWithEmpty(rows),
+        headings,
+        title: 'Highest score'
+    })
+    return table;
 }
