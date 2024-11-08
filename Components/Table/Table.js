@@ -56,7 +56,6 @@ class Table extends Component {
 
     constructor(args){
         throwIfNotFollowingScheme({...args, scheme: Table.scheme})
-        console.log(args.rows, args.headings)
         const boostedArgs = Table.boostArgs(args);
         super(boostedArgs)
     }

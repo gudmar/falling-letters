@@ -101,7 +101,7 @@ const elementToDocumentFragment = (element) => {
 }
 
 const getPlaceChildren = () => (element, children) => {
-    const fragment = ele8mentToDocumentFragment(element);
+    const fragment = elementToDocumentFragment(element);
     const entries = Object.entries(children);
     entries.forEach(([className, child]) => {
         const container = fragment.querySelector(`.${className}`);
@@ -115,14 +115,14 @@ const getBestScoreTableComponent = (context) => {
     const fillRowsWithEmpty = (rows) => {
         var filledRows = [];
         for(let rowIndex = 0; rowIndex < BEST_PLAYERS_LIST_LENGTH_LIMIT; rowIndex++) {
-            if (rows[rowIndex]) filledRows.push(rows[rowIndex]);
-            else filledRows.push([rowIndex + 1, '     _     ','  _   '])
+            if (rows[rowIndex]) filledRows.push([rowIndex + 1, ...rows[rowIndex]]);
+            else filledRows.push([rowIndex + 1, '     _     ','  _   ', ' _ ', ' _ '])
         }
         return filledRows;
     }
     const bestScore = getFromLocalStorageOrDefault(BEST_SCORE_LIST, []);
-    const rows = bestScore.map(({playerName, score}) => ([playerName, score]));
-    const headings = ['Nr', 'Player', 'Score'];
+    const rows = bestScore.map(({playerName, score, misses, mistakes}) => ([playerName, score, misses, mistakes]));
+    const headings = ['Nr', 'Player', 'Score', 'Misses', 'Errors'];
     const table = new Table({
         context,
         rows: fillRowsWithEmpty(rows),
