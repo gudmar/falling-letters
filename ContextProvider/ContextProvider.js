@@ -1,11 +1,21 @@
-const initialMoveRate = 50 //0;
-const initialNewLetterRate = 3000//4;
-const maxMoveRate = 9;
-const minMoveRate = 0;
-const maxNewLetter = 9;
-const minNewLetter = 0;
+const initialMoveRate = 5; //50 //0;
+const initialNewLetterRate = 3//3000//4;
+const maxMoveRate = 10;
+const minMoveRate = 1;
+const maxNewLetter = 10;
+const minNewLetter = 1;
 const someEvenNumber = 0;
 const someOddNumber = 1;
+
+const getMapMoveRateValueToInterval = (max) => (rateFactor) => {
+    const mirroredRateValue = max - rateFactor + 1;
+    return mirroredRateValue * 10
+}
+
+const getMapAppearRateValueToInterval = (max) => (rateFactor) => {
+    const mirroredRateValue = max - rateFactor + 1;
+    return mirroredRateValue * 1000
+}
 
 
 class ExtendedSubject extends rxjs.BehaviorSubject {
@@ -28,30 +38,32 @@ const getRateWithGameEndAndPause = ({
     initialRateValue,
     minRateValue,
     maxRateValue,
-    gameStateSubject
+    gameStateSubject,
+    getMapRateValueToInterval,
 }) => {
     const ticks = new Rate({
         initialValue: initialRateValue,
         minValue: minRateValue,
         maxValue: maxRateValue,
+        getMapRateValueToInterval
     });
     const ticksWithGameEnd = new SubjectWithGameEndedDecorator({
         gameStateSubject,
         originalSubject: ticks.tick$,
     })
     const pausedSubjectWithGameEnd = new PausedSubject(ticksWithGameEnd.decorated)
-    return pausedSubjectWithGameEnd;
+    return {
+        pausedSubjectWithGameEnd,
+        setRate: ticks.setRate.bind(ticks),
+        value: ticks.currentRateValue,
+    };
 }
 
 class ContextProvider {
-    // Here create all subjects
-    
     static _context = {}
     static get context () { return ContextProvider._context }
     static gameState$ = new rxjs.BehaviorSubject(START_NEW_GAME); // START_NEW_GAME | GAME_ENDED
 
-    moveRateSubject$ = new rxjs.BehaviorSubject(initialMoveRate);
-    newLetterRateSubject$ = new rxjs.BehaviorSubject(initialNewLetterRate);
     keypressSubject$ = new SubjectWithGameEndedDecorator({
         gameStateSubject: ContextProvider.gameState$,
         originalSubject: new rxjs.Subject(),
@@ -77,19 +89,27 @@ class ContextProvider {
 
     keypressInformator$ = new PausedSubject(this.keypressSubject$.decorated);
 
-    pausedNewLetterWithGameEnd = getRateWithGameEndAndPause({
+    newLetterRate = getRateWithGameEndAndPause({
         initialRateValue: initialNewLetterRate,
         minRateValue: minNewLetter,
         maxRateValue: maxNewLetter,
-        gameStateSubject: ContextProvider.gameState$
+        gameStateSubject: ContextProvider.gameState$,
+        getMapRateValueToInterval: getMapAppearRateValueToInterval
     })
 
-    pausedMoveTicks = getRateWithGameEndAndPause({
+    pausedNewLetterWithGameEnd = this.newLetterRate.pausedSubjectWithGameEnd;
+    setNewLetterRate = this.newLetterRate.setRate.bind(this.pausedNewLetterWithGameEnd);
+
+    moveTicksRate =  getRateWithGameEndAndPause({
         initialRateValue: initialMoveRate,
         minRateValue: minMoveRate,
         maxRateValue: maxMoveRate,
-        gameStateSubject: ContextProvider.gameState$
+        gameStateSubject: ContextProvider.gameState$,
+        getMapRateValueToInterval: getMapMoveRateValueToInterval
     })
+
+    pausedMoveTicks = this.moveTicksRate.pausedSubjectWithGameEnd;
+    setMoveTicks = this.moveTicksRate.setRate
 
     modalComponent$ = new rxjs.BehaviorSubject({element: document.createElement('div')})
     modalOpenClose$ = new rxjs.BehaviorSubject(CLOSE_MODAL_BY_AGENT);
@@ -100,14 +120,12 @@ class ContextProvider {
         originalSubject: new rxjs.BehaviorSubject(getCharacterGenerator())
     })
 
-
     characterEmitter$ = new rxjs.BehaviorSubject();
 
     get charactersGenerator$() { return this._charactersGenerator$ }
 
     setInitialCharacterGenerator() {
         if (!checkIfGameOptionSelected()) return;
-        const characterArrayGeneratorFunctions = getArrayGeneratorFunctions();
         this._charactersGenerator$.next(getCharacterGenerator())
     }
 

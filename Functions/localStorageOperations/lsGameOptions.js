@@ -63,6 +63,8 @@ const updateBestScoreList = (context) => {
     const currentPlayerName = context.playerName$.value;
     const mistakes = context.nrErrorsSubject$.value;
     const misses = context.nrMissesSubject$.value;
+    const moveSpeed = context.moveTicksRate.value;
+    const appearSpeed = context.newLetterRate.value;
     const currentScoreInBestScoreIndex = currentList.length === 0 ? 0 : currentList.findIndex((({score}, index) => {
         return currentScore > score;
     }));
@@ -73,7 +75,7 @@ const updateBestScoreList = (context) => {
     currentList.splice(
         currentScoreInBestScoreIndex,
         0,
-        {playerName: currentPlayerName, score: currentScore, mistakes, misses}
+        {playerName: currentPlayerName, score: currentScore, mistakes, misses, moveSpeed, appearSpeed}
     );
     const limitedScoreWithNewResult = currentList.slice(0, BEST_PLAYERS_LIST_LENGTH_LIMIT);
     console.log(currentList, limitedScoreWithNewResult);

@@ -134,4 +134,10 @@ new LocalStorageUpdaterHook([
 
 new WhenGameEndsDialog({context, gameState: ContextProvider.gameState$})
 
+context.appearSpeed$.subscribe((newRateValue) => context.setNewLetterRate(newRateValue));
+context.moveSpeed$.subscribe((newRateValue) => {
+    context.setMoveTicks(newRateValue);
+    console.log(newRateValue)
+});
+
 disableHighlight();

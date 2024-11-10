@@ -1,3 +1,4 @@
+
 const getParametersOptionsSturcture = (context) => ([
     {
         component: Title,
@@ -10,7 +11,7 @@ const getParametersOptionsSturcture = (context) => ([
             context,
             label: 'Move',
             lowerThreshold: 1,
-            upperThreshold: 5,
+            upperThreshold: 10,
             startValue: 1,
             subject: context.moveSpeed$, // subject will be set initially from localStorage
         }
@@ -22,7 +23,7 @@ const getParametersOptionsSturcture = (context) => ([
             context,
             label: 'Appear',
             lowerThreshold: 1,
-            upperThreshold: 5,
+            upperThreshold: 10,
             startValue: 1,
             subject: context.appearSpeed$, // subject will be set initially from localStorage
         }

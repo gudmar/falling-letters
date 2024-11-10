@@ -12,8 +12,10 @@ const rateActionToNewValueMap = {
     [DEC]: getDecreasedRateValue
 }
 const getNextRateValue = ({rate, action, minValue, maxValue}) => {
-    if (typeof action === 'number') { return rate }
+    console.log('getNExtRateValue', rate, action, minValue, maxValue)
+    if (typeof action === 'number') { return action }
     const handler = rateActionToNewValueMap[action];
+    
     if (!handler) throw new Error(`[handling new rate value]: action ${action} not recognized`);
     const nextValue = handler({oldRateValue: rate, minValue, maxValue});
     return nextValue;
@@ -24,12 +26,21 @@ class Rate {
         initialValue,
         minValue,
         maxValue,
+        getMapRateValueToInterval = (() => (value) => value),
     }) {
+        this._currentRateValue = initialValue;
+        const mapRateValueToInterval = getMapRateValueToInterval(maxValue)
         this.rateSubject$ = new rxjs.BehaviorSubject(initialValue);
         this.actionOnRate$ = new rxjs.BehaviorSubject(0);
         const that = this;
         this.tick$ = this.rateSubject$.pipe(
-            rxjs.switchMap((rate) => rxjs.interval(rate)),
+            rxjs.switchMap(
+                (rate) => {
+                    this._currentRateValue = rate;
+                    const rateValue = mapRateValueToInterval(rate);
+                    return rxjs.interval(rateValue)
+                }
+            ),
         )
         // const updateRateSubject = ((newValue) => this.rateSubject$.next(newValue)).bind(this)
         const updateRateSubject = ((newValue) => that.rateSubject$.next(newValue))
@@ -40,7 +51,8 @@ class Rate {
 
     increaseRate() { this.actionOnRate$.next(INC) }
     decreaseRate() { this.actionOnRate$.next(DEC) }
-    setRate(value) { this.actionOnRate$.next(value) }
-
+    setRate(value) { console.log('new rate', value); this.actionOnRate$.next(value); }
+    // setRate(value) { console.log(this); this.rateSubject$.next(value); }
+    get currentRateValue() { return this._currentRateValue }
     // tick$
 }

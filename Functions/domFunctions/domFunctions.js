@@ -116,13 +116,13 @@ const getBestScoreTableComponent = (context) => {
         var filledRows = [];
         for(let rowIndex = 0; rowIndex < BEST_PLAYERS_LIST_LENGTH_LIMIT; rowIndex++) {
             if (rows[rowIndex]) filledRows.push([rowIndex + 1, ...rows[rowIndex]]);
-            else filledRows.push([rowIndex + 1, '     _     ','  _   ', ' _ ', ' _ '])
+            else filledRows.push([rowIndex + 1, '     _     ','  _   ', ' _ ', ' _ ', ' _ ', ' _ '])
         }
         return filledRows;
     }
     const bestScore = getFromLocalStorageOrDefault(BEST_SCORE_LIST, []);
-    const rows = bestScore.map(({playerName, score, misses, mistakes}) => ([playerName, score, misses, mistakes]));
-    const headings = ['Nr', 'Player', 'Score', 'Misses', 'Errors'];
+    const rows = bestScore.map(({playerName, score, misses, mistakes, moveSpeed, appearSpeed}) => ([playerName, score, misses, mistakes, moveSpeed, appearSpeed]));
+    const headings = ['Nr', 'Player', 'Score', 'Misses', 'Errors', 'Move speed', 'Appear speed'];
     const table = new Table({
         context,
         rows: fillRowsWithEmpty(rows),
