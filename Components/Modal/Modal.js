@@ -16,12 +16,21 @@ class Modal extends Component {
         super({...args, ...Modal.defaultArgs})
         this.child = null;
         Modal.instance = this;
-        console.log(this.element)
         this.backdrop = document.getElementById(MODAL_ID)
-        this.addListeners()
+        this._onModalCloseCallback = () => {};
+        this.addListeners();
         this.reloadChild();
-        this.closeByAgent();
+        this._closeByAgent();
     }
+
+    open(onModalCloseCallback) {
+        this._onModalCloseCallback = onModalCloseCallback || (() => {});
+        this.context.modalOpenClose$.next(OPEN_MODAL);
+    }
+    close() {
+        this.context.modalOpenClose$.next(CLOSE_MODAL_BY_AGENT);
+    };
+    closeByAgent() { this.context.modalOpenClose$.next(CLOSE_MODAL_BY_AGENT) }
 
     removeAllChildren() {
         while(this.element.firstChild) {
@@ -60,8 +69,7 @@ class Modal extends Component {
         rxjs.fromEvent(this.backdrop, 'click').subscribe((e) => {
             if (this.dontCloseOnClick) return;
             if (e.target !== this.backdrop) return;
-            console.log(e, e.target)
-            this.close.bind(this)();
+            this.closeByAgent();
         })
         this.context.modalComponent$.subscribe(((child) => {
             this.child = child
@@ -69,15 +77,19 @@ class Modal extends Component {
         }).bind(this))
         this.context.modalOpenClose$.subscribe((command) => {
             if (command === OPEN_MODAL_DONT_CLOSE_ON_CLICK) {
-                this.open.bind(this)();
+                this._open.bind(this)();
                 this.dontCloseOnClick = true;
             }
-            if (command === OPEN_MODAL) this.open.bind(this)();
-            if (command === CLOSE_MODAL) this.close.bind(this)();
-            if (command === CLOSE_MODAL_BY_AGENT) this.closeByAgent.bind(this)();
+            if (command === OPEN_MODAL) this._open.bind(this)();
+            if (command === CLOSE_MODAL) this._close.bind(this)();
+            if (command === CLOSE_MODAL_BY_AGENT) this._closeByAgent.bind(this)();
             if (command === TOGGLE_MODAL) this.toggleVisibility.bind(this)();
         })
     }
+    set onCloseCallback(callback) {
+        this._onModalCloseCallback = callback;
+    }
+
     toggleVisibility() {
         const elementInDom = document.getElementById(this.elementId);
         if (elementInDom) {
@@ -90,24 +102,27 @@ class Modal extends Component {
             PausedSubject.resetPause();
         }
     }
-    open() {
+    _open() {
         const elementInDom = document.getElementById(this.elementId);
         if (!elementInDom) {
             this.parent.append(this.element);
             PausedSubject.setPause();
         }
     }
-    closeByAgent() {
+    _closeByAgent() {
         const elementInDom = document.getElementById(this.elementId);
         if (elementInDom) {
             elementInDom.remove();
             PausedSubject.resetPause();
             this.dontCloseOnClick = false;
+            this._onModalCloseCallback();
+            this._onModalCloseCallback = (() => {});
         }
     }
-    close(event) {
+    _close(event) {
         if (event && event.target !== this.element) return;
-        this.closeByAgent();
+        this._closeByAgent();
         PausedSubject.resetPause();
+        if (this.onCloseSubject$) this.onCloseSubject$.value();
     }
 }

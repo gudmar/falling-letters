@@ -1,3 +1,5 @@
+const MAX_MISSED_KEY = 'maxMissed';
+const MAX_MISTAKEN_KEY = 'maxMistaken';
 
 const getParametersOptionsSturcture = (context) => ([
     {
@@ -42,7 +44,8 @@ const getParametersOptionsSturcture = (context) => ([
             upperThreshold: 5,
             startValue: 1,
             subject: context.maxMissed$, // subject will be set initially from localStorage
-        }
+        },
+        as: MAX_MISSED_KEY
     },
     {
         component: WithLabel,
@@ -54,7 +57,8 @@ const getParametersOptionsSturcture = (context) => ([
             upperThreshold: 10,
             startValue: 1,
             subject: context.maxMistaken$, // subject will be set initially from localStorage
-        }
+        },
+        as: MAX_MISTAKEN_KEY
     },
     {
         component: Title,
@@ -101,11 +105,14 @@ const getParametersOptionsSturcture = (context) => ([
     }
 ])
 
-const structureToDocumentContainer = (structure, container) => {
+const structureToDocumentContainer = (structure, container, componentContext) => {
     rxjs.from(structure).subscribe(
-        ({component, args}) => {
+        ({component, args, as}) => {
             const componentInstance = new component(args);
-            container.append(componentInstance.element); 
+            container.append(componentInstance.element);
+            if (as) {
+                componentContext[as] = componentInstance;
+            }
         }
     )
 }
@@ -120,11 +127,18 @@ class GameParametersOptions extends Component {
     constructor(args) {
         super({...args, ...GameParametersOptions.defaultArgs});
         this.setInterior();
+        this.context = args.context;
     }
 
     setInterior() {
         const structure = getParametersOptionsSturcture(this.context);
-        structureToDocumentContainer(structure, this.element);
-                
+        structureToDocumentContainer(structure, this.element, this);
+    }
+
+    endIfOverThreshold() {
+        const isOverErrorsThreshold = 
+            this[MAX_MISTAKEN_KEY]?.component?.counter?.isBelowLowerThreshold || this[MAX_MISTAKEN_KEY]?.component?.counter?.isAboveUpperThreshold;
+        const isOverMissesThreshold = this[MAX_MISSED_KEY]?.component?.counter?.isBelowLowerThreshold || this[MAX_MISTAKEN_KEY]?.component?.counter?.isAboveUpperThreshold;
+        if (isOverErrorsThreshold || isOverMissesThreshold) ContextProvider.gameState$.next(GAME_ENDED);
     }
 }

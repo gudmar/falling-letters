@@ -53,4 +53,8 @@ class GameOptions extends Component {
         this.gameCharacterOptionsInterior = gameCharacterOptionsInterior;
         this.gameParametersOptionsInterior = gameParametersOptionsInterior;
     }
+
+    endIfOverThreshold() {
+        this.gameParametersOptionsInterior.endIfOverThreshold();
+    }
 }

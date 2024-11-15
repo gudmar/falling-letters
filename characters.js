@@ -125,7 +125,5 @@ const getCharacterGenerator = () => {
 // const lowerLettersEmitter = getRandomArrayElementFromObservableEmitt(getLowerCases());
 const charGenerators = [getLowerCases(), getUpperLetters()]
 const lowerLettersEmitter = getRandomArrayElementFromObservableEmitters(charGenerators);
-console.log(charGenerators)
 lowerLettersEmitter.randomEmitter.subscribe(x => console.log(x))
-console.log(lowerLettersEmitter)
 rxjs.generate(1, x => x < 5, x => x + 1).subscribe(() => lowerLettersEmitter.nextElement())

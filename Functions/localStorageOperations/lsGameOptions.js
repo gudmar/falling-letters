@@ -13,7 +13,6 @@ const updateGameParamInLs = (key, value) => {
         ...oldParams,
         [key]: value
     };
-    console.log(newParams)
     setGameOptionsToLS(newParams);
 }
 
@@ -78,6 +77,5 @@ const updateBestScoreList = (context) => {
         {playerName: currentPlayerName, score: currentScore, mistakes, misses, moveSpeed, appearSpeed}
     );
     const limitedScoreWithNewResult = currentList.slice(0, BEST_PLAYERS_LIST_LENGTH_LIMIT);
-    console.log(currentList, limitedScoreWithNewResult);
     updateGameParamInLs(BEST_SCORE_LIST, limitedScoreWithNewResult);
 }

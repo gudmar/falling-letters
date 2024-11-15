@@ -43,7 +43,6 @@ class KeyboardHook {
         this.context.keypressInformator$.pausedSubject.subscribe((keyName) => {
             console.log(keyName);
             const isException = checkIfKeyException(keyName);
-            console.log('Is exception', isException)
             if (!isException) this.context.characterRemoveCause$.next({cause: HIT, id: null, character: keyName})
         })
     }
