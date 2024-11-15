@@ -73,21 +73,19 @@ class AdjustableCounter extends Component {
     addListeners() {
         rxjs.fromEvent(this.increaseButton, 'click').subscribe(() => {
             const currentUpperThreshold = this.upperThreshold?.value || this.upperThreshold
-            console.log(currentUpperThreshold)
             if (this.subject.value >= currentUpperThreshold) return;
             this.subject.increment(1);
         })
         rxjs.fromEvent(this.decreaseButton, 'click').subscribe(() => {
             const currentLowerThreshold = this.lowerThreshold?.value || this.lowerThreshold
-            console.log(currentLowerThreshold)
             if (this.subject.value <= currentLowerThreshold) return;
             this.subject.decrement(1);
         })
     }
 
     setInterior() {
-        const counter = new Counter({...this, context: this.context});
-        this.counterContainer.append(counter.element);
+        this.counter = new Counter({...this, context: this.context});
+        this.counterContainer.append(this.counter.element);
         this.setControls();
         // const controlls = elementFromHtml(AdjustableCounter.getHtmlControlTemplate())
         // this.controlsContainer.append(controlls);

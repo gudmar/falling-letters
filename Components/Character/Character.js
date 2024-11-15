@@ -55,7 +55,6 @@ class Character extends Component {
         this.moveSubscribtion = this.context.pausedMoveTicks.pausedSubject.subscribe(() => {
             const shouldBeRemoved = this.checkIfOutsideScreen();
             if (shouldBeRemoved) {
-                console.log('STILL IN SHOULD CHARACTER', this.character)
                 this.context.characterRemoveCause$.next({cause: MISS, id: this.id, character: this.character})
                 this.deleteThisElement();
                 return

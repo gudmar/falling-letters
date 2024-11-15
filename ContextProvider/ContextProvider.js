@@ -85,6 +85,8 @@ class ContextProvider {
     nrMissesSubject$ = new ExtendedSubject(0);
     
 
+    // onModalCloseSubject$ = new rxjs.BehaviorSubject(() => {})
+    // clearModalCloseSubject() { this.onModalCloseSubject$.next(() => {})}
     thresholdReachedSubject$ = new rxjs.Subject()
 
     keypressInformator$ = new PausedSubject(this.keypressSubject$.decorated);
@@ -128,5 +130,4 @@ class ContextProvider {
         if (!checkIfGameOptionSelected()) return;
         this._charactersGenerator$.next(getCharacterGenerator())
     }
-
 }

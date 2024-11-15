@@ -12,7 +12,6 @@ const rateActionToNewValueMap = {
     [DEC]: getDecreasedRateValue
 }
 const getNextRateValue = ({rate, action, minValue, maxValue}) => {
-    console.log('getNExtRateValue', rate, action, minValue, maxValue)
     if (typeof action === 'number') { return action }
     const handler = rateActionToNewValueMap[action];
     
@@ -51,8 +50,7 @@ class Rate {
 
     increaseRate() { this.actionOnRate$.next(INC) }
     decreaseRate() { this.actionOnRate$.next(DEC) }
-    setRate(value) { console.log('new rate', value); this.actionOnRate$.next(value); }
-    // setRate(value) { console.log(this); this.rateSubject$.next(value); }
+    setRate(value) { this.actionOnRate$.next(value); }
     get currentRateValue() { return this._currentRateValue }
     // tick$
 }
