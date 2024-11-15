@@ -16,10 +16,25 @@ const updateGameParamInLs = (key, value) => {
     setGameOptionsToLS(newParams);
 }
 
+const validateGameOptions = (options) => {
+    const atLeastOneOfKeys = [
+        UPPER, LOWER, DIGITS, LOWER_POLISH, UPPER_POLISH
+    ];
+    const nrOfAtLeastOneKeys = atLeastOneOfKeys.reduce((acc, key) => {
+        const shouldBeSummed = options[key] === true ? 1 : 0;
+        const newAcc = acc + shouldBeSummed
+        return newAcc;
+    }, 0);
+    return nrOfAtLeastOneKeys > 0;
+}
+
 const toggleGameOptionToLocalStorage = (optionToSave) => {
     const currentOptions = getGameOptionsFromLS() || {};
     const newOptions = {...currentOptions, [optionToSave]: !currentOptions[optionToSave]}
-    setGameOptionsToLS(newOptions);
+    const areNewOptionsValid = validateGameOptions(newOptions);
+    if (areNewOptionsValid) setGameOptionsToLS(newOptions);
+    const wasChangeMade = areNewOptionsValid;
+    return wasChangeMade;
 }
 
 const checkGameOptionInLS = (gameOption) => {
