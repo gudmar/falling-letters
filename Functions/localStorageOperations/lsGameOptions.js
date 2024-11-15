@@ -7,15 +7,6 @@ const getGameParamsFromLS = () =>  getKeyFromLocalStorage('gameOptions');
 const setGameOptionsToLS = (options) => setKeyToLocalStorage('gameOptions', options)
 const setGameParamsToLS = (params) => setKeyToLocalStorage('gameParams', params)
 
-const updateGameParamInLs = (key, value) => {
-    const oldParams = getGameParamsFromLS();
-    const newParams = {
-        ...oldParams,
-        [key]: value
-    };
-    setGameOptionsToLS(newParams);
-}
-
 const validateGameOptions = (options) => {
     const atLeastOneOfKeys = [
         UPPER, LOWER, DIGITS, LOWER_POLISH, UPPER_POLISH
@@ -26,6 +17,22 @@ const validateGameOptions = (options) => {
         return newAcc;
     }, 0);
     return nrOfAtLeastOneKeys > 0;
+}
+
+const setInitialGameOptionsToLS = () => {
+    const currentInitialOptions = getGameOptionsFromLS();
+    if (validateGameOptions(currentInitialOptions)) return;
+    const initialOptions = { [LOWER]: true };
+    setGameOptionsToLS(initialOptions);
+}
+
+const updateGameParamInLs = (key, value) => {
+    const oldParams = getGameParamsFromLS();
+    const newParams = {
+        ...oldParams,
+        [key]: value
+    };
+    setGameOptionsToLS(newParams);
 }
 
 const toggleGameOptionToLocalStorage = (optionToSave) => {

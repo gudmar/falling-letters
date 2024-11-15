@@ -2,7 +2,7 @@
 // 1. Launch game, change threshold in options, play untill threshold reached,
 // + 2. Launch game, open options, increase threshold, close options, play untill threshold -1 reached, open options, decrease threshold untill under threshold
 
-
+setInitialGameOptionsToLS();
 
 const context = new ContextProvider();
 context.setInitialCharacterGenerator();
