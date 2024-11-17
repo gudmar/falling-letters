@@ -34,6 +34,8 @@ const NR_ERRORS_THRESHOLD = 'nrErrorsThreshold';
 const END_GAME_ON_THRESHOLD_BROKEN = 'endGameOnThresholdBroken';
 const PLAYER_NAME = 'playerName';
 const BEST_SCORE_LIST = 'bestScoreList';
+const SHOULD_END_GAME_ON_TIMEOUT = 'shouldEndGameOnTimeout';
+const END_GAME_TIMEOUT = 'endGameTimeoutValue';
 
 const GameVersions = {
     Letters: 'Letters only',

@@ -83,6 +83,9 @@ class ContextProvider {
     endGameOnThresholdsBroken$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault(END_GAME_ON_THRESHOLD_BROKEN, true));
     nrErrorsSubject$ = new ExtendedSubject(0);
     nrMissesSubject$ = new ExtendedSubject(0);
+    shouldEndGameOnTimeoutSubject$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault(SHOULD_END_GAME_ON_TIMEOUT, true));
+    endGameTimeoutValueSubject$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault(END_GAME_TIMEOUT, 50));
+
     
 
     // onModalCloseSubject$ = new rxjs.BehaviorSubject(() => {})
