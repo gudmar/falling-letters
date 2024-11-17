@@ -62,6 +62,35 @@ const getParametersOptionsSturcture = (context) => ([
     },
     {
         component: Title,
+        args: { label: 'End game on timeout' }
+    },
+    {
+        component: CheckBox,
+        args: {
+            context,
+            label: 'Should end game on timeout',
+            action: () => {
+                const currentValue = context.shouldEndGameOnTimeoutSubject$.value;
+                const newValue = !currentValue;
+                context.shouldEndGameOnTimeoutSubject$.next(newValue);
+                updateGameParamInLs(SHOULD_END_GAME_ON_TIMEOUT, newValue);
+                return true;
+            },
+            checked: context.resetOnMiss$.value,
+        }
+    },
+    {
+        component: InputTime,
+        args: {
+            context,
+            label: 'Timeout',
+            // value: context.endGameTimeoutValueSubject$.value,
+            subject: context.endGameTimeoutValueSubject$,
+        },
+    },
+
+    {
+        component: Title,
         args: { label: 'Other' }
     },
     {
@@ -85,6 +114,7 @@ const getParametersOptionsSturcture = (context) => ([
                 const newValue = !currentValue;
                 context.resetOnMiss$.next(newValue);
                 updateGameParamInLs(RESET_ON_MISS, newValue);
+                return true;
             },
             checked: context.resetOnMiss$.value,
         }
@@ -99,6 +129,7 @@ const getParametersOptionsSturcture = (context) => ([
                 const newValue = !currentValue;
                 context.resetOnMiss$.next(newValue);
                 updateGameParamInLs(END_GAME_ON_THRESHOLD_BROKEN, newValue);
+                return true
             },
             checked: context.endGameOnThresholdsBroken$.value,
         }
