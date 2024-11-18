@@ -3,6 +3,43 @@
     color: green;
     padding: 0.5rem;
     outline: none;
-    border: solid thin green
+    border: solid thin green;
+    display: inline-block;
+    width: 3rem;
+    display: inline-block;
+    padding: 0.5rem;
+    box-shadow: inset 0px 0px 14px 0px rgb(10 160 20);
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Courier New', Courier, monospace;
+    border-radius: 0.5rem;
+    margin-left: 1rem;
+}
+.input-time-icon {
+    background-image: url("./clock.svg");
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-block;
+    color: green;
+    background-size: contain;
+    margin-left: 1rem;
 }
 
+.input-time-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+}
+
+[type="time"] {
+    /* background:transparent url(/assets/images/clock.png)  97% 50% no-repeat !important; */
+  }
+  [type="time"]::-webkit-inner-spin-button {
+    /* display: none; */
+    color: green;
+  }
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    background-image: url("./clock.svg");
+    cursor: pointer;
+  }
