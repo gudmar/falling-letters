@@ -1,0 +1,15 @@
+.Picker-click-away {
+    position: absolute;
+    color: transparent;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.Picker-wrapper {
+    position: relative;
+    color: black;
+    border: solid thin green;
+    border-radius: 0.5rem;
+    display: flex;
+}
