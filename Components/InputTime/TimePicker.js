@@ -56,11 +56,11 @@ class TimePicker extends Component {
     }
 
     constructor(args) {
-        const boostedArgs = TimePicker(args);
+        const boostedArgs = TimePicker.getBoostedArgs(args);
         super(boostedArgs);
         if (!TimePicker.isStepValid(args)) throw new Error(`TimePicker: ${args.secondsStep} is not a valid step`)
         this.minutesContainer = this.element.querySelector('.TimePicker-minutes-container');
-        this.secondsContainer = this.element.secondsContainer('.TimePicker-seconds-container');
+        this.secondsContainer = this.element.querySelector('.TimePicker-seconds-container');
         this.appendInterior(args);
     }
 

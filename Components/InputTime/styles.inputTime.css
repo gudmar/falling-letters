@@ -32,6 +32,19 @@
     justify-items: center;
 }
 
+.input-time-wrapper li {
+  background-color: green;
+  color: black;
+  cursor: pointer;
+}
+
+.TimePicker-wrapper {
+  max-width: 8rem;
+  max-height: 15rem;
+  overflow: auto;
+  list-style-type: none;
+}
+
 [type="time"] {
     /* background:transparent url(/assets/images/clock.png)  97% 50% no-repeat !important; */
   }

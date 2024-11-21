@@ -5,6 +5,12 @@ const secToString = (timeInSec) => {
 }
 
 class InputTime extends Component {
+    // left to do:
+    // 1) Hook Picker=>TimePicker to InputTime
+    // 2) Hook setting seconds and minutes in TimePicker
+    // 3) Define a subject for time limit
+    // 3.5) Set string on time limit change
+    // 4) Define timer component, that will have its time set on this subject,
     static getTemplate(args) {
         return `
             <form class="input-time-wrapper">
@@ -53,33 +59,35 @@ class InputTime extends Component {
         InputTime.throwIfParamsMissing(args);
         const boostedArgs = InputTime.getBoostedArgs(args);
         super(boostedArgs);
+        this.isPickerVisible$ = new rxjs.BehaviorSubject(false)
         this.subject = args.subject;
         this.input = this.element.querySelector('.input-time-input')
         this.input.value = secToString(this.subject.value)
         this.context = args.context;
-        this.isPickerVisible = false;
         this.setPicker(args);
         this.addListeners();
+        this.body = document.querySelector('body')
     }
 
     openPicker() {
-        if (!this.isPickerVisible) {
-            this.isPickerVisible = true;
-            document.append(this.picker);
+        if (!this.isPickerVisible$.value) {
+            this.isPickerVisible$.next(true);
+            this.body.append(this.picker.element);
         }
     }
 
     closePicker() {
-        if (this.isPickerVisible) {
-            this.isPickerVisible = false;
-            this.picker.remove();
+        if (this.isPickerVisible.value) {
+            this.isPickerVisible$.next(false);
+            this.picker.element.remove();
         }
     }
 
     addListeners() {
         this.input.value = secToString(this.subject.value)
-        rxjs.fromEvent(this.input, 'input')
+        rxjs.fromEvent(this.input, 'click')
             .subscribe((event) => {
+                this.openPicker()
                 console.log('InputTime: ', event.target.value)
             })
     }
@@ -89,6 +97,8 @@ class InputTime extends Component {
         this.picker = new Picker({
             ...args,
             component: pickersInterior,
+            close: this.closePicker.bind(this),
+            parent: this.element,
         });
     }
 

@@ -6,6 +6,7 @@ const OPTIONAL = 'optional';
 const OBJECT = 'object';
 const ARRAY = 'array';
 const NUMBER = 'number';
+const FUNCTION = 'function';
 const STRING = 'string';
 const INC = 'increase';
 const DEC = 'decrease';
