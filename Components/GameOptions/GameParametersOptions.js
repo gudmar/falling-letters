@@ -86,9 +86,9 @@ const getParametersOptionsSturcture = (context) => ([
             label: 'Timeout',
             // value: context.endGameTimeoutValueSubject$.value,
             subject: context.endGameTimeoutValueSubject$,
-            min: 0,
+            min: 60,
             max: 600,
-            secondsStep: 10,
+            secondsStep: 5,
         },
     },
 

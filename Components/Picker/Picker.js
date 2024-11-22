@@ -1,13 +1,14 @@
 class Picker extends Component {
     static getCords(element) {
-        const {left, right} = element.getBoundingClientRect();
-        return {left, right};
+        const cords = element.getBoundingClientRect();
+        const {left, top} = cords;
+        return {left, top};
     }
     static getHtmlTemplate(args) {
-        const {left, right} = Picker.getCords(args.parent);
+        const {left, top} = Picker.getCords(args.parent);
         return `
             <div class="Picker-click-away">
-                <div class="Picker-wrapper" style="left: ${left}px; right: ${right}px">
+                <div class="Picker-wrapper" style="left: ${left}px; top: ${top}px">
 
                 </div>
             </div>
@@ -32,7 +33,6 @@ class Picker extends Component {
     constructor(args){
         const boostedArgs = Picker.getBoostedArgs(args);
         super(boostedArgs);
-        console.log(this.element)
         this.parentElement = args.parent;
         this.component = args.component;
         this.close = args.close;
@@ -44,8 +44,8 @@ class Picker extends Component {
 
     addListeners() {
         rxjs.fromEvent(this.clickAway, 'click')
-            .subscribe(() => {
-                console.log('In clise in Picker')
+            .subscribe((event) => {
+                if (event.target !== this.clickAway) return;
                 const {left, right} = Picker.getCords(this.parentElement);
                 this.wrapper.style.left = left;
                 this.wrapper.style.right = right;

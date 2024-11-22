@@ -84,7 +84,7 @@ class ContextProvider {
     nrErrorsSubject$ = new ExtendedSubject(0);
     nrMissesSubject$ = new ExtendedSubject(0);
     shouldEndGameOnTimeoutSubject$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault(SHOULD_END_GAME_ON_TIMEOUT, true));
-    endGameTimeoutValueSubject$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault(END_GAME_TIMEOUT, 50));
+    endGameTimeoutValueSubject$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault(END_GAME_TIMEOUT, END_GAME_DEFAULT_TIMEOUT));
 
     
 
