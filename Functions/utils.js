@@ -9,3 +9,13 @@ const disableHighlight = () => {
         e.stopPropagation();
     })
 }
+
+const extractMinutes = (time) => {
+    const minutes = Math.floor(time/SECONDS_IN_MINUTE);
+    return minutes;
+}
+
+const extractSeconds = (time) => {
+    const seconds = time % SECONDS_IN_MINUTE;
+    return seconds;
+}

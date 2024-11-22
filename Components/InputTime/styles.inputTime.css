@@ -31,28 +31,36 @@
     align-items: center;
     justify-items: center;
 }
-
-.input-time-wrapper li {
+.TimePicker-wrapper li {
+  text-align: center;
+  padding: 2px;
+}
+.TimePicker-wrapper li:hover {
   background-color: green;
   color: black;
   cursor: pointer;
 }
-
-.TimePicker-wrapper {
-  max-width: 8rem;
-  max-height: 15rem;
-  overflow: auto;
+.TimerPicker-list {
   list-style-type: none;
+  padding: 0;
 }
 
-[type="time"] {
-    /* background:transparent url(/assets/images/clock.png)  97% 50% no-repeat !important; */
-  }
-  [type="time"]::-webkit-inner-spin-button {
-    /* display: none; */
-    color: green;
-  }
-  input[type="time"]::-webkit-calendar-picker-indicator {
-    background-image: url("./clock.svg");
-    cursor: pointer;
-  }
+.TimePicker-wrapper {
+  width: 10rem;
+  height: 12rem;
+  display: flex;
+}
+
+.TimePicker-selected {
+  border: green thin solid;
+  border-radius: 0.5rem;
+}
+
+.TimePicker-minutes-container {
+  width: 4rem;
+  overflow: auto;
+}
+.TimePicker-seconds-container {
+  width: 4rem;
+  overflow: auto;
+}

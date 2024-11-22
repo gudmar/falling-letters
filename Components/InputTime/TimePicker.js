@@ -9,8 +9,25 @@ const getList = ({min, max, step}) => {
 const getListAsHtml = ({min, max, step}) => {
     const items = getList({min, max, step})
     const htmlItemsList = items.map((item) => `<li value="${item}" class="TimePicker-list-element">${item}</li>`).join('');
-    const htmlList = `<div class="TimerPicker-list">${htmlItemsList}</div>`
+    const htmlList = `<ul class="TimerPicker-list">${htmlItemsList}</ul>`
     return htmlList;
+}
+
+const clearAllSelectedFromContainer = (container) => {
+    const elements = Array.from(container.querySelectorAll('.TimePicker-list-element'));
+    elements.forEach((element) => {
+        element.classList.remove('TimePicker-selected')
+    })
+}
+
+const selectValueInContainer = (container, newValue) => {
+    const elements = Array.from(container.querySelectorAll('.TimePicker-list-element'));
+    console.log('New', newValue)
+    const element = elements.find((element) => {
+        const value = element.getAttribute('value');
+        return +value === newValue
+    })
+    element.classList.add('TimePicker-selected')
 }
 
 
@@ -58,16 +75,89 @@ class TimePicker extends Component {
     constructor(args) {
         const boostedArgs = TimePicker.getBoostedArgs(args);
         super(boostedArgs);
+        this.subject = args.subject;
         if (!TimePicker.isStepValid(args)) throw new Error(`TimePicker: ${args.secondsStep} is not a valid step`)
         this.minutesContainer = this.element.querySelector('.TimePicker-minutes-container');
         this.secondsContainer = this.element.querySelector('.TimePicker-seconds-container');
         this.appendInterior(args);
+        this.setListenersToContainers();
+        this.addListeners();
     }
+
+    addListeners() {
+        this.subject.subscribe((newTime) => {
+            console.log(newTime);
+            this.refreshValues(newTime);
+        })
+    }
+
+    clearAllSelected() {
+        clearAllSelectedFromContainer(this.minutesContainer);
+        clearAllSelectedFromContainer(this.secondsContainer);
+    }
+
+    selectValues(time) {
+        console.log('Time', time)
+        const newMinutes = extractMinutes(time);
+        selectValueInContainer(this.minutesContainer, newMinutes);
+        const newSeconds = extractSeconds(time);
+        selectValueInContainer(this.secondsContainer, newSeconds);
+    }
+
+    refreshValues(newTime) {
+        this.clearAllSelected();
+        this.selectValues(newTime);
+    }
+
+    setListenersToSeconds() {
+        this.secondsContainer.querySelectorAll('.TimePicker-list-element').forEach((element) => {
+            rxjs.fromEvent(element, 'click').subscribe((event) => {
+                const element = event.target;
+                const valueAsString = element.getAttribute('value');
+                const seconds = +valueAsString;
+                const currentTime = this.subject.value;
+                const minutes = extractMinutes(currentTime);
+                const newValue = minutes * SECONDS_IN_MINUTE + seconds;
+                this.subject.next(newValue);    
+            })
+        })
+    }
+
+    setListenersToMinutes() {
+        this.minutesContainer.querySelectorAll('.TimePicker-list-element').forEach((element) => {
+            rxjs.fromEvent(element, 'click').subscribe((event) => {
+                const element = event.target;
+                const valueAsString = element.getAttribute('value');
+                const minutes = +valueAsString;
+                const currentTime = this.subject.value;
+                const seconds = extractSeconds(currentTime);
+                const newValue = minutes * SECONDS_IN_MINUTE + seconds;
+                this.subject.next(newValue);    
+            })
+        })
+    }
+
+    setListenersToContainers() {
+        this.setListenersToSeconds();
+        this.setListenersToMinutes(this.minutesContainer);
+        // this.secondsContainer.querySelectorAll('.TimePicker-list-element').forEach((element) => {
+        //     rxjs.fromEvent(element, 'click').subscribe((event) => {
+        //         const element = event.target;
+        //         const valueAsString = element.getAttribute('value');
+        //         const seconds = +valueAsString;
+        //         const currentTime = this.subject.value;
+        //         const minutes = extractMinutes(currentTime);
+        //         const newValue = minutes * SECONDS_IN_MINUTE + seconds;
+        //         this.subject.next(newValue);    
+        //     })
+        // })
+    }
+
 
     getSecondsList(args) {
         const {secondsStep} = args;
         const htmlTemplate = getListAsHtml({
-            min: 0, max: 60, step: secondsStep
+            min: 0, max: SECONDS_IN_MINUTE, step: secondsStep
         });
         const element = getElementFromTemplate({htmlTemplate})
         return element;
@@ -76,7 +166,9 @@ class TimePicker extends Component {
     getMinutesList(args) {
         const {min, max} = args;
         const htmlTemplate = getListAsHtml({
-            min, max, step: 1
+            min: extractMinutes(min),
+            max: Math.floor(max/SECONDS_IN_MINUTE),
+            step: 1
         });
         const element = getElementFromTemplate({htmlTemplate})
         return element;
@@ -103,5 +195,4 @@ class TimePicker extends Component {
             seconds: value
         })
     }
-
 }

@@ -1,3 +1,5 @@
+SECONDS_IN_MINUTE = 60;
+
 START_NEW_GAME = 'start-new-game';
 GAME_ENDED = 'game-ended';
 
@@ -26,6 +28,7 @@ const MAX_MISSED_DEFAULT = 3;
 const MAX_MISTAKEN_DEFAULT = 5;
 const DEFAULT_PLAYER_NAME = 'unknown';
 const BEST_PLAYERS_LIST_LENGTH_LIMIT = 10;
+const END_GAME_DEFAULT_TIMEOUT = 60;
 
 const RESET_ON_MISS = 'resetOnMiss';
 const MOVE_SPEED = 'moveSpeed';
