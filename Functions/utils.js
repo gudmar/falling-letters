@@ -19,3 +19,10 @@ const extractSeconds = (time) => {
     const seconds = time % SECONDS_IN_MINUTE;
     return seconds;
 }
+
+const secondsToFullTimeString = (time) => {
+    const minutes = extractMinutes(time);
+    const seconds = `${extractSeconds(time)}`;
+    const text = `${minutes}:${seconds.padStart(2, '0')}`
+    return text;
+}

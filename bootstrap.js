@@ -11,6 +11,8 @@ const modal = new Modal({
     context
 })
 
+console.log(context)
+
 const test = context.nrErrorsSubject$.pipe(
     rxjs.filter((v) => v % 2)
 )
@@ -104,6 +106,13 @@ const nrMisses = new WithLabel({
     })
 })
 
+const timeout = new Countdown({
+    context,
+    subject: context.currentTimeoutValueSubject$,
+    lockSubject: context.shouldEndGameOnTimeoutSubject$,
+    startValueSubject: context.endGameTimeoutValueSubject$,
+})
+
 const titleBar = new TitleBar({
     componentId: TITLE_ID,
     context,
@@ -112,6 +121,7 @@ const titleBar = new TitleBar({
         score.element,
         nrMisses.element,
         nrErrors.element,
+        timeout.element,
         gameTitle,
         pauseButton.element,
         openModalWithGameOptionsButton.element,
@@ -154,5 +164,7 @@ context.appearSpeed$.subscribe((newRateValue) => context.setNewLetterRate(newRat
 context.moveSpeed$.subscribe((newRateValue) => {
     context.setMoveTicks(newRateValue);
 });
+
+const onGameTimeoutToolkit = new OnGameTimeoutHook(context);
 
 disableHighlight();
