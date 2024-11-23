@@ -65,6 +65,7 @@ class InputTime extends Component {
         this.input = this.element.querySelector('.input-time-input')
         this.input.innerText = secToString(this.subject.value)
         this.context = args.context;
+        this.callback = args.callback || (() => {})
         // this.createPicker();
         this.addListeners();
         this.body = document.querySelector('body')
@@ -86,13 +87,12 @@ class InputTime extends Component {
     }
 
     addListeners() {
-        // this.input.value = secToString(this.subject.value)
         this.subject.subscribe((newTime) => {
             const minutes = extractMinutes(newTime);
             const seconds = `${extractSeconds(newTime)}`;
             const asString = `${minutes}:${seconds.padStart(2, '0')}`;
             this.input.innerText = asString;
-            console.log('Input is ', this.input.value, asString)
+            this.callback(nawTime);
         } )
         rxjs.fromEvent(this.input, 'click')
             .subscribe((event) => {

@@ -102,7 +102,8 @@ const getValidateType = (args) => (key, type) => {
         },
         [NUMBER]: (value) => typeof value === 'number',
         [STRING]: (value) => typeof value === 'string',
-        [FUNCTION]: (value) => typeof value === 'function'
+        [FUNCTION]: (value) => typeof value === 'function',
+        [BOOLEAN]: (value) => typeof value === 'boolean',
     }
     const validator = typeToValidationFunctionMap[type];
     if (!isDefined(validator)) throw new Error(`${type} is not supported in validateScheme`)

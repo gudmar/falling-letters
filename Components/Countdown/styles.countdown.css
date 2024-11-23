@@ -1,0 +1,17 @@
+.countdown-wrapper {
+    display: inline-block;
+}
+
+.countdown-display {
+    height: 1.5rem;
+    width: 3rem;
+    box-shadow: inset 0px 0px 14px 0px rgb(10 160 20);
+    font-family: 'Courier New', Courier, monospace;
+    background-color: black;
+    color: green;
+    line-height: 1.5rem;
+    text-align: right;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+}
