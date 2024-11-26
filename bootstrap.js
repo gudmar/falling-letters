@@ -3,7 +3,7 @@
 // + 2. Launch game, open options, increase threshold, close options, play untill threshold -1 reached, open options, decrease threshold untill under threshold
 
 setInitialGameOptionsToLS();
-
+console.log('should end game on ', getFromLocalStorageOrDefault(SHOULD_END_GAME_ON_TIMEOUT, true));
 const context = new ContextProvider();
 context.setInitialCharacterGenerator();
 const modal = new Modal({
@@ -111,6 +111,7 @@ const timeout = new Countdown({
     subject: context.currentTimeoutValueSubject$,
     lockSubject: context.shouldEndGameOnTimeoutSubject$,
     startValueSubject: context.endGameTimeoutValueSubject$,
+    impulseGenerator: context.timeoutClockImpulseGenerator$,
 })
 
 const titleBar = new TitleBar({

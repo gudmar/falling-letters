@@ -59,6 +59,25 @@ const getRateWithGameEndAndPause = ({
     };
 }
 
+const getPausableImpulseGeneratorWithGameEnd = ({
+    timeInterval,
+    gameState$,
+}) => {
+    const clock$ = rxjs.interval(timeInterval);
+    const shouldRun$ = rxjs.merge(PausedSubject.onPauseToggle$, gameState$)
+        .pipe(
+            rxjs.switchMap(
+                (v) => {
+                    if (PausedSubject.isPaused || gameState$.value === GAME_ENDED) {
+                        return rxjs.empty();
+                    }
+                    return clock$;
+                }
+            )
+        )
+    return shouldRun$
+}
+
 class ContextProvider {
     static _context = {}
     static get context () { return ContextProvider._context }
@@ -86,9 +105,9 @@ class ContextProvider {
     shouldEndGameOnTimeoutSubject$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault(SHOULD_END_GAME_ON_TIMEOUT, true));
     endGameTimeoutValueSubject$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault(END_GAME_TIMEOUT, END_GAME_DEFAULT_TIMEOUT));
     currentTimeoutValueSubject$ = new rxjs.BehaviorSubject(this.endGameTimeoutValueSubject$.value);
-
-    // onModalCloseSubject$ = new rxjs.BehaviorSubject(() => {})
-    // clearModalCloseSubject() { this.onModalCloseSubject$.next(() => {})}
+    timeoutClockImpulseGenerator$ = getPausableImpulseGeneratorWithGameEnd({
+        timeInterval: 1000, gameState$: ContextProvider.gameState$
+    })
     thresholdReachedSubject$ = new rxjs.Subject()
 
     keypressInformator$ = new PausedSubject(this.keypressSubject$.decorated);
@@ -132,4 +151,9 @@ class ContextProvider {
         if (!checkIfGameOptionSelected()) return;
         this._charactersGenerator$.next(getCharacterGenerator())
     }
+
+    constructor(){
+        // this.timeoutClockImpulseGenerator$.subscribe((v) => console.log(v))
+    }
+
 }

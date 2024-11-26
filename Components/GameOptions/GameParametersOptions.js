@@ -76,7 +76,7 @@ const getParametersOptionsSturcture = (context) => ([
                 updateGameParamInLs(SHOULD_END_GAME_ON_TIMEOUT, newValue);
                 return true;
             },
-            checked: context.resetOnMiss$.value,
+            checked: context.shouldEndGameOnTimeoutSubject$.value,
         }
     },
     {
