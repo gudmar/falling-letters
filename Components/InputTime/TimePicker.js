@@ -155,7 +155,7 @@ class TimePicker extends Component {
 
 
     getSecondsList(args) {
-        const {secondsStep} = args;
+        const {min, max, secondsStep} = args;
         const htmlTemplate = getListAsHtml({
             min: 0, max: SECONDS_IN_MINUTE, step: secondsStep
         });

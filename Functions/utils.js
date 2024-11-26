@@ -21,8 +21,9 @@ const extractSeconds = (time) => {
 }
 
 const secondsToFullTimeString = (time) => {
-    const minutes = extractMinutes(time);
-    const seconds = `${extractSeconds(time)}`;
+    const positiveTime = Math.max(0, time);
+    const minutes = extractMinutes(positiveTime);
+    const seconds = `${extractSeconds(positiveTime)}`;
     const text = `${minutes}:${seconds.padStart(2, '0')}`
     return text;
 }

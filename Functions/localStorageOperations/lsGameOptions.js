@@ -51,7 +51,7 @@ const checkGameOptionInLS = (gameOption) => {
 
 const getFromLocalStorageOrDefault = (key, defaultValue) => {
     const fromLs = checkGameOptionInLS(key);
-    if (!fromLs) return defaultValue;
+    if (fromLs === null) return defaultValue;
     return fromLs;
 }
 
@@ -100,4 +100,8 @@ const updateBestScoreList = (context) => {
     );
     const limitedScoreWithNewResult = currentList.slice(0, BEST_PLAYERS_LIST_LENGTH_LIMIT);
     updateGameParamInLs(BEST_SCORE_LIST, limitedScoreWithNewResult);
+}
+
+const updateGameTimeoutLimit = (context) => {
+    
 }

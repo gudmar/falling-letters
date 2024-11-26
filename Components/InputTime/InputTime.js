@@ -92,7 +92,7 @@ class InputTime extends Component {
             const seconds = `${extractSeconds(newTime)}`;
             const asString = `${minutes}:${seconds.padStart(2, '0')}`;
             this.input.innerText = asString;
-            this.callback(nawTime);
+            this.callback(newTime);
         } )
         rxjs.fromEvent(this.input, 'click')
             .subscribe((event) => {

@@ -37,8 +37,9 @@ class Countdown extends Component {
         super(boostedArgs);
         this.valueContainer = this.element.querySelector('.countdown-value');
         this.subject = args.subject;
-        this.lockSubject = args.lockSubject ?? new rxjs.BehaviourSubject(false);
+        this.lockSubject = args.lockSubject;
         this.startValueSubject = args.startValueSubject;
+        this.impulseGenerator = args.impulseGenerator ?? rxjs.interval(1000);
         this.addListeners();
     }
 
@@ -47,20 +48,19 @@ class Countdown extends Component {
     }
 
     addListeners() {
-        this.interval = rxjs.interval(1000);
-
         this.startValueSubject.subscribe(
             (newValue) => this.subject.next(newValue),
         );
 
+        this.lockSubject.subscribe((v) => console.log(v))
+
         this.lockSubject.pipe(
             rxjs.switchMap(
-                (isLocked) => {
-                    console.log('Is locekd', isLocked)
-                    if (isLocked) {
-                        return rxjs.empty();
+                (isAllowed) => {
+                    if (isAllowed) {
+                        return this.impulseGenerator;
                     }
-                    return this.interval
+                    return rxjs.empty();
                 }
             )
         ).subscribe(

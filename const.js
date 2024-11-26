@@ -1,4 +1,5 @@
 SECONDS_IN_MINUTE = 60;
+INITIAL_IS_PAUSED = false;
 
 START_NEW_GAME = 'start-new-game';
 GAME_ENDED = 'game-ended';
