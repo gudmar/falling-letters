@@ -11,6 +11,12 @@ const modal = new Modal({
     context
 })
 
+new GameTimeHook({
+    impulseGenerator: context.timeoutClockImpulseGenerator$,
+    timeSubject: context.gameTimeSubject$,
+    gameStateSubject: ContextProvider.gameState$,
+})
+
 console.log(context)
 
 const test = context.nrErrorsSubject$.pipe(
@@ -61,6 +67,14 @@ const score = new WithLabel({
     context,
 })
 
+const gameTime = new WithLabel({
+    component: Counter,
+    label: 'Time',
+    subject: context.gameTimeSubject$,
+    startValue: 0,
+    context,
+})
+
 const nrErrors = new WithLabel({
     component: Counter,
     label: 'Errors',
@@ -106,7 +120,9 @@ const nrMisses = new WithLabel({
     })
 })
 
-const timeout = new Countdown({
+const labeledTimeout = new WithLabel({
+    component: Countdown,
+    label: 'Time left',
     context,
     subject: context.currentTimeoutValueSubject$,
     lockSubject: context.shouldEndGameOnTimeoutSubject$,
@@ -122,7 +138,8 @@ const titleBar = new TitleBar({
         score.element,
         nrMisses.element,
         nrErrors.element,
-        timeout.element,
+        labeledTimeout.element,
+        gameTime.element,
         gameTitle,
         pauseButton.element,
         openModalWithGameOptionsButton.element,

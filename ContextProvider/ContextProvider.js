@@ -64,17 +64,21 @@ const getPausableImpulseGeneratorWithGameEnd = ({
     gameState$,
 }) => {
     const clock$ = rxjs.interval(timeInterval);
+    clock$.subscribe((v) => console.log(v))
     const shouldRun$ = rxjs.merge(PausedSubject.onPauseToggle$, gameState$)
         .pipe(
             rxjs.switchMap(
                 (v) => {
                     if (PausedSubject.isPaused || gameState$.value === GAME_ENDED) {
+                        console.log('Switch to empty', v)
                         return rxjs.empty();
                     }
+                    console.log('Switch to clock', v)
                     return clock$;
                 }
             )
         )
+    shouldRun$.subscribe(() => console.log('next'))
     return shouldRun$
 }
 
@@ -105,6 +109,7 @@ class ContextProvider {
     shouldEndGameOnTimeoutSubject$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault(SHOULD_END_GAME_ON_TIMEOUT, true));
     endGameTimeoutValueSubject$ = new rxjs.BehaviorSubject(getFromLocalStorageOrDefault(END_GAME_TIMEOUT, END_GAME_DEFAULT_TIMEOUT));
     currentTimeoutValueSubject$ = new rxjs.BehaviorSubject(this.endGameTimeoutValueSubject$.value);
+    gameTimeSubject$ = new rxjs.BehaviorSubject(0);
     timeoutClockImpulseGenerator$ = getPausableImpulseGeneratorWithGameEnd({
         timeInterval: 1000, gameState$: ContextProvider.gameState$
     })

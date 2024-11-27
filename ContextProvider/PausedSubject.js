@@ -22,6 +22,8 @@ class PausedSubject {
         this.pausedSubject = PausedSubject.nrOfPauseToggles$.pipe(
             rxjs.map(nrOfPauseTogglesToIsPaused),
             rxjs.tap((isPaused) => {
+                const isNoChange = isPaused === PausedSubject.onPauseToggle$.value;
+                if (isNoChange) return;
                 PausedSubject.isPaused = isPaused;
                 PausedSubject.onPauseToggle$.next(isPaused)
             }),

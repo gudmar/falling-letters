@@ -24,6 +24,7 @@ const secondsToFullTimeString = (time) => {
     const positiveTime = Math.max(0, time);
     const minutes = extractMinutes(positiveTime);
     const seconds = `${extractSeconds(positiveTime)}`;
+    if (isNaN(minutes) || isNaN(seconds)) return '--:--'
     const text = `${minutes}:${seconds.padStart(2, '0')}`
     return text;
 }
