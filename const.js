@@ -1,8 +1,10 @@
-SECONDS_IN_MINUTE = 60;
-INITIAL_IS_PAUSED = false;
+const MILISECONDS_IN_SECUNDE = 1000;
+const SECONDS_IN_MINUTE = 60;
+const MILISECONDS_IN_MINUTE = SECONDS_IN_MINUTE * MILISECONDS_IN_SECUNDE;
+const INITIAL_IS_PAUSED = false;
 
-START_NEW_GAME = 'start-new-game';
-GAME_ENDED = 'game-ended';
+const START_NEW_GAME = 'start-new-game';
+const GAME_ENDED = 'game-ended';
 
 const MANDATORY = 'mandatory';
 const OPTIONAL = 'optional';

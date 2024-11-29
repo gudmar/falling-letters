@@ -105,7 +105,6 @@ const openModalWithGameOptionsButton = new Button({
     elementClasses: 'button-wrapper'
 })
 
-
 const nrMisses = new WithLabel({
     component: Counter,
     label: 'Missed',
@@ -118,6 +117,10 @@ const nrMisses = new WithLabel({
         if (context.modalOpenClose$.value === OPEN_MODAL) return;
         ContextProvider.gameState$.next(GAME_ENDED)
     })
+})
+
+const charactersAliveTime = new AllCharactersLiveTime({
+    context
 })
 
 const labeledTimeout = new WithLabel({
@@ -140,6 +143,7 @@ const titleBar = new TitleBar({
         nrErrors.element,
         labeledTimeout.element,
         gameTime.element,
+        charactersAliveTime.element,
         gameTitle,
         pauseButton.element,
         openModalWithGameOptionsButton.element,
