@@ -10,12 +10,12 @@ class AllCharactersLiveTime {
             context: args.context,
         });
         this.element = liveTime.element; 
-        console.log(this)
+        this.startMeasurement();
     }
 
     startMeasurement() {
         this.context.preciseClock$.subscribe(function(newTimeInMs){
-            this.displayedSubject.next(mSecondsToFullTimeString(newTimeInMs));
-        })
+            this.displayedSubject.next(mSecondsToFullTimeString(newTimeInMs * 10));
+        }.bind(this))
     }
 }
