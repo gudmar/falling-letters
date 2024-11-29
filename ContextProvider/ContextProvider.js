@@ -64,21 +64,17 @@ const getPausableImpulseGeneratorWithGameEnd = ({
     gameState$,
 }) => {
     const clock$ = rxjs.interval(timeInterval);
-    clock$.subscribe((v) => console.log(v))
     const shouldRun$ = rxjs.merge(PausedSubject.onPauseToggle$, gameState$)
         .pipe(
             rxjs.switchMap(
                 (v) => {
                     if (PausedSubject.isPaused || gameState$.value === GAME_ENDED) {
-                        console.log('Switch to empty', v)
                         return rxjs.empty();
                     }
-                    console.log('Switch to clock', v)
                     return clock$;
                 }
             )
         )
-    shouldRun$.subscribe(() => console.log('next'))
     return shouldRun$
 }
 
@@ -114,6 +110,22 @@ class ContextProvider {
         timeInterval: 1000, gameState$: ContextProvider.gameState$
     })
     thresholdReachedSubject$ = new rxjs.Subject()
+
+    // ===================   Time characters lived stats ================
+    sumTimeAllCharactersLived$ = new rxjs.BehaviorSubject(0);
+    timeAllCharactersLivedReporter$ = new rxjs.BehaviorSubject(0)
+        .pipe(
+            rxjs.scan((acc, delta) => acc + delta, 0)
+        ).subscribe((nextValue) => this.sumTimeAllCharactersLived$.next(nextValue))
+    preciseClock$ = getPausableImpulseGeneratorWithGameEnd({
+        timeInterval: 10, gameState$: ContextProvider.gameState$
+    })
+    countAllCharactersSoFar$ = new rxjs.BehaviorSubject(0);
+    nextCharacterBirthReporter$ = this.countAllCharactersSoFar$
+        .pipe(rxjs.scan((acc, _) => acc + 1, 0)).subscribe(
+            (nextValue) => this.countAllCharactersSoFar$.next(nextValue)
+        );
+    // ===========================================
 
     keypressInformator$ = new PausedSubject(this.keypressSubject$.decorated);
 
