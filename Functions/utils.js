@@ -26,7 +26,7 @@ const extractSecondsFromMiliSec = (time) => {
 }
 
 const extractMinutesFromMiliSec = (time) => {
-    const minutes = Math.floor(time/SECONDS_IN_MINUTE);
+    const minutes = Math.floor(time/MILISECONDS_IN_MINUTE);
     return minutes;
 }
 

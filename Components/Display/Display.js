@@ -11,7 +11,7 @@ class Display extends Component {
     static getBoostedArgs(args) {
         const result = {
             ...args,
-            htmlTemplate: EndGame.getHtmlTemplate(args),
+            htmlTemplate: Display.getHtmlTemplate(args),
             schema: {
                 subject: {
                     requirement: MANDATORY,
@@ -27,6 +27,7 @@ class Display extends Component {
         super(boostedArgs);
         this.subject = args.subject;
         this.textContainer = this.element.querySelector('.Display-text-container')
+        this.addListeners();
     }
 
     addListeners() {
