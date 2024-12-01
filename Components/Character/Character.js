@@ -42,15 +42,16 @@ class Character extends Component {
         if (!this.context.registerBirth$) throw new Error('Missing register birth in context')
         this.context.registerBirth$.next({character: this.character, id: this.id})
         this.oldGameState = ContextProvider.gameState$.value;
-        this.measureAliveTime();
+        args.context.nextCharacterBirthReporter$.next()
+        // this.measureAliveTime();
     }
 
-    measureAliveTime() {
-        this.context.nextCharacterBirthReporter$
-        this.measureTime$ = this.context.preciseClock$
-            .subscribe(() => this.context.timeAllCharactersLivedReporter$.next(10))
+    // measureAliveTime() {
+    //     this.context.nextCharacterBirthReporter$
+    //     this.measureTime$ = this.context.preciseClock$
+    //         .subscribe(() => this.context.timeAllCharactersLivedReporter$.next(10))
         
-    }
+    // }
 
     randomlyPlace() {
         const maxWidth = this.parentWidth - 10;
@@ -87,7 +88,7 @@ class Character extends Component {
     deleteThisElement(){
         this.moveSubscribtion.unsubscribe();
         this.element.remove();
-        this.measureTime$.unsubscribe();
+        // this.measureTime$.unsubscribe();
         this.deleteSubscribtion.unsubscribe();
     }
 
