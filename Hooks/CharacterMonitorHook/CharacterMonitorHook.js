@@ -40,6 +40,18 @@ const registerEntry = (currentCharacters, {id, character}) => {
 }
 
 class CharacterMonitorHook {
+    static getNrOfCharactersCurrentlyInGame(context) {
+        const currentCharactersKeeper = context.currentCharacters$.value;
+        const currentCharacters = Object.values(currentCharactersKeeper);
+        const sum = currentCharacters.reduce(
+            (acc, ids) => {
+                const newAcc = acc + ids.length;
+                return newAcc
+            }, 0
+        )
+        return sum
+    }
+
     constructor(context) {
         this.context = context;
         context.currentCharacters$ = new rxjs.BehaviorSubject({});

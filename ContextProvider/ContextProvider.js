@@ -118,13 +118,12 @@ class ContextProvider {
             rxjs.scan((acc, delta) => acc + delta, 0)
         ).subscribe((nextValue) => this.sumTimeAllCharactersLived$.next(nextValue))
     preciseClock$ = getPausableImpulseGeneratorWithGameEnd({
-        timeInterval: 10, gameState$: ContextProvider.gameState$
+        timeInterval: PRECISE_CLOCK_TICK_INTERVAL, gameState$: ContextProvider.gameState$
     })
     countAllCharactersSoFar$ = new rxjs.BehaviorSubject(0);
-    nextCharacterBirthReporter$ = this.countAllCharactersSoFar$
-        .pipe(rxjs.scan((acc, _) => acc + 1, 0)).subscribe(
-            (nextValue) => this.countAllCharactersSoFar$.next(nextValue)
-        );
+    nextCharacterBirthReporter$ = new rxjs.BehaviorSubject(0);
+
+
     // ===========================================
 
     keypressInformator$ = new PausedSubject(this.keypressSubject$.decorated);
@@ -170,7 +169,10 @@ class ContextProvider {
     }
 
     constructor(){
-        // this.timeoutClockImpulseGenerator$.subscribe((v) => console.log(v))
+        this.nextCharacterBirthReporter$.pipe(rxjs.scan((acc, _) => acc + 1, 0)).subscribe(
+            (nextValue) => this.countAllCharactersSoFar$.next(nextValue)
+        )
+    
     }
 
 }

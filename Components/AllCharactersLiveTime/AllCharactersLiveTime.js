@@ -15,7 +15,17 @@ class AllCharactersLiveTime {
 
     startMeasurement() {
         this.context.preciseClock$.subscribe(function(newTimeInMs){
-            this.displayedSubject.next(mSecondsToFullTimeString(newTimeInMs * 10));
+            const currentNrOfCharacters = CharacterMonitorHook.getNrOfCharactersCurrentlyInGame(this.context);
+            const deltaForThisTimestamp = currentNrOfCharacters * PRECISE_CLOCK_TICK_INTERVAL;
+            const allCharactersLivedLastValue = this.context.sumTimeAllCharactersLived$.value;
+            const allCharactersLivedNextValue = deltaForThisTimestamp + allCharactersLivedLastValue;
+            this.context.sumTimeAllCharactersLived$.next(allCharactersLivedNextValue);
+        }.bind(this))
+        this.context.sumTimeAllCharactersLived$.subscribe(function(newTimeInMs){
+            const nrOfCharactersSoFar = this.context.countAllCharactersSoFar$.value;
+            const rate = Math.round(newTimeInMs / nrOfCharactersSoFar);
+            const rateAsString = mSecondsToFullTimeString(rate);
+            this.displayedSubject.next(rateAsString)
         }.bind(this))
     }
 }
