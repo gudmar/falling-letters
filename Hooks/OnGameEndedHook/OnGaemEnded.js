@@ -5,10 +5,7 @@ class OnGameEndedHook {
     }
 
     addListeners() {
-        this.saveBestScoreSubscribtion = this.context.gameState$.pipe(
-            // rxjs.filter((newGameState) => newGameState === GAME_ENDED),
-            // rxjs.tap(() => { updateBestScoreList(this.context)})
-        )
+        this.saveBestScoreSubscribtion = this.context.gameState$
         .subscribe((state) => {
             if (state !== GAME_ENDED) {
                 if (this.isGameEndDisplayed) {

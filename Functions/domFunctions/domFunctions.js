@@ -40,29 +40,25 @@ const wrap = ({
     wrappingTag,
     wrapperClasses}) => {
     const definedWrappingTag = wrappingTag || 'div'
-    // try {
-        const wrapper = document.createElement(definedWrappingTag);
-        if (wrapperClasses) addClassesToElement(wrapper, wrapperClasses)
-        if (parent || parentId) addToParentOrToId({parent, parentId, element: wrapper})
-        addIdIfDefined(wrapper, wrapperId);
-        if (!children) return wrapper;
-        if (Array.isArray(children)) {
-            children.forEach((child) => {
-                if (typeof child === 'function') {
-                    const childElement = child();
-                    wrapper.append(childElement);        
-                } else {
-                    wrapper.append(child)
-                }
-            })    
-        } else {
-            const childElement = children();
-            wrapper.append(childElement);
-        }
-        return wrapper;
-    // } catch(e) {
-    //     throw new Error(`Cannot create html element ${wrappingTag}: [${e.message}]`)
-    // }
+    const wrapper = document.createElement(definedWrappingTag);
+    if (wrapperClasses) addClassesToElement(wrapper, wrapperClasses)
+    if (parent || parentId) addToParentOrToId({parent, parentId, element: wrapper})
+    addIdIfDefined(wrapper, wrapperId);
+    if (!children) return wrapper;
+    if (Array.isArray(children)) {
+        children.forEach((child) => {
+            if (typeof child === 'function') {
+                const childElement = child();
+                wrapper.append(childElement);        
+            } else {
+                wrapper.append(child)
+            }
+        })    
+    } else {
+        const childElement = children();
+        wrapper.append(childElement);
+    }
+    return wrapper;
 }
 
 const elementFromHtml = (htmlAsString) => {
@@ -81,7 +77,6 @@ const addElementWithClasses = ({
     elementId
 }) => {
     const element = document.createElement(elementTag);
-    // addToParentIfDefined(parent, element);
     if (parent || parentId) addToParentOrToId({parent, parentId, element})
     addIdIfDefined(element, elementId);
     if (cssClassNames) addClassesToElement(element, cssClassNames);
@@ -121,8 +116,8 @@ const getBestScoreTableComponent = (context) => {
         return filledRows;
     }
     const bestScore = getFromLocalStorageOrDefault(BEST_SCORE_LIST, []);
-    const rows = bestScore.map(({playerName, time, score, misses, mistakes, moveSpeed, appearSpeed}) => ([playerName, score, misses, mistakes, moveSpeed, appearSpeed, secondsToFullTimeString(time)]));
-    const headings = ['Nr', 'Player', 'Score', 'Misses', 'Errors', 'Move', 'Appear', 'Time'];
+    const rows = bestScore.map(({playerName, time, score, misses, mistakes, moveSpeed, reactionTime, appearSpeed}) => ([playerName, score, misses, mistakes, moveSpeed, appearSpeed, reactionTime, secondsToFullTimeString(time)]));
+    const headings = ['Nr', 'Player', 'Score', 'Misses', 'Errors', 'Move', 'Appear', 'Reaction time', 'Game time'];
     const table = new Table({
         context,
         rows: fillRowsWithEmpty(rows),

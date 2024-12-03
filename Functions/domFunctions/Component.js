@@ -1,9 +1,7 @@
 const throwIfTooManyArgs = ({
-    componentId,
     parentId,
     parent,
     children,
-    slotChildren,
     elementTag,
     elementClasses,
     elementId,
@@ -58,7 +56,6 @@ const getElementFromChildren = ({
         const wrapper = wrap({wrapperId, parentId, parent, children, wrappingTag, wrapperClasses});
         children.forEach((child) => {
             if (typeof child === 'function') {
-                const element = new child;
                 wrapper.append(child)
             } else {
                 wrapper.append(child)
@@ -70,13 +67,10 @@ const getElementFromChildren = ({
         if (!htmlTemplate) {
             throw new Error('Cannot slot children without a template')
         }
-        // placeChildren({ wrapper, children, context });
         const element = elementFromHtml(htmlTemplate)
         const elementWithPlacedChildren = placeChildren(element, children);
         return elementWithPlacedChildren
     }
-    
-    throw new Error('getElementFromTemplate: some case not implemented')
 }
 
 const getComponentElementFromArgs = (args) => {
@@ -146,12 +140,6 @@ class Component {
             componentId, // tell apart component, subscribe, NOT a html id
             parentId,
             parent,
-            children, // may be a class component or an html element. Class component has to get context
-            wrappingTag,
-            wrapperClasses,
-            htmlTemplate,
-            placeChildren,
-            elementTag,
             elementId,
             context
         } = args;
@@ -178,7 +166,6 @@ class Component {
         return this._parent
     }
     set toContext({key, value}) {
-        // if (!this._id) throw new Error('Component has to have a unique id to set something to context')
         this._context[key] = value
     }
 

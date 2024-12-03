@@ -36,12 +36,12 @@ class KeyboardHook {
     }
     addListeners() {
         rxjs.fromEvent(document, 'keydown').subscribe((event) => {
-            console.log(event.key)
+            // console.log(event.key)
             this.context.keypressSubject$.next(event.key); // inform pausedSubject
         })
 
         this.context.keypressInformator$.pausedSubject.subscribe((keyName) => {
-            console.log(keyName);
+            // console.log(keyName);
             const isException = checkIfKeyException(keyName);
             if (!isException) this.context.characterRemoveCause$.next({cause: HIT, id: null, character: keyName})
         })

@@ -2,7 +2,7 @@ class AllCharactersLiveTime {
 
     constructor(args) {
         this.context = args.context;
-        this.displayedSubject = new rxjs.BehaviorSubject(mSecondsToFullTimeString(0));
+        this.displayedSubject = context.averagePlayerReactionRate$;
         const liveTime = new WithLabel({
             component: Display,
             label: 'Reaction time',

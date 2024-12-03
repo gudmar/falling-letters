@@ -1,5 +1,5 @@
-const initialMoveRate = 5; //50 //0;
-const initialNewLetterRate = 3//3000//4;
+const initialMoveRate = 6;
+const initialNewLetterRate = 6;
 const maxMoveRate = 10;
 const minMoveRate = 1;
 const maxNewLetter = 10;
@@ -122,7 +122,7 @@ class ContextProvider {
     })
     countAllCharactersSoFar$ = new rxjs.BehaviorSubject(0);
     nextCharacterBirthReporter$ = new rxjs.BehaviorSubject(0);
-
+    averagePlayerReactionRate$ = new rxjs.BehaviorSubject(mSecondsToFullTimeString(0));
 
     // ===========================================
 

@@ -4,7 +4,6 @@ class Counter extends Component {
         return {
             ...args,
             htmlTemplate : Counter.getHtmlTemplate(startValue, label),
-            // wrappingTag: 'div'
         }
     }
     static getHtmlTemplate(counterValue, counterLabel) {
@@ -120,12 +119,6 @@ class Counter extends Component {
     }
 
     addListeners() {
-        // this.subject.pipe(rxjs.filter((value) => value >= this.currentUpperThreshold))
-        //     .subscribe((value) => this.onUpperThresholdCross(value))
-
-        // this.subject.pipe(rxjs.filter((value) => value <= this.currentLowerThreshold))
-        //     .subscribe((value) => this.onLowerThresholdCross(value))
-
         this.subject.subscribe((() => { this.doOnChange() }).bind(this));
         if (this.upperThreshold?.value) {
             this.upperThreshold.subscribe(this.doOnChange.bind(this))

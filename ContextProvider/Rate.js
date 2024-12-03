@@ -41,7 +41,6 @@ class Rate {
                 }
             ),
         )
-        // const updateRateSubject = ((newValue) => this.rateSubject$.next(newValue)).bind(this)
         const updateRateSubject = ((newValue) => that.rateSubject$.next(newValue))
         this.actionOnRate$.pipe(
             rxjs.scan((rate, action) => getNextRateValue({rate, action, minValue, maxValue}), initialValue)
@@ -52,5 +51,4 @@ class Rate {
     decreaseRate() { this.actionOnRate$.next(DEC) }
     setRate(value) { this.actionOnRate$.next(value); }
     get currentRateValue() { return this._currentRateValue }
-    // tick$
 }
