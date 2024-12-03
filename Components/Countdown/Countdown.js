@@ -52,8 +52,6 @@ class Countdown extends Component {
             (newValue) => this.subject.next(newValue),
         );
 
-        this.lockSubject.subscribe((v) => console.log(v))
-
         this.lockSubject.pipe(
             rxjs.switchMap(
                 (isAllowed) => {

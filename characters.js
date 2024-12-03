@@ -52,7 +52,6 @@ const getCharacterSymbols = () => {
             []
         )
     );
-    allCharacterSymbols$.subscribe(c => console.log(c))
 }
 
 getCharacterSymbols()
@@ -108,7 +107,6 @@ const getRandomArrayElementEmitter = (array) => {
 }
 
 const nullElementEmitter = () => getRandomArrayElementEmitter([null]);
-// const nullElementEmitter = () => getRandomArrayElementFromObservableEmitters([null]);
 
 const getCharacterGenerator = () => {
     const emitterFunctions = getArrayGeneratorFunctions();
@@ -121,9 +119,6 @@ const getCharacterGenerator = () => {
     return generator
 }
 
-
-// const lowerLettersEmitter = getRandomArrayElementFromObservableEmitt(getLowerCases());
 const charGenerators = [getLowerCases(), getUpperLetters()]
 const lowerLettersEmitter = getRandomArrayElementFromObservableEmitters(charGenerators);
-lowerLettersEmitter.randomEmitter.subscribe(x => console.log(x))
 rxjs.generate(1, x => x < 5, x => x + 1).subscribe(() => lowerLettersEmitter.nextElement())

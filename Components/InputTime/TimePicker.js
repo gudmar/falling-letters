@@ -22,7 +22,6 @@ const clearAllSelectedFromContainer = (container) => {
 
 const selectValueInContainer = (container, newValue) => {
     const elements = Array.from(container.querySelectorAll('.TimePicker-list-element'));
-    console.log('New', newValue)
     const element = elements.find((element) => {
         const value = element.getAttribute('value');
         return +value === newValue
@@ -86,7 +85,6 @@ class TimePicker extends Component {
 
     addListeners() {
         this.subject.subscribe((newTime) => {
-            console.log(newTime);
             this.refreshValues(newTime);
         })
     }
@@ -97,7 +95,6 @@ class TimePicker extends Component {
     }
 
     selectValues(time) {
-        console.log('Time', time)
         const newMinutes = extractMinutes(time);
         selectValueInContainer(this.minutesContainer, newMinutes);
         const newSeconds = extractSeconds(time);
@@ -140,17 +137,6 @@ class TimePicker extends Component {
     setListenersToContainers() {
         this.setListenersToSeconds();
         this.setListenersToMinutes(this.minutesContainer);
-        // this.secondsContainer.querySelectorAll('.TimePicker-list-element').forEach((element) => {
-        //     rxjs.fromEvent(element, 'click').subscribe((event) => {
-        //         const element = event.target;
-        //         const valueAsString = element.getAttribute('value');
-        //         const seconds = +valueAsString;
-        //         const currentTime = this.subject.value;
-        //         const minutes = extractMinutes(currentTime);
-        //         const newValue = minutes * SECONDS_IN_MINUTE + seconds;
-        //         this.subject.next(newValue);    
-        //     })
-        // })
     }
 
 

@@ -5,12 +5,6 @@ const secToString = (timeInSec) => {
 }
 
 class InputTime extends Component {
-    // left to do:
-    // 1) Hook Picker=>TimePicker to InputTime
-    // 2) Hook setting seconds and minutes in TimePicker
-    // 3) Define a subject for time limit
-    // 3.5) Set string on time limit change
-    // 4) Define timer component, that will have its time set on this subject,
     static getTemplate(args) {
         return `
             <form class="input-time-wrapper">
@@ -20,7 +14,6 @@ class InputTime extends Component {
             </form>
         `
     }
-    // <input class="input-time-input" type="time" id="${args.id}"/>
     static getBoostedArgs(args) {
         const id = getUuid();
         const scheme = {
@@ -66,7 +59,6 @@ class InputTime extends Component {
         this.input.innerText = secToString(this.subject.value)
         this.context = args.context;
         this.callback = args.callback || (() => {})
-        // this.createPicker();
         this.addListeners();
         this.body = document.querySelector('body')
     }

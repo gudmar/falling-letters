@@ -37,7 +37,7 @@ class Picker extends Component {
         this.component = args.component;
         this.close = args.close;
         this.wrapper = this.element.querySelector(`.Picker-wrapper`);
-        this.clickAway = this.element//.querySelector('.Picker-click-away')
+        this.clickAway = this.element
         this.addInterior();
         this.addListeners();
     }

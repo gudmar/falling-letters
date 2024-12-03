@@ -5,10 +5,8 @@ class LocalStorageUpdaterHook {
     }
     subscribe() {
         rxjs.from(this.observedSubjects).subscribe(({key, subject}) => {
-            // console.log('Subscribing update', key, subject)
             subject.subscribe((value) => {
                 updateGameParamInLs(key, value);
-                // console.log(`Updating ${key}: ${value}`)
             })
         })
     }

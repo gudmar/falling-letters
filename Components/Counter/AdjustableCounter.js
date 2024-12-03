@@ -87,7 +87,5 @@ class AdjustableCounter extends Component {
         this.counter = new Counter({...this, context: this.context});
         this.counterContainer.append(this.counter.element);
         this.setControls();
-        // const controlls = elementFromHtml(AdjustableCounter.getHtmlControlTemplate())
-        // this.controlsContainer.append(controlls);
     }
 }

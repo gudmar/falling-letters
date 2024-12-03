@@ -25,7 +25,6 @@ class OnGameTimeoutHook {
     setShouldEndGameOnTimeoutUpdater() {
         this.context.shouldEndGameOnTimeoutSubject$.subscribe(
             (newValue) => {
-                console.log(newValue)
                 this.updateShouldEndGameOnTimeoutInLs(newValue);
             }
         )

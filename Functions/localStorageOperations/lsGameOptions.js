@@ -51,7 +51,7 @@ const checkGameOptionInLS = (gameOption) => {
 
 const getFromLocalStorageOrDefault = (key, defaultValue) => {
     const fromLs = checkGameOptionInLS(key);
-    if (fromLs === null) return defaultValue;
+    if (fromLs === null || fromLs === undefined) return defaultValue;
     return fromLs;
 }
 
@@ -84,20 +84,21 @@ const updateBestScoreList = (context) => {
     const currentPlayerName = context.playerName$.value;
     const mistakes = context.nrErrorsSubject$.value;
     const misses = context.nrMissesSubject$.value;
-    const moveSpeed = context.moveTicksRate.value;
-    const appearSpeed = context.newLetterRate.value;
-    const gameTime = context.gameTimeSubject$.value
+    const moveSpeed = context.moveSpeed$.value;
+    const appearSpeed = context.appearSpeed$.value;
+    const gameTime = context.gameTimeSubject$.value;
+    const reactionTime = context.averagePlayerReactionRate$.value;
     const currentScoreInBestScoreIndex = currentList.length === 0 ? 0 : currentList.findIndex((({score}, index) => {
         return currentScore > score;
     }));
     if (currentScoreInBestScoreIndex === -1) {
-        console.log('current score not found in best score')
+        console.error('current score not found in best score')
         return;
     }
     currentList.splice(
         currentScoreInBestScoreIndex,
         0,
-        {playerName: currentPlayerName, time: gameTime, score: currentScore, mistakes, misses, moveSpeed, appearSpeed}
+        {playerName: currentPlayerName, time: gameTime, score: currentScore, mistakes, misses, moveSpeed, appearSpeed, reactionTime}
     );
     const limitedScoreWithNewResult = currentList.slice(0, BEST_PLAYERS_LIST_LENGTH_LIMIT);
     updateGameParamInLs(BEST_SCORE_LIST, limitedScoreWithNewResult);

@@ -7,6 +7,7 @@ class EndGame extends Component {
                 <p>Your score: <span class="EndGame-mark">${args.context.scoreSubject$.value}</span>.</p>
                 <p>You missed: <span class="EndGame-mark">${args.context.nrMissesSubject$.value}</span></p>
                 <p>You made <span class="EndGame-mark">${args.context.nrErrorsSubject$.value}</span> errors</p>
+                <p>Your average reaction time was: <span class="EndGame-mark">${args.context.averagePlayerReactionRate$.value}</span> s</p>
             </div>
             <div class="EndGame-best-score-container"></div>
             <div class="EndGame-button-container"></div>
@@ -42,12 +43,9 @@ class EndGame extends Component {
             label: 'New game',
             elementClasses: ['button-wrapper', 'EndGame-right'],
             action: (() => {
-                // ContextProvider.gameState$.next(START_NEW_GAME);
                 restartGame(this.context)
             }).bind(this)
         });
-        // this.element.append(newGameButton.element);
-        this.buttonContainer.append(newGameButton.element);
-        
+        this.buttonContainer.append(newGameButton.element); 
     }
 }

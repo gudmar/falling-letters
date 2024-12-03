@@ -1,9 +1,4 @@
-// END GAME ON THRESHOLD REACHED:
-// 1. Launch game, change threshold in options, play untill threshold reached,
-// + 2. Launch game, open options, increase threshold, close options, play untill threshold -1 reached, open options, decrease threshold untill under threshold
-
 setInitialGameOptionsToLS();
-console.log('should end game on ', getFromLocalStorageOrDefault(SHOULD_END_GAME_ON_TIMEOUT, true));
 const context = new ContextProvider();
 context.setInitialCharacterGenerator();
 const modal = new Modal({
@@ -17,7 +12,6 @@ new GameTimeHook({
     gameStateSubject: ContextProvider.gameState$,
 })
 
-console.log(context)
 
 const test = context.nrErrorsSubject$.pipe(
     rxjs.filter((v) => v % 2)
