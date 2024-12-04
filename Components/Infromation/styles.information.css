@@ -9,3 +9,10 @@
     padding: 2rem;
     border-radius: 0.5rem;
 }
+
+.long-information-container {
+    width: 60%;
+    max-height: 70vh;
+    overflow: auto;
+}
+

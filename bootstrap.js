@@ -34,6 +34,7 @@ const pauseButton = new Button({
     }
 })
 
+
 const reset = new Button({
     label: 'Reset',
     context,
@@ -127,6 +128,8 @@ const labeledTimeout = new WithLabel({
     impulseGenerator: context.timeoutClockImpulseGenerator$,
 })
 
+const aboutButton = getAboutButton(context);
+
 const titleBar = new TitleBar({
     componentId: TITLE_ID,
     context,
@@ -139,6 +142,7 @@ const titleBar = new TitleBar({
         gameTime.element,
         charactersAliveTime.element,
         gameTitle,
+        aboutButton.element,
         pauseButton.element,
         openModalWithGameOptionsButton.element,
         reset.element,

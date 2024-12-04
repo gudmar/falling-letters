@@ -116,7 +116,27 @@ const getBestScoreTableComponent = (context) => {
         return filledRows;
     }
     const bestScore = getFromLocalStorageOrDefault(BEST_SCORE_LIST, []);
-    const rows = bestScore.map(({playerName, time, score, misses, mistakes, moveSpeed, reactionTime, appearSpeed}) => ([playerName, score, misses, mistakes, moveSpeed, appearSpeed, reactionTime, secondsToFullTimeString(time)]));
+    const rows = bestScore.map(
+        ({
+            playerName,
+            time,
+            score,
+            misses,
+            mistakes,
+            moveSpeed,
+            reactionTime,
+            appearSpeed
+        }) => ([
+            playerName, 
+            score, 
+            misses, 
+            mistakes, 
+            moveSpeed, 
+            appearSpeed, 
+            reactionTime, 
+            secondsToFullTimeString(time)
+        ])
+    );
     const headings = ['Nr', 'Player', 'Score', 'Misses', 'Errors', 'Move', 'Appear', 'Reaction time', 'Game time'];
     const table = new Table({
         context,
