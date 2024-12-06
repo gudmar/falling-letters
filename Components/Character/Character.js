@@ -46,10 +46,12 @@ class Character extends Component {
     }
 
     randomlyPlace() {
-        const maxWidth = this.parentWidth - 10;
+        const leftMargin = 16;
+        const rightMargin = 16
+        const maxWidth = this.parentWidth - rightMargin;
         const place = random(maxWidth);
         this.parent.append(this.element);
-        this.element.style.left = place + 'px';
+        this.element.style.left = place + leftMargin + 'px';
     }
 
     addListeners() {

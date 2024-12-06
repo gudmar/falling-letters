@@ -9,7 +9,7 @@ const someOddNumber = 1;
 
 const getMapMoveRateValueToInterval = (max) => (rateFactor) => {
     const mirroredRateValue = max - rateFactor + 1;
-    return mirroredRateValue * 10
+    return mirroredRateValue * 5
 }
 
 const getMapAppearRateValueToInterval = (max) => (rateFactor) => {
