@@ -1,6 +1,6 @@
 const getSingleItemAsHtmlString = (type, value) => {
     if (type === 'component') {
-        return value.element;
+        return value
     }
     if (type === 'list') {
         return `
@@ -28,10 +28,18 @@ const getSingleItemAsHtmlString = (type, value) => {
     `
 }
 
+const getHtmlElements = (content) => {
+    const elements = content.map(({type, value}) => {
+        if (type === 'component') return value;
+        const result = elementFromHtml(getSingleItemAsHtmlString(type, value));
+        return result;
+    })
+    return elements;
+}
+
 const contentToHtmlString = (content) => {
     const result = content.map(
         ({ type, value }) => {
-            console.log(type, value)
             return getSingleItemAsHtmlString(type, value)
         }
     ).join('')
@@ -49,10 +57,11 @@ class LongInformation extends Component {
         }
     }
     static getHtmlTemplate(args) {
+        const width = args.width ? `${args.width}%`: '100%';
         const result =
             `
                 <div class="information-wrapper long-information-size-limit">
-                    <div class="long-information-container">
+                    <div class="long-information-container" style="width: ${width}">
                     </div>
                 </div>
             `
@@ -86,10 +95,8 @@ class LongInformation extends Component {
     }
 
     addContent(content) {
-        const html = contentToHtmlString(content);
-        console.log(html)
-        console.dir(this.infoContainer)
-        this.infoContainer.innerHTML = html;
+        const elements = getHtmlElements(content);
+        elements.forEach(((element) => {this.infoContainer.append(element)}).bind(this))
     }
 
     addListeners() {

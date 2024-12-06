@@ -6,6 +6,7 @@ const getAboutButton = (context) => new Button({
         PausedSubject.togglePause();
         new LongInformation({
             context,
+            width: 70,
             content: [
                 {
                     type: 'h1',

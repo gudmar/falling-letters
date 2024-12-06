@@ -21,6 +21,29 @@ const gameTitle = elementFromHtml('<div class="title">MASTER KEYBOARD</div>')
 
 new CharacterMonitorHook(context)
 
+const bestScoreButton = new Button({
+    label: 'Top 10 score',
+    context,
+    elementClasses: 'button-wrapper',
+    action: () => {
+        PausedSubject.togglePause();
+        const bestScoreComponent = new BestScore({context})
+        new LongInformation({
+            context,
+            content: [
+                {
+                    type: 'p',
+                    value: 'Top 10 highest score'
+                },
+                {
+                    type: 'component',
+                    value: bestScoreComponent.element
+                }
+            ]
+        })
+    }
+})
+
 const pauseButton = new Button({
     label: 'Pause',
     context,
@@ -143,6 +166,7 @@ const titleBar = new TitleBar({
         charactersAliveTime.element,
         gameTitle,
         aboutButton.element,
+        bestScoreButton.element,
         pauseButton.element,
         openModalWithGameOptionsButton.element,
         reset.element,
