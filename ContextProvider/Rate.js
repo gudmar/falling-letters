@@ -37,7 +37,7 @@ class Rate {
                 (rate) => {
                     this._currentRateValue = rate;
                     const rateValue = mapRateValueToInterval(rate);
-                    return rxjs.interval(rateValue)
+                    return rxjs.timer(0, rateValue);
                 }
             ),
         )

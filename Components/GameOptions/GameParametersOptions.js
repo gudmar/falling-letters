@@ -41,7 +41,7 @@ const getParametersOptionsSturcture = (context) => ([
             context,
             label: 'Max missed',
             lowerThreshold: 1,
-            upperThreshold: 5,
+            upperThreshold: 50,
             startValue: 1,
             subject: context.maxMissed$, // subject will be set initially from localStorage
         },
@@ -54,7 +54,7 @@ const getParametersOptionsSturcture = (context) => ([
             context,
             label: 'Max mistaken',
             lowerThreshold: 1,
-            upperThreshold: 10,
+            upperThreshold: 20,
             startValue: 1,
             subject: context.maxMistaken$, // subject will be set initially from localStorage
         },
